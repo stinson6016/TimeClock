@@ -1,0 +1,30 @@
+h1, h3 {
+	color: darkblue;
+	
+}
+
+body {
+	background: #f4f4f4;
+}
+
+i {
+	color: darkblue;
+}
+
+.something {
+	color: darkred;
+}
+
+.navico {
+	color: whitesmoke
+}
+
+.navico-plane {
+	color: goldenrod
+}
+
+body::before {
+  display: block;
+  content: '';
+  height: 60px;
+}

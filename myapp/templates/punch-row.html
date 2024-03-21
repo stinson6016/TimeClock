@@ -1,0 +1,57 @@
+<tr class="row">
+    <td class="col">
+        {% if punch.clock_in %}
+        {{punch.clock_in.strftime("%d/%m/%Y")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if punch.clock_in %}
+        {{punch.clock_in.strftime("%H:%M:%S")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if punch.clock_out %}
+        {{punch.clock_out.strftime("%d/%m/%Y")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if punch.clock_out %}
+        {{punch.clock_out.strftime("%H:%M:%S")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if punch.type =='n' %}
+        Normal
+        {% else %}
+        {{ punch.type }}
+        {% endif %}
+
+    </td>
+    <td class="col">
+        {% if punch.flag == 'n' %}
+        <button 
+            class="btn btn-info"
+            title="flag punch for review"
+            hx-get="{{url_for('clock.punchflag', flag='flag', id=punch.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+        ><i class="bi bi-flag"></i> flag</button>
+        {% else %}
+        <button 
+            class="btn btn-warning"
+            title="unflag punch for review"
+            hx-get="{{url_for('clock.punchflag', flag='unflag', id=punch.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+        ><i class="bi bi-flag"></i> unflag</button>
+        {% endif %}
+    </td>
+</tr>

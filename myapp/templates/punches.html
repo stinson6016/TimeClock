@@ -1,0 +1,88 @@
+{{current_user.name}} - 
+
+<b>
+{% if current_user.last_clock %}
+Clocked In
+{% else %}
+Clocked Out
+{% endif %}
+</b>
+
+<br/>
+<br/>
+
+<div class="d-grid gap-2 col-1">
+    <button
+        class="btn btn-secondary"
+        hx-get="{{url_for('clock.logout')}}"
+        hx-target="#mainarea"
+        hx-swap="innerHTML"
+    >Logout</button>
+
+    {% if current_user.last_clock %}
+    <!-- already logged in -->
+        <button 
+            class="btn btn-outline-info"
+            hx-get="{{url_for('clock.onepunch', type='i')}}"
+            hx-target="#mainarea"
+            hx-swap="innerHTML"
+            hx-confirm="You are already clocked in. Clock in anyways?"
+        >Clock In</button>
+        <!-- <br> -->
+        <button 
+            class="btn btn-success"
+            hx-get="{{url_for('clock.onepunch', type='o')}}"
+            hx-target="#mainarea"
+            hx-swap="innerHTML"
+        >Clock Out</button>
+    {% else %}
+    <!-- not logged in -->
+        <button 
+            class="btn btn-success"
+            hx-get="{{url_for('clock.onepunch', type='i')}}"
+            hx-target="#mainarea"
+            hx-swap="innerHTML"
+        >Clock In</button>
+        <!-- <br> -->
+        <button 
+            class="btn btn-outline-info"
+            hx-get="{{url_for('clock.onepunch', type='o')}}"
+            hx-target="#mainarea"
+            hx-swap="innerHTML"
+            hx-confirm="You are already clocked out. Clock out anyways?"
+        >Clock Out</button>
+    {% endif %}
+</div>
+
+<br/>
+<div  class="d-grid gap-2 col-4">
+    {% for message in get_flashed_messages() %}
+    
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+
+<br/>
+
+{{ current_user.name }} Time Entries
+
+<br/>
+<br/>
+
+<table class="table">
+    <tr class="row">
+        <th class="col">Clock In Date</th>
+        <th class="col">Clock In Time</th>
+        <th class="col">Clock Out Date</th>
+        <th class="col">Clock Out Time</th>
+        <th class="col">Punch Type</th>
+        <th class="col">Flag</th>
+    </tr>
+    {% for punch in punches %}
+        {% include 'punch-row.html' %}
+    {% endfor %}
+
+</table>

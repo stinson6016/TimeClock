@@ -1,0 +1,8 @@
+.env
+trackmyflight.code-workspace
+venv/
+__pycache__/
+myapp/static/uploads/
+testing.py
+docker-compose.yml
+redis/

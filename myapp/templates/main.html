@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+<div class="shadow p-3 mb-5 bg-body rounded">
+
+	<div id="clock">00:00:00</div>
+	<br/>
+	<div id="clockContainer">
+		<div id="hour"></div>
+		<div id="minute"></div>
+		<div id="second"></div>
+	</div>
+
+<br/>
+<hr>
+<br/>
+
+	<div id="mainarea">
+		{% if current_user.is_authenticated %}
+		{% include 'punches.html' %}
+		{% else %}
+		{% include 'loginform.html' %}
+		{% endif %}
+	</div>
+	
+	<br/>
+</div>
+
+<script src="{{ url_for('static', filename='clock.js') }}" type="text/javascript"></script>
+<script>
+	showTime();
+</script>
+
+{% endblock %}

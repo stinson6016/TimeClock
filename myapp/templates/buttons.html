@@ -1,0 +1,20 @@
+<div class="d-grid gap-2 col-1">
+	<button 
+		class="btn btn-success"
+		hx-get="{{url_for('clock.loginshow', punch='login')}}"
+		hx-target="#mainarea"
+		hx-swap="innerHTML"
+		title="Login to clock in or out"
+	>Login</button>
+</div>
+<br/>
+<br/>
+<div  class="d-grid gap-2 col-4">
+    {% for message in get_flashed_messages() %}
+	
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
