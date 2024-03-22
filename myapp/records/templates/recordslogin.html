@@ -1,0 +1,46 @@
+<form
+    hx-post="{{url_for('records.login')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>
+    <b>Login to see you last punches</b>
+    
+    <br/>
+    <br/>
+    
+    <div class="d-grid gap-2 col-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control", list="software-list", autofocus=true) }}
+
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control", list="software-version") }}
+        
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="d-grid col-1 gap-2">{{ form.submit(class="btn btn-success") }}</div>
+        <div class="d-grid col-1 gap-2">
+            <button 
+                class="btn btn-secondary"
+                hx-get="{{url_for('records.showmain')}}"
+                hx-target="#recordsarea"
+                hx-swap="innerHTML"
+            >Cancel</button>
+        </div>
+    </div>
+    
+    <br/>
+    <br/>
+    <div  class="d-grid gap-2 col-4">
+        {% for message in get_flashed_messages() %}
+        
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</form>

@@ -6,3 +6,4 @@ myapp/static/uploads/
 testing.py
 docker-compose.yml
 redis/
+timeclock.db

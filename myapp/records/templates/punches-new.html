@@ -1,0 +1,28 @@
+<tr class="row">
+    <form 
+        hx-target="closest tr"
+        hx-swap="outerHTML"
+        hx-post="{{url_for('records.portalnew')}}"
+        id="editform">
+        {{ form.hidden_tag() }}
+    </form>
+    <td class="col">{{ form.user_id(class="form-control", form="editform") }}</td>
+    <td class="col">{{ form.clock_date(class="form-control", form="editform") }}</td>
+    <td class="col">{{ form.clock_in(class="form-control", form="editform") }}</td>
+    <td class="col">{{ form.clock_out(class="form-control", form="editform") }}</td>
+    <td class="col"></td>
+    <td class="col">{{ form.flag(class="form-control", form="editform") }}</td>
+    <td class="col">
+        <input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
+			form="editform">
+        <br/>
+        <button
+            class="btn btn-secondary"
+            hx-post="{{url_for('records.portalcancel')}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+            hx-confirm="Cancel with out saving?"
+        >Cancel</button>
+
+    </td>
+</tr>

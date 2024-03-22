@@ -1,34 +1,48 @@
+from datetime import date
+from dotenv import load_dotenv
 from flask import Flask, render_template
 from flask_login import LoginManager, current_user
-from dotenv import load_dotenv
-from datetime import date
+from os import path, getenv
+import logging
 
 from .extensions import db, migrate, mail
 
 def create_app():
-    import os
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    # import os
     load_dotenv()
-    DB_SERVER = os.getenv('DB_SERVER')
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    basedir = path.abspath(path.dirname(__name__))
+    DB_NAME = getenv('DB_NAME')
+    DB_SERVER = path.join(basedir, DB_NAME)
+    # DB_SERVER = os.getenv('DB_SERVER')
+    SECRET_KEY = getenv('SECRET_KEY')
 
-    MYENV = '' if os.getenv('DEV_ENV') == None else os.getenv('DEV_ENV')
+    MYENV = '' if getenv('DEV_ENV') == None else getenv('DEV_ENV')
 
     app = Flask(__name__)
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = DB_SERVER
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_SERVER}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # app.config['SQLALCHEMY_DATABASE_URI'] = DB_SERVER
+    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = SECRET_KEY
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
 
+    from .models import Punch, Users
+    create_database(app, DB_SERVER)
+
     # load blueprints
-    from .admin import admin
-    from .clock import clock
+    from .records.records import records
+    from .clock.clock import clock
     from .main import main
 
     # register blueprints
-    app.register_blueprint(admin, url_prefix='/admin')
+    app.register_blueprint(records, url_prefix='/records')
     app.register_blueprint(clock, url_prefix='/clock')
     app.register_blueprint(main)
 
@@ -36,7 +50,7 @@ def create_app():
 
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = 'admin.login'
+    login_manager.login_view = 'clock.showmain'
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -55,5 +69,21 @@ def create_app():
     @app.errorhandler(500)
     def page_not_found(e):
         return render_template("500.html"), 500
-
+    spamlogger()
     return app
+
+
+def create_database(app, db_server):
+    if not path.exists(db_server):
+        logging.info("no database file found")
+        with app.app_context():
+            db.create_all()
+            logging.info("Created database!")
+    else:
+        logging.info("Database file already exisits")
+
+def spamlogger():
+    from art import text2art
+    year=(date.today()).year
+    art=text2art('\n TimeClock')
+    logging.info(f"Time Clock {year}{art}")

@@ -23,12 +23,14 @@
 <hr>
 <br/>
 
-	<div id="mainarea">
-		{% if current_user.is_authenticated %}
-		{% include 'punches.html' %}
-		{% else %}
-		{% include 'loginform.html' %}
-		{% endif %}
+	<div 
+		id="mainarea"
+		hx-get="{{url_for('clock.showmain')}}"
+		hx-target="#mainarea"
+		hx-swap="innerHTML"
+		hx-trigger="load"
+	>
+		Time Clock - loading....
 	</div>
 	
 	<br/>

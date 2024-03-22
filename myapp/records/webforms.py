@@ -1,0 +1,32 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField, DateField, SelectField, EmailField, TimeField, DateTimeField
+from wtforms.validators import DataRequired, EqualTo, Length
+
+class RecordsLogin(FlaskForm):
+    name        = SelectField   ('Admin', validators=[DataRequired()])
+    password    = PasswordField ("Password", validators=[DataRequired(), Length(max=100)])
+    submit      = SubmitField   ("Login")
+
+class SearchPunches(FlaskForm):
+    employee    = SelectField   ("Employee")
+    start_date  = DateField     ("Start Date")
+    end_date    = DateField     ("End Date")
+    flagged     = SelectField   ('Flagged', choices=[('',''),('y', 'Yes')])
+    submit      = SubmitField   ("Search")
+
+
+    # start_time  = TimeField("Start Time", format='%H:%M:%S', render_kw={"step": "1"})
+
+class EditPunch(FlaskForm):
+    user_id     = SelectField   ("Employee")
+    clock_date  = DateField     ("clock date")
+    clock_in    = TimeField     ("Start Time", format='%H:%M:%S', render_kw={"step": "1"})
+    clock_out   = TimeField     ("End Time", format='%H:%M:%S', render_kw={"step": "1"})
+    flag        = SelectField   ('Flagged', choices=[('n','No'),('y', 'Yes')])
+
+class NewPunch(FlaskForm):
+    user_id     = SelectField   ("Employee", validators=[DataRequired()])
+    clock_date  = DateField     ("clock date", validators=[DataRequired()])
+    clock_in    = TimeField     ("Start Time")
+    clock_out   = TimeField     ("End Time")
+    flag        = SelectField   ('Flagged', choices=[('n','No'),('y', 'Yes')])

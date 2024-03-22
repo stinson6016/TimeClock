@@ -1,7 +1,7 @@
 <tr class="row">
     <td class="col">
         {% if punch.clock_in %}
-        {{punch.clock_in.strftime("%d/%m/%Y")}}
+        {{punch.clock_in.strftime("%m/%d/%Y")}}
         {% else %}
         ----
         {% endif %}
@@ -13,13 +13,13 @@
         ----
         {% endif %}
     </td>
-    <td class="col">
+    <!-- <td class="col">
         {% if punch.clock_out %}
-        {{punch.clock_out.strftime("%d/%m/%Y")}}
+        {{punch.clock_out.strftime("%m/%d/%Y")}}
         {% else %}
         ----
         {% endif %}
-    </td>
+    </td> -->
     <td class="col">
         {% if punch.clock_out %}
         {{punch.clock_out.strftime("%H:%M:%S")}}
@@ -27,6 +27,11 @@
         ----
         {% endif %}
     </td>
+    <td class="col">
+        {% if punch.time_total %}
+        {{ punch.time_total }}
+        {% endif %}
+  </td>
     <td class="col">
         {% if punch.type =='n' %}
         Normal

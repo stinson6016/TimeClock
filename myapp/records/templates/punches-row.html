@@ -1,0 +1,40 @@
+<tr class="row">
+    <td class="col">{{ punch.user.name }}</td>
+    <td class="col">
+        {% if punch.clock_date %}
+        {{punch.clock_date.strftime("%m/%d/%Y")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if punch.clock_in %}
+        {{punch.clock_in.strftime("%H:%M:%S")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if punch.clock_out %}
+        {{punch.clock_out.strftime("%H:%M:%S")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+    <td class="col">
+        {{ punch.time_total }}
+    </td>
+    <td class="col">
+        {% if punch.flag == 'y' %}
+        <i class="bi bi-flag-fill" style="color:red" title="Flagged for review"></i>
+        {% endif %}
+    </td>
+    <td class="col">
+        <button
+            class="btn btn-info"
+            hx-post="{{url_for('records.portaleditshow', id=punch.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+        >edit</button>
+    </td>
+</tr>
