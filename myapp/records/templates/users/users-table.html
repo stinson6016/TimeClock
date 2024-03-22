@@ -1,0 +1,29 @@
+
+{% include 'portal.html' %}
+
+Employees / Admin
+
+<table class="table">
+    <thead>
+        <tr class="row">
+            <th class="col">Name</th>
+            <th class="col">Email</th>
+            <th class="col">Password Changed</th>
+            <th class="col">Added</th>
+            <th class="col">Status</th>
+            <th class="col">Funcs</th>
+        </tr>
+    </thead>
+    <tbody id="mainbody">
+        {% for user in users %}
+        {% include 'users/users-row.html' %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<button
+    class="btn btn-success"
+    hx-post="{{url_for('records.users.newshow')}}"
+    hx-target="#mainbody"
+    hx-swap="beforeend"
+>New Employee</button>

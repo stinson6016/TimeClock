@@ -1,0 +1,50 @@
+<tr class="row">
+    <form 
+        hx-target="closest tr"
+        hx-swap="outerHTML"
+        hx-post="{{url_for('records.users.new')}}"
+        id="editform">
+        {{ form.hidden_tag() }}
+    </form>
+    <td class="col">{{ form.name(class="form-control", form="editform") }}</td>
+    <td class="col">
+        {{ form.email(class="form-control", form="editform") }}
+        {% if message %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+    </td>
+    <td class="col">
+        {{ form.password1(class="form-control", form="editform") }}
+        {{ form.password2(class="form-control", form="editform") }}
+        {% if message2 %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message2 }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {{ form.change(class="form-control", form="editform") }}
+    </td>
+    <td class="col">
+        today
+    </td>
+    <td class="col">
+        {{ form.active(class="form-control", form="editform") }}
+        {{ form.admin(class="form-control", form="editform") }}
+    </td>
+    <td class="col">
+        <input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
+			form="editform">
+        <br/>
+        <button
+            class="btn btn-secondary"
+            hx-post="{{url_for('records.users.cancel')}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+            hx-confirm="Cancel with out saving?"
+        >Cancel</button>
+        
+    </td>
+</tr>

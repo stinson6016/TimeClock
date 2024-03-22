@@ -2,9 +2,10 @@ from datetime import datetime, time, date
 
 from .models import Users
 
-def getUsers():
+def getUsers(all:str = 'n'):
     users = Users.query.where(Users.active == 'y', Users.admin == 'n').order_by(Users.name)
-    return_users = [("","")]
+    start:str = 'All Employees' if all == 'y' else ''
+    return_users = [("",start)]
     for user in users:
         return_users.append((user.id, user.name))
     return return_users

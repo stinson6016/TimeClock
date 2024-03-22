@@ -1,0 +1,50 @@
+<tr class="row">
+    <td class="col">
+        {% if user.id != current_user.id %}
+        {{user.name}}
+        {% else %}
+        <b>{{user.name}}</b>
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if user.email %}
+        {{user.email}}
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if user.pw_last %}
+        {{user.pw_last.strftime("%m/%d/%Y %H:%M:%S")}}
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if user.date_added %}
+        {{user.date_added.strftime("%m/%d/%Y %H:%M:%S")}}
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if user.admin == 'y' %}
+        <i class="bi bi-building-gear" style="color:gray" title="ADMIN"></i>
+        {% endif %}
+        {% if user.active != 'y' %}
+        <i class="bi bi-person-slash" style="color:red" title="Employee disabled"></i>
+        {% endif %}
+        {% if user.pw_change == 'y' %}
+        <i class="bi bi-key-fill" style="color:goldenrod" title="Much change password to login"></i>
+        {% endif %}
+        
+    </td>
+    <td class="col">
+        <button
+            class="btn btn-secondary"
+            hx-post="{{url_for('records.users.editshow', id=user.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+        >edit</button>
+        <button
+            class="btn btn-warning"
+            hx-post="{{url_for('records.users.passwordshow', id=user.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+        >Set PW</button>
+    </td>
+</tr>

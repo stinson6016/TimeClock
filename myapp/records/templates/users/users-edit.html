@@ -1,0 +1,57 @@
+<tr class="row">
+    <form 
+        hx-target="closest tr"
+        hx-swap="outerHTML"
+        hx-post="{{url_for('records.users.edit', id=user.id)}}"
+        id="editform">
+        {{ form.hidden_tag() }}
+    </form>
+    <td class="col">{{ form.name(class="form-control", form="editform") }}</td>
+    <td class="col">
+        {{ form.email(class="form-control", form="editform") }}
+        {% if message %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if user.pw_last %}
+        {{user.pw_last.strftime("%m/%d/%Y %H:%M:%S")}}
+        {% endif %}
+        {% if user.id != current_user.id %}
+        {{ form.change(class="form-control", form="editform") }}
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if user.date_added %}
+        {{user.date_added.strftime("%m/%d/%Y %H:%M:%S")}}
+        {% endif %}
+    </td>
+    <td class="col">
+        {% if user.id != current_user.id %}
+        {{ form.active(class="form-control", form="editform") }}
+        {{ form.admin(class="form-control", form="editform") }}
+        {% endif %}
+    </td>
+    <td class="col">
+        <input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
+			form="editform">
+        <br/>
+        <button
+            class="btn btn-secondary"
+            hx-post="{{url_for('records.users.showrow', id=user.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+            hx-confirm="Cancel with out saving?"
+        >Cancel</button>
+        <button
+            class="btn btn-danger"
+            hx-delete="{{url_for('records.users.delete', id=user.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+            hx-confirm="Delete this entry?"
+        >Delete</button>
+    </td>
+</tr>

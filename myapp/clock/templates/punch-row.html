@@ -1,7 +1,7 @@
 <tr class="row">
     <td class="col">
-        {% if punch.clock_in %}
-        {{punch.clock_in.strftime("%m/%d/%Y")}}
+        {% if punch.clock_date %}
+        {{punch.clock_date.strftime("%m/%d/%Y")}}
         {% else %}
         ----
         {% endif %}
