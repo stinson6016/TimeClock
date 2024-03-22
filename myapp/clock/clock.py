@@ -71,11 +71,10 @@ def onepunch():
     
     type = request.args.get('type', default='', type=str)
     edit_user = Users.query.get(current_user.id)
-    print(type)
     if type == 'i' and current_user.last_clock: #punch in already punched in
         # flag current punch for review
         # add new punch and update user
-        print("in -> in")
+        # print("in -> in")
         edit_punch = Punch.query.get(current_user.last_clock)
         edit_punch.flag = 'y'
         new_punch = Punch(clock_date=date.today(), clock_in=time_now,
@@ -88,7 +87,7 @@ def onepunch():
         
     if type == 'i' and not current_user.last_clock: ### punch in not punched in
         # add new punch and update user
-        print("out -> in")
+        # print("out -> in")
         new_punch = Punch(clock_date=date.today(), clock_in=time_now, 
                           user_id=current_user.id)
         db.session.add(new_punch)
@@ -99,7 +98,7 @@ def onepunch():
 
     if type == 'o' and not current_user.last_clock: # punch out not punched in
         # add new punch out and clear user punch and flag for review
-        print("out -> out")
+        # print("out -> out")
         new_punch = Punch(clock_date=date.today(), clock_out=time_now, 
                           flag='y', user_id=current_user.id)
         db.session.add(new_punch)
@@ -108,7 +107,7 @@ def onepunch():
 
     if type == 'o' and current_user.last_clock: ### punch out and punched in
         # edit punch and clear user punch
-        print("in -> out")
+        # print("in -> out")
         edit_punch = Punch.query.get(current_user.last_clock)
         edit_punch.clock_out = time_now
         edit_user.last_clock = None

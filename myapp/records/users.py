@@ -19,8 +19,6 @@ users = Blueprint('users', __name__,
 @login_required
 def showall():
     users = Users.query.order_by(Users.name)
-    for user in users:
-        print(user.name)
     return render_template('users/users-table.html', 
                            users=users)
 
