@@ -55,13 +55,13 @@ class UserPW(FlaskForm):
     submit      = SubmitField   ('Save')
 
 class CompanyEdit(FlaskForm):
-    comp_name    = StringField   ("Name", validators=[DataRequired(), Length(max=MAX_SET_VALUE)])
+    comp_name    = StringField   ("Name", validators=[DataRequired(), Length(max=MAX_SET_COMP_NAME)])
     email_active = BooleanField  ('Email Active')
-    email_server = StringField   ("Email Server", validators=[Length(max=MAX_SET_VALUE)])
-    email_send   = EmailField    ("send as", validators=[Length(max=MAX_SET_VALUE)])
-    email_user   = StringField   ("Email User", validators=[Length(max=MAX_SET_VALUE)])
-    email_pass   = PasswordField ("password", validators=[Length(max=MAX_SET_VALUE)])
-    email_port   = IntegerField  ("port")
+    email_server = StringField   ("Email Server", validators=[Length(max=MAX_SET_EMAIL_SERVER)])
+    email_send   = EmailField    ("send as", validators=[Length(max=MAX_SET_EMAIL_SEND)])
+    email_user   = StringField   ("Email User", validators=[Length(max=MAX_SET_EMAIL_USER)])
+    email_pass   = PasswordField ("password", validators=[Length(max=MAX_SET_EMAIL_PASS)])
+    email_port   = IntegerField  ("port", validators=[Length(max=MAX_SET_EMAIL_PORT)])
     email_secure = SelectField   ("secure", choices=[("0","none"),("1","TLS"),("2","SSL")])
     submit       = SubmitField   ('Save')
 

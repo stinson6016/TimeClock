@@ -40,11 +40,13 @@ def create_app():
     from .records.records import records
     from .clock.clock import clock
     from .main import main
+    from .setup.setup import setup
 
     # register blueprints
     app.register_blueprint(records, url_prefix='/records')
     app.register_blueprint(clock, url_prefix='/clock')
     app.register_blueprint(main)
+    app.register_blueprint(setup, url_prefix='/setup')
 
     from .models import Users
 
@@ -58,7 +60,9 @@ def create_app():
     
     @app.context_processor
     def inject_myenv():
-        return dict(myenv=MYENV, year=(date.today()).year)
+        from .models import Settings
+        settings = Settings.query.first()
+        return dict(myenv=MYENV, nav_year=(date.today()).year, nav_company=settings.comp_name)
     
     # Invalid URL
     @app.errorhandler(404)
@@ -72,6 +76,11 @@ def create_app():
     spamlogger()
     return app
 
+def fix_database():
+    from .models import Settings
+    new_setting = Settings(comp_name='setup')
+    db.session.add(new_setting)
+    db.session.commit()
 
 def create_database(app, db_server):
     if not path.exists(db_server):
@@ -79,6 +88,7 @@ def create_database(app, db_server):
         with app.app_context():
             db.create_all()
             logging.info("Created database!")
+            fix_database()
     else:
         logging.info("Database file already exisits")
 

@@ -19,7 +19,7 @@ def home():
             return redirect(url_for('records.main'))
     user_count = Users.query.count()
     if user_count == 0:
-        return "not setup"
+        return redirect(url_for('setup.show'))
     return render_template("clock.html")
 
 @clock.route('/showmain')

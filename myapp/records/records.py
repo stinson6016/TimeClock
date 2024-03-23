@@ -23,6 +23,9 @@ def main():
     if current_user.is_authenticated:
         if current_user.admin != 'y':
             return redirect(url_for('clock.home'))
+    user_count = Users.query.count()
+    if user_count == 0:
+        return redirect(url_for('setup.show'))
     return render_template("records.html")
 
 @records.route('/showmain')
