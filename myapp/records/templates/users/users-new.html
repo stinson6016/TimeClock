@@ -6,7 +6,7 @@
         id="editform">
         {{ form.hidden_tag() }}
     </form>
-    <td class="col">{{ form.name(class="form-control", form="editform") }}</td>
+    <td class="col">{{ form.name(class="form-control", form="editform", autofocus=true) }}</td>
     <td class="col">
         {{ form.email(class="form-control", form="editform") }}
         {% if message %}

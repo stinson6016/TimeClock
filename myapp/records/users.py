@@ -34,8 +34,8 @@ def newshow():
 def new():
     form = UserNew()
     
-    check_email = Users.query.where(Users.email == form.email.data).first()
-    if check_email:
+    check_email = Users.query.where(Users.email == form.email.data, Users.admin == form.admin.data).first()
+    if check_email and form.email.data:
         message:str  = "email address in use"
         return render_template('/users/users-new.html',
                                form=form,
@@ -82,7 +82,7 @@ def edit():
     id = request.args.get('id', default = '', type=int)
     user = Users.query.get_or_404(id)
     form = UserEdit()
-    check_email = Users.query.where(Users.email == form.email.data).first()
+    check_email = Users.query.where(Users.email == form.email.data, Users.admin==form.admin.data).first()
     if check_email and user.email != form.email.data:
         message:str  = "email address in use"
         return render_template('/users/users-edit.html',

@@ -18,7 +18,8 @@ def getUsersAdmins():
     return return_users
 
 def getTimeTotal(start_time: time, end_time: time):
-    
+    if start_time > end_time:
+        return None
     # take time and convert to datetime because I'm lazy and this works
     start_datetime_str:str = str(date.today()) + " " + str(start_time)
     start_datetime:datetime = datetime.strptime(start_datetime_str, "%Y-%m-%d %H:%M:%S")

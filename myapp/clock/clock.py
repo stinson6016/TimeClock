@@ -111,8 +111,9 @@ def onepunch():
         edit_punch = Punch.query.get(current_user.last_clock)
         edit_punch.clock_out = time_now
         edit_user.last_clock = None
-        # time_total = 
-        edit_punch.time_total = getTimeTotal(edit_punch.clock_in, edit_punch.clock_out)
+        time_total = getTimeTotal(edit_punch.clock_in, edit_punch.clock_out)
+        edit_punch.time_total = time_total
+        edit_punch.flag = 'n' if time_total else 'y'
         db.session.commit()
         flash('Clocked Out')
     
@@ -122,7 +123,7 @@ def onepunch():
 @login_required
 def punches():
     last:int = 20
-    punches = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_in),desc(Punch.clock_out)).limit(last)
+    punches = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out)).limit(last)
     return render_template('punches.html',
                            punches=punches,
                            last=last)

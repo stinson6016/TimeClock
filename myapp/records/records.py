@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash
 from .portal import portal
 from .users import users
 from .company import company
+from .hours import hours
 
 from .webforms import RecordsLogin
 from ..extra import getUsersAdmins
@@ -15,6 +16,7 @@ records = Blueprint("records", __name__,
 records.register_blueprint(portal, url_prefix='/portal')
 records.register_blueprint(users, url_prefix='/users')
 records.register_blueprint(company, url_prefix='/company')
+records.register_blueprint(hours, url_prefix='/hours')
 
 @records.route('/')
 def main():
