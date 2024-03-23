@@ -52,6 +52,9 @@ def portalsearch():
     employee = form.employee.data if form.employee.data else None
     first_day_search = form.start_date.data if form.start_date.data else (datetime.now() - relativedelta(weekday=MO(-1)))
     last_day_search = form.end_date.data if form.end_date.data else (first_day_search + timedelta(weeks = 1)) - timedelta(days = 1)
+    form.start_date.default = first_day_search
+    form.end_date.default = last_day_search
+    form.process()
 
     user_hours = {}
     if employee:
