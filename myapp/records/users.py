@@ -78,7 +78,7 @@ def edit():
     user = Users.query.get_or_404(id)
     form = UserEdit()
     check_email = Users.query.where(Users.email == form.email.data, Users.admin==form.admin.data).first()
-    if check_email and user.email != form.email.data:
+    if check_email and user.email != form.email.data and form.email.data:
         message:str  = "email address in use"
         return render_template('/users/users-edit.html',
                                form=form,
