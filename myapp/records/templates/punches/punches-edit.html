@@ -2,7 +2,7 @@
     <form 
         hx-target="closest tr"
         hx-swap="outerHTML"
-        hx-post="{{url_for('records.portal.portaledit', id=punch.id)}}"
+        hx-post="{{url_for('records.entries.portaledit', id=punch.id)}}"
         id="editform">
         {{ form.hidden_tag() }}
     </form>
@@ -18,14 +18,14 @@
         <br/>
         <button
             class="btn btn-secondary"
-            hx-post="{{url_for('records.portal.portalshowrow', id=punch.id)}}"
+            hx-post="{{url_for('records.entries.portalshowrow', id=punch.id)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
             hx-confirm="Cancel with out saving?"
         >Cancel</button>
         <button
             class="btn btn-danger"
-            hx-delete="{{url_for('records.portal.portaldelete', id=punch.id)}}"
+            hx-delete="{{url_for('records.entries.portaldelete', id=punch.id)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
             hx-confirm="Delete this entry?"

@@ -1,7 +1,7 @@
 &nbsp;&nbsp;
 <button
     class="btn btn-outline-secondary"
-    hx-get="{{url_for('records.hours.show')}}"
+    hx-get="{{url_for('records.hours.portalsearch')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Hours</button>
@@ -9,7 +9,7 @@
 &nbsp;&nbsp;
 <button
     class="btn btn-secondary"
-    hx-get="{{url_for('records.portal.showportal')}}"
+    hx-get="{{url_for('records.entries.showportal')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Time Entries</button>
@@ -41,5 +41,47 @@
 
 <br/>
 <br/>
+<form
+    hx-post="{{url_for('records.hours.portalsearch')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>
+{{ form.hidden_tag() }}
+
+<table class="table table-borderless">
+    <tr class="row">
+        <td class="col">{{ form.employee.label(class="form-label") }}</td>
+        <td class="col">{{ form.start_date.label(class="form-label") }}</td>
+        <td class="col">{{ form.end_date.label(class="form-label") }}</td>
+        <td class="col"></td>
+    </tr>
+    <tr class="row">
+        <td class="col">{{ form.employee(class="form-control") }}</td>
+        <td class="col">{{ form.start_date(class="form-control") }}</td>
+        <td class="col">{{ form.end_date(class="form-control") }}</td>
+        <td class="col">{{ form.submit(class="btn btn-outline-success") }}</td>
+    </tr>
+</table>
+</form>
+
+<br/>
 
 Hours
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Total Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+<div
+    hx-get="{{url_for('records.hours.portalsearch')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+    hx-trigger="load"
+></div>

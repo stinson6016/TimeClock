@@ -2,7 +2,7 @@
     <form 
         hx-target="closest tr"
         hx-swap="outerHTML"
-        hx-post="{{url_for('records.portal.portalnew')}}"
+        hx-post="{{url_for('records.entries.portalnew')}}"
         id="editform">
         {{ form.hidden_tag() }}
     </form>
@@ -18,7 +18,7 @@
         <br/>
         <button
             class="btn btn-secondary"
-            hx-post="{{url_for('records.portal.portalcancel')}}"
+            hx-post="{{url_for('records.entries.portalcancel')}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
             hx-confirm="Cancel with out saving?"

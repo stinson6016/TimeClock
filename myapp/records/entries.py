@@ -10,10 +10,10 @@ from .. import db
 from ..extra import getUsers, getTimeTotal
 from ..models import Users, Punch
 
-portal = Blueprint("portal", __name__,
+entries = Blueprint("entries", __name__,
                     template_folder='templates')
 
-@portal.route('/')
+@entries.route('/')
 @login_required
 def showportal():
     first_day_search = (datetime.now() - relativedelta(weekday=MO(-1))) # get last Friday.strftime(dateformat)
@@ -30,7 +30,7 @@ def showportal():
                            punches=punches,
                            flag_count=flag_count)
 
-@portal.post('/search')
+@entries.post('/search')
 @login_required
 def portalsearch():
     form = SearchPunches()
@@ -44,7 +44,7 @@ def portalsearch():
                            punches=punches,
                            flag_count=flag_count)
 
-@portal.post('/newshow')
+@entries.post('/newshow')
 @login_required
 def portalnewshow():
     form = NewPunch()
@@ -54,7 +54,7 @@ def portalnewshow():
     return render_template('punches/punches-new.html',
                            form=form)
 
-@portal.post('/new')
+@entries.post('/new')
 @login_required
 def portalnew():
     form = NewPunch()
@@ -69,9 +69,9 @@ def portalnew():
                   time_total=time_total, flag=form.flag.data)
     db.session.add(punch)
     db.session.commit()
-    return redirect(url_for('records.portal.portalshowrow', id=punch.id))
+    return redirect(url_for('records.entries.portalshowrow', id=punch.id))
 
-@portal.post('/editshow')
+@entries.post('/editshow')
 @login_required
 def portaleditshow():
     id = request.args.get('id', default='', type=int)
@@ -88,7 +88,7 @@ def portaleditshow():
                            form=form,
                            punch=punch)
 
-@portal.post('/edit')
+@entries.post('/edit')
 @login_required
 def portaledit():
     id = request.args.get('id', default='', type=int)
@@ -102,9 +102,9 @@ def portaledit():
     if form.clock_in.data and form.clock_out.data:
         punch.time_total = getTimeTotal(punch.clock_in, punch.clock_out)
     db.session.commit()
-    return redirect(url_for('records.portal.portalshowrow', id=punch.id))
+    return redirect(url_for('records.entries.portalshowrow', id=punch.id))
 
-@portal.delete('/delete')
+@entries.delete('/delete')
 @login_required
 def portaldelete():
     id = request.args.get('id', default='', type=int)
@@ -117,7 +117,7 @@ def portaldelete():
     db.session.commit()
     return '', 200
 
-@portal.route('/showrow', methods=['GET', 'POST'])
+@entries.route('/showrow', methods=['GET', 'POST'])
 @login_required
 def portalshowrow():
     id = request.args.get('id', default='', type=int)
@@ -125,7 +125,7 @@ def portalshowrow():
     return render_template('punches/punches-row.html',
                            punch=punch)
 
-@portal.post('/cancel')
+@entries.post('/cancel')
 @login_required
 def portalcancel():
     return '', 200

@@ -31,6 +31,10 @@ def getTimeTotal(start_time: time, end_time: time):
 
     return return_time
 
+def converttime(time_entry:time):
+    time_entry_str:str = str(date.today()) + " " + str(time_entry)
+    new_datetime:datetime = datetime.strptime(time_entry_str, "%Y-%m-%d %H:%M:%S")
+    return new_datetime
 PunchTypes = [
 	('n', 'Normal'),
 	('h', 'Holiday'),
