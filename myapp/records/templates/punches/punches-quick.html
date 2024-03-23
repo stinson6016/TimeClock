@@ -1,0 +1,57 @@
+Quick Search - 
+<a 
+    href="#"
+    hx-post="{{url_for('records.entries.portalsearch', quick='td')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>today</a>
+ - 
+<a 
+    href="#"
+    hx-post="{{url_for('records.entries.portalsearch', quick='yd')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>yesterday</a>
+- 
+<a
+    href="#"
+    hx-post="{{url_for('records.entries.portalsearch', quick='tw')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>this week</a>
+- 
+<a
+    href="#"
+    hx-post="{{url_for('records.entries.portalsearch', quick='lw')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>last weeek</a>
+- 
+<a
+    href="#"
+    hx-post="{{url_for('records.entries.portalsearch', quick='tm')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>this month</a>
+- 
+<a 
+    href="#"
+    hx-post="{{url_for('records.entries.portalsearch', quick='lm')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>last month</a>
+- 
+<a
+    href="#"
+    hx-post="{{url_for('records.entries.portalsearch', quick='ty')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>this year</a>
+- 
+<a
+    href="#"
+    hx-post="{{url_for('records.entries.portalsearch', quick='ly')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>last year</a>
+ 
