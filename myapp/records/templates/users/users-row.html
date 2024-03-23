@@ -8,13 +8,13 @@
     </td>
     <td class="col">
         {% if user.admin == 'y' %}
-        <i class="bi bi-building-gear" style="color:gray" title="ADMIN"></i>
+        <i class="bi bi-building-gear h4" style="color:gray" title="ADMIN"></i>
         {% endif %}
         {% if user.active != 'y' %}
-        <i class="bi bi-person-slash" style="color:red" title="Employee disabled"></i>
+        <i class="bi bi-person-slash h4" style="color:red" title="Employee disabled"></i>
         {% endif %}
         {% if user.pw_change == 'y' %}
-        <i class="bi bi-key-fill" style="color:goldenrod" title="Much change password to login"></i>
+        <i class="bi bi-key-fill h4" style="color:goldenrod" title="Much change password to login"></i>
         {% endif %}
         
     </td>

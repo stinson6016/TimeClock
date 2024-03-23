@@ -43,6 +43,20 @@
 <br/>
 
 Employees / Admin
+<br/>
+{% if disabled == 'n' %}
+{% set newdisabled = 'y' %}
+{% set linktext = 'show disabled' %}
+{% else %}
+{% set newdisabled = 'n' %}
+{% set linktext = 'hide disabled' %}
+{% endif %}
+<a 
+    href="#"
+    hx-get="{{url_for('records.users.showall', disabled=newdisabled)}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>{{linktext}}</a>
 
 <table class="table">
     <thead>
@@ -68,5 +82,6 @@ Employees / Admin
     hx-target="#mainbody"
     hx-swap="beforeend"
 >New Employee</button>
-
+<br/>
+<br/>
 {% include 'users/users-footer.html' %}

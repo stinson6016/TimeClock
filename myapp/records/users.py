@@ -13,9 +13,14 @@ users = Blueprint('users', __name__,
 @users.route('/showall')
 @login_required
 def showall():
-    users = Users.query.order_by(Users.name)
+    disabled = request.args.get('disabled', default='n', type=str)
+    if disabled == 'y':
+        users = Users.query.order_by(Users.name)
+    else:
+        users = Users.query.where(Users.active!='n').order_by(Users.name)
     return render_template('users/users-table.html', 
-                           users=users)
+                           users=users,
+                           disabled=disabled)
 
 @users.post('/newshow')
 @login_required
