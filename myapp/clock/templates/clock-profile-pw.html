@@ -1,0 +1,38 @@
+<form 
+    hx-target="#mainarea"
+    hx-swap="innerHTML"
+    hx-post="{{url_for('clock.profilepwedit')}}"
+    id="editform">
+    {{ form.hidden_tag() }}
+</form>
+
+<div  class="d-grid gap-2 col-4">
+{% if message %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+</div>
+
+<div class="d-grid gap-2 col-3">
+    {{ form.admin_pass.label }}
+    {{ form.admin_pass(class="form-control", form="editform") }}
+
+    {{ form.password1.label }}
+    {{ form.password1(class="form-control", form="editform") }}
+
+    {{ form.password2.label }}
+    {{ form.password2(class="form-control", form="editform") }}
+</div>
+<br/>
+<input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
+			form="editform">
+
+<button
+    class="btn btn-secondary"
+    hx-post="{{url_for('clock.profileshow')}}"
+    hx-target="#mainarea"
+    hx-swap="innerHTML"
+    hx-confirm="Cancel with out saving?"
+>Cancel</button>

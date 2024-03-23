@@ -1,0 +1,30 @@
+<form 
+    hx-target="#mainarea"
+    hx-swap="innerHTML"
+    hx-post="{{url_for('clock.profileedit')}}"
+    id="editform">
+    {{ form.hidden_tag() }}
+</form>
+
+<div class="container text-start">
+    <div class="row justify-content-start">
+        <div class="col-1">Name</div>
+        <div class="col-3">{{ form.name(class="form-control", form="editform") }}</div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-1">Email</div>
+        <div class="col-3">{{ form.email(class="form-control", form="editform") }}</div>
+    </div>
+</div>
+
+<br/>
+<input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
+			form="editform">
+
+<button
+    class="btn btn-secondary"
+    hx-post="{{url_for('clock.profileshow')}}"
+    hx-target="#mainarea"
+    hx-swap="innerHTML"
+    hx-confirm="Cancel with out saving?"
+>Cancel</button>

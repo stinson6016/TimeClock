@@ -3,13 +3,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 
 from . import db
-
-
-MAX_NAME: int = 100
-MAX_EMPLOYEE: int = 50
-MAX_EMAIL: int = 100
-MAX_PASS_HASH:int = 200
-
+from .maxvars import *
 
 class Punch(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
@@ -21,7 +15,6 @@ class Punch(db.Model):
     time_total  = db.Column(db.Time)
     flag        = db.Column(db.String(1), default='n') # flag for admin review
     user        = relationship("Users", primaryjoin='Punch.user_id==Users.id')
-
 
 class Users(db.Model, UserMixin):
     id          = db.Column(db.Integer, primary_key=True)
@@ -36,5 +29,9 @@ class Users(db.Model, UserMixin):
     pw_last     = db.Column(db.DateTime)
     pw_change   = db.Column(db.String(1), default='n')
     last_clock  = db.Column(db.Integer, db.ForeignKey('punch.id'))
-    # employee    = db.relationship('Punch', backref='user')
 
+class Settings(db.Model):
+    id          = db.Column(db.Integer, primary_key=True)
+    key         = db.Column(db.String(MAX_SET_KEY))
+    value       = db.Column(db.String(MAX_SET_VALUE))
+    type        = db.Column(db.String(1))

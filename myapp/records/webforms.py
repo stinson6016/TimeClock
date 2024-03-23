@@ -2,9 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, DateField, SelectField, EmailField, TimeField, DateTimeField
 from wtforms.validators import DataRequired, EqualTo, Length
 
+from ..maxvars import *
+
 class RecordsLogin(FlaskForm):
     name        = SelectField   ('Admin', validators=[DataRequired()])
-    password    = PasswordField ("Password", validators=[DataRequired(), Length(max=100)])
+    password    = PasswordField ("Password", validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
     submit      = SubmitField   ("Login")
 
 class SearchPunches(FlaskForm):
@@ -29,25 +31,25 @@ class NewPunch(FlaskForm):
     flag        = SelectField   ('Flagged', choices=[('n','No'),('y', 'Yes')])
 
 class UserEdit(FlaskForm):
-    name        = StringField   ('name', render_kw={"placeholder": " (Name) ..."}, validators=[DataRequired()])
-    email       = EmailField    ('email', render_kw={"placeholder": " (Email - Optional) ..."})
-    password1   = PasswordField ('Password', validators=[DataRequired(), Length(min=4)])
-    password2   = PasswordField ('Password2', validators=[DataRequired(), Length(min=4)])
+    name        = StringField   ('name', render_kw={"placeholder": " (Name) ..."}, validators=[DataRequired(), Length(max=MAX_NAME)])
+    email       = EmailField    ('email', render_kw={"placeholder": " (Email - Optional) ..."}, validators=[Length(max=MAX_EMAIL)])
+    password1   = PasswordField ('Password', validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
+    password2   = PasswordField ('Password2', validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
     active      = SelectField   ('active', choices=[('y','Active'),('n', 'Disabled')])
     change      = SelectField   ('active', choices=[('n',''),('y', 'Change Password next logon')])
-    admin      = SelectField   ('active', choices=[('n','Employee'),('y', 'Admin')])
+    admin       = SelectField   ('active', choices=[('n','Employee'),('y', 'Admin')])
 
 class UserNew(FlaskForm):
-    name        = StringField   ('name', render_kw={"placeholder": " (Name) ..."}, validators=[DataRequired()])
-    email       = EmailField    ('email', render_kw={"placeholder": " (Email - Optional) ..."})
-    password1   = PasswordField ('Password', render_kw={"placeholder": " (New password) ..."}, validators=[DataRequired(), Length(min=4)])
-    password2   = PasswordField ('Password2', render_kw={"placeholder": " (Confirm password) ..."}, validators=[DataRequired(), Length(min=4)])
+    name        = StringField   ('name', render_kw={"placeholder": " (Name) ..."}, validators=[DataRequired(), Length(max=MAX_NAME)])
+    email       = EmailField    ('email', render_kw={"placeholder": " (Email - Optional) ..."}, validators=[Length(max=MAX_EMAIL)])
+    password1   = PasswordField ('Password', render_kw={"placeholder": " (New password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
+    password2   = PasswordField ('Password2', render_kw={"placeholder": " (Confirm password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
     active      = SelectField   ('active', choices=[('y','Active'),('n', 'Disabled')])
     change      = SelectField   ('active', choices=[('n',''),('y', 'Change Password next logon')])
-    admin      = SelectField   ('active', choices=[('n','Employee'),('y', 'Admin')])
+    admin       = SelectField   ('active', choices=[('n','Employee'),('y', 'Admin')])
 
 class UserPW(FlaskForm):
-    admin_pass  = PasswordField ('Admin Password', render_kw={"placeholder": " (Your password) ..."}, validators=[DataRequired()])
-    password1   = PasswordField ('Password', render_kw={"placeholder": " (New Password) ..."}, validators=[DataRequired(), Length(min=4)])
-    password2   = PasswordField ('Password2', render_kw={"placeholder": " (Confirm Password) ..."}, validators=[DataRequired(), Length(min=4)])
+    admin_pass  = PasswordField ('Admin Password', render_kw={"placeholder": " (Your password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
+    password1   = PasswordField ('Password', render_kw={"placeholder": " (New Password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
+    password2   = PasswordField ('Password2', render_kw={"placeholder": " (Confirm Password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
     submit      = SubmitField   ('Save')

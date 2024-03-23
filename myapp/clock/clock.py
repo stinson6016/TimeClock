@@ -1,13 +1,13 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user, login_user, logout_user
 from sqlalchemy import desc
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, time, datetime, date
 
 from .. import db
 from ..extra import getUsers, getTimeTotal
 from ..models import Users, Punch
-from .webforms import PunchForm
+from .webforms import PunchForm, UserProfile, UserPW
 
 clock = Blueprint("clock", __name__,
                   template_folder='templates')
@@ -121,9 +121,11 @@ def onepunch():
 @clock.route('/punches')
 @login_required
 def punches():
-    punches = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_in),desc(Punch.clock_out)).limit(20)
+    last:int = 20
+    punches = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_in),desc(Punch.clock_out)).limit(last)
     return render_template('punches.html',
-                           punches=punches)
+                           punches=punches,
+                           last=last)
 
 @clock.route('/punch/flag')
 @login_required
@@ -135,3 +137,57 @@ def punchflag():
     db.session.commit()
     return render_template('punch-row.html',
                            punch=punch)
+
+@clock.post('/profile/show')
+@login_required
+def profileshow():
+    return render_template('clock-profile.html')
+
+@clock.post('/profile/editshow')
+@login_required
+def profileeditshow():
+    form = UserProfile()
+    form.name.default = current_user.name
+    form.email.default = current_user.email
+    form.process()
+    return render_template('clock-profile-edit.html',
+                           form=form)
+
+@clock.post('/profile/edit')
+@login_required
+def profileedit():
+    user = Users.query.get(current_user.id)
+    form = UserProfile()
+    user.name = form.name.data
+    user.email = form.email.data
+    db.session.commit()
+    return render_template('clock-profile.html')
+
+@clock.post('/profile/pwshow')
+@login_required
+def profilepwshow():
+    form = UserPW()
+    return render_template('clock-profile-pw.html',
+                           form=form)
+
+@clock.post('/profile/pwedit')
+@login_required
+def profilepwedit():
+    user = Users.query.get(current_user.id)
+    form = UserPW()
+    if not check_password_hash(current_user.pass_hash, form.admin_pass.data):
+        message = "current password incorrect"
+        return render_template('clock-profile-pw.html',
+                               form=form,
+                               message=message)
+    
+    if form.password1.data != form.password2.data:
+        message = "passwords do not match"
+        return render_template('clock-profile-pw.html',
+                               form=form,
+                               message=message)
+    
+    pass_hash = generate_password_hash(form.password1.data)
+    user.pass_hash = pass_hash
+    db.session.commit()
+    return render_template('clock-profile.html')

@@ -1,6 +1,14 @@
-{{current_user.name}} - 
+Welcome {{current_user.name}}
+<a
+    href="#"
+    hx-post="{{url_for('clock.profileshow')}}"
+    hx-target="#mainarea"
+    hx-swap="innerHTML"
+>profile</a>
 
-<b>
+<br/>
+You are currently 
+<b class="something">
 {% if current_user.last_clock %}
 Clocked In
 {% else %}
@@ -54,6 +62,7 @@ Clocked Out
     {% endif %}
 </div>
 
+
 <br/>
 <div  class="d-grid gap-2 col-4">
     {% for message in get_flashed_messages() %}
@@ -67,7 +76,7 @@ Clocked Out
 
 <br/>
 
-{{ current_user.name }} Time Entries
+ Your last <b class="something">{{last}}</b> time entries
 
 <br/>
 <br/>

@@ -1,0 +1,10 @@
+
+MAX_NAME: int = 100
+MAX_EMPLOYEE: int = 50
+MAX_EMAIL: int = 100
+MAX_PASS_HASH:int = 200
+MAX_PASS_STR:int = 100
+MIN_PASS_STR:int = 4
+
+MAX_SET_KEY:int = 10
+MAX_SET_VALUE:int = 50

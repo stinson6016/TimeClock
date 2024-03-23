@@ -1,0 +1,29 @@
+<div class="container text-start">
+    <div class="row justify-content-start">
+        <div class="col-1">Name</div>
+        <div class="col-1">{{current_user.name}}</div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-1">Email</div>
+        <div class="col-1">{{current_user.email}}</div>
+    </div>
+</div>
+<br/>
+<button
+    class="btn btn-info"
+    hx-post="{{url_for('clock.profileeditshow')}}"
+    hx-target="#mainarea"
+    hx-swap="innerHTML"
+>edit</button>
+<button
+    class="btn btn-warning"
+    hx-post="{{url_for('clock.profilepwshow')}}"
+    hx-target="#mainarea"
+    hx-swap="innerHTML"
+>password</button>
+<button
+    class="btn btn-secondary"
+    hx-get="{{url_for('clock.punches')}}"
+    hx-target="#mainarea"
+    hx-swap="innerHTML"
+>Back</button>
