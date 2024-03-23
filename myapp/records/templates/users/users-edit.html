@@ -8,6 +8,14 @@
     </form>
     <td class="col">{{ form.name(class="form-control", form="editform", autofocus=true) }}</td>
     <td class="col">
+        {% if user.id != current_user.id %}
+        {{ form.active(class="form-control", form="editform") }}
+        {{ form.admin(class="form-control", form="editform") }}
+        {% else %}
+        <i class="bi bi-building-gear" style="color:gray" title="ADMIN - you cannot change your own status"></i>
+        {% endif %}
+    </td>
+    <td class="col">
         {{ form.email(class="form-control", form="editform") }}
         {% if message %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -29,14 +37,7 @@
         {{user.date_added.strftime("%m/%d/%Y %H:%M:%S")}}
         {% endif %}
     </td>
-    <td class="col">
-        {% if user.id != current_user.id %}
-        {{ form.active(class="form-control", form="editform") }}
-        {{ form.admin(class="form-control", form="editform") }}
-        {% else %}
-        <i class="bi bi-building-gear" style="color:gray" title="ADMIN"></i>
-        {% endif %}
-    </td>
+    
     <td class="col">
         <input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
 			form="editform">

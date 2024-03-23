@@ -192,3 +192,10 @@ def profilepwedit():
     user.pass_hash = pass_hash
     db.session.commit()
     return render_template('clock-profile.html')
+
+@clock.route('/date')
+def getdate():
+    print('')
+    getdate = date.today()
+    return render_template('clock-date.html',
+                           getdate=getdate)

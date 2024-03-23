@@ -10,7 +10,14 @@
 {% endfor %}
 
 <div class="shadow p-3 mb-5 bg-body rounded">
-
+	<div 
+		id="date"
+		class="date"
+		hx-get="{{url_for('clock.getdate')}}"
+		hx-target="#date"
+		hx-swap="outerHTML"
+		hx-trigger="load"
+	>00/00/0000</div>
 	<div id="clock">00:00:00</div>
 	<br/>
 	<div id="clockContainer">

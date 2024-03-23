@@ -1,5 +1,46 @@
+&nbsp;&nbsp;
+<button
+    class="btn btn-secondary"
+    hx-get="{{url_for('records.hours.show')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>Hours</button>
 
-{% include 'portal.html' %}
+&nbsp;&nbsp;
+<button
+    class="btn btn-secondary"
+    hx-get="{{url_for('records.portal.showportal')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>Time Entries</button>
+
+&nbsp;&nbsp;
+<button
+    class="btn btn-outline-secondary"
+    hx-get="{{url_for('records.users.showall')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>Users</button>
+
+&nbsp;&nbsp;
+<button
+    class="btn btn-secondary"
+    hx-get="{{url_for('records.company.show')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>Company</button>
+
+&nbsp;&nbsp;
+<button
+    class="btn btn-secondary"
+    hx-get="{{url_for('records.logout')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>Logout</button>
+&nbsp;&nbsp;
+
+<br/>
+<br/>
 
 Employees / Admin
 
@@ -7,10 +48,10 @@ Employees / Admin
     <thead>
         <tr class="row">
             <th class="col">Name</th>
+            <th class="col">Status</th>
             <th class="col">Email</th>
             <th class="col">Password Changed</th>
             <th class="col">Added</th>
-            <th class="col">Status</th>
             <th class="col">Funcs</th>
         </tr>
     </thead>
@@ -27,3 +68,5 @@ Employees / Admin
     hx-target="#mainbody"
     hx-swap="beforeend"
 >New Employee</button>
+
+{% include 'users/users-footer.html' %}

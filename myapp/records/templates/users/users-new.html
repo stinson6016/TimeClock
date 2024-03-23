@@ -8,6 +8,10 @@
     </form>
     <td class="col">{{ form.name(class="form-control", form="editform", autofocus=true) }}</td>
     <td class="col">
+        {{ form.active(class="form-control", form="editform") }}
+        {{ form.admin(class="form-control", form="editform") }}
+    </td>
+    <td class="col">
         {{ form.email(class="form-control", form="editform") }}
         {% if message %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -30,10 +34,7 @@
     <td class="col">
         today
     </td>
-    <td class="col">
-        {{ form.active(class="form-control", form="editform") }}
-        {{ form.admin(class="form-control", form="editform") }}
-    </td>
+
     <td class="col">
         <input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
 			form="editform">
