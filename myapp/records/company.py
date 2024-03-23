@@ -14,7 +14,6 @@ company = Blueprint('company', __name__,
 def show():
     
     settings = Settings.query.where(Settings.id=='1').first()
-    print(settings.email_server)
     return render_template('company/company.html',
                            settings=settings)
 

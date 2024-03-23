@@ -195,7 +195,6 @@ def profilepwedit():
 
 @clock.route('/date')
 def getdate():
-    print('')
     getdate = date.today()
     return render_template('clock-date.html',
                            getdate=getdate)
