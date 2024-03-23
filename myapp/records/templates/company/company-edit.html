@@ -1,0 +1,65 @@
+{% include 'portal.html' %}
+<form 
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+    hx-post="{{url_for('records.company.save')}}"
+    id="editform">
+    {{ form.hidden_tag() }}
+</form>
+
+Company Settings
+<br/>
+<br/>
+
+<div class="container text-start">
+    <b>Company</b>
+    <div class="row justify-content-start">
+        <div class="col-2">comp_name</div>
+        <div class="col-2">{{ form.comp_name(class="form-control", form="editform") }}</div>
+    </div>
+    <br/>
+    
+    <b>Email</b>
+    <div class="row justify-content-start">
+        <div class="col-2">Active</div>
+        <div class="col-2">{{ form.email_active(form="editform") }}</div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-2">email_server</div>
+        <div class="col-2">{{ form.email_server(class="form-control", form="editform") }}</div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-2">email_send</div>
+        <div class="col-2">{{ form.email_send(class="form-control", form="editform") }}</div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-2">email_user</div>
+        <div class="col-2">{{ form.email_user(class="form-control", form="editform") }}</div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-2">email_pass</div>
+        <div class="col-2">{{ form.email_pass(class="form-control", form="editform") }}</div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-2">email_port</div>
+        <div class="col-2">{{ form.email_port(class="form-control", form="editform") }}</div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-2">email_secure</div>
+        <div class="col-2">{{ form.email_secure(class="form-control", form="editform") }}</div>
+    </div>
+    
+</div>
+
+<br/>
+<input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
+			form="editform">
+
+&nbsp; &nbsp; 
+<button
+    class="btn btn-secondary"
+    hx-get="{{url_for('records.company.show')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+    hx-confirm="Cancel with out saving?"
+>Cancel</button>

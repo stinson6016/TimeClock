@@ -2,9 +2,11 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import check_password_hash
 
-from .webforms import RecordsLogin
 from .portal import portal
 from .users import users
+from .company import company
+
+from .webforms import RecordsLogin
 from ..extra import getUsersAdmins
 from ..models import Users
 
@@ -12,6 +14,7 @@ records = Blueprint("records", __name__,
                     template_folder='templates')
 records.register_blueprint(portal, url_prefix='/portal')
 records.register_blueprint(users, url_prefix='/users')
+records.register_blueprint(company, url_prefix='/company')
 
 @records.route('/')
 def main():

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, DateField, SelectField, EmailField, TimeField, DateTimeField
+from wtforms import StringField, SubmitField, PasswordField, DateField, SelectField, EmailField, TimeField, DateTimeField, BooleanField, IntegerField
 from wtforms.validators import DataRequired, EqualTo, Length
 
 from ..maxvars import *
@@ -53,3 +53,15 @@ class UserPW(FlaskForm):
     password1   = PasswordField ('Password', render_kw={"placeholder": " (New Password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
     password2   = PasswordField ('Password2', render_kw={"placeholder": " (Confirm Password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
     submit      = SubmitField   ('Save')
+
+class CompanyEdit(FlaskForm):
+    comp_name    = StringField   ("Name", validators=[DataRequired(), Length(max=MAX_SET_VALUE)])
+    email_active = BooleanField  ('Email Active')
+    email_server = StringField   ("Email Server", validators=[Length(max=MAX_SET_VALUE)])
+    email_send   = EmailField    ("send as", validators=[Length(max=MAX_SET_VALUE)])
+    email_user   = StringField   ("Email User", validators=[Length(max=MAX_SET_VALUE)])
+    email_pass   = PasswordField ("password", validators=[Length(max=MAX_SET_VALUE)])
+    email_port   = IntegerField  ("port")
+    email_secure = SelectField   ("secure", choices=[("0","none"),("1","TLS"),("2","SSL")])
+    submit       = SubmitField   ('Save')
+

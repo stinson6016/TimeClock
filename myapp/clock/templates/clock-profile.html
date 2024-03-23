@@ -9,18 +9,23 @@
     </div>
 </div>
 <br/>
+
 <button
     class="btn btn-info"
     hx-post="{{url_for('clock.profileeditshow')}}"
     hx-target="#mainarea"
     hx-swap="innerHTML"
->edit</button>
+>Edit</button>
+
+&nbsp;&nbsp;
 <button
     class="btn btn-warning"
     hx-post="{{url_for('clock.profilepwshow')}}"
     hx-target="#mainarea"
     hx-swap="innerHTML"
->password</button>
+>Password</button>
+
+&nbsp;&nbsp;
 <button
     class="btn btn-secondary"
     hx-get="{{url_for('clock.punches')}}"

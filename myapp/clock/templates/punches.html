@@ -36,9 +36,9 @@ Clocked Out
             hx-swap="innerHTML"
             hx-confirm="You are already clocked in. Clock in anyways?"
         >Clock In</button>
-        <!-- <br> -->
+
         <button 
-            class="btn btn-success"
+            class="btn btn-primary"
             hx-get="{{url_for('clock.onepunch', type='o')}}"
             hx-target="#mainarea"
             hx-swap="innerHTML"
@@ -46,12 +46,12 @@ Clocked Out
     {% else %}
     <!-- not logged in -->
         <button 
-            class="btn btn-success"
+            class="btn btn-primary"
             hx-get="{{url_for('clock.onepunch', type='i')}}"
             hx-target="#mainarea"
             hx-swap="innerHTML"
         >Clock In</button>
-        <!-- <br> -->
+
         <button 
             class="btn btn-outline-info"
             hx-get="{{url_for('clock.onepunch', type='o')}}"

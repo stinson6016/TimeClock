@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
-from datetime import date
+from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from dateutil.rrule import MO
 
 from .webforms import SearchPunches, EditPunch, NewPunch
 from .extra import searchPunchData
@@ -14,13 +16,15 @@ portal = Blueprint("portal", __name__,
 @portal.route('/')
 @login_required
 def showportal():
+    first_day_search = (datetime.now() - relativedelta(weekday=MO(-1))) # get last Friday.strftime(dateformat)
+    last_day_search = (first_day_search + timedelta(weeks = 1)) - timedelta(days = 1)
     form = SearchPunches()
     form.employee.choices = getUsers(all='y')
-    form.start_date.default = date.today()
-    form.end_date.default = date.today()
+    form.start_date.default = first_day_search
+    form.end_date.default = last_day_search
     form.process()
     
-    punches, flag_count = searchPunchData()
+    punches, flag_count = searchPunchData(first_day_search, last_day_search)
     return render_template('punches/punches-table.html',
                            form = form,
                            punches=punches,

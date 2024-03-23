@@ -20,7 +20,7 @@
         <td class="col">{{ form.start_date(class="form-control") }}</td>
         <td class="col">{{ form.end_date(class="form-control") }}</td>
         <td class="col">{{ form.flagged(class="form-control") }}</td>
-        <td class="col">{{ form.submit(class="btn btn-success") }}</td>
+        <td class="col">{{ form.submit(class="btn btn-outline-success") }}</td>
     </tr>
 </table>
 </form>
@@ -47,7 +47,7 @@
 </table>
 
 <button
-    class="btn btn-success"
+    class="btn btn-primary"
     hx-post="{{url_for('records.portal.portalnewshow')}}"
     hx-target="#mainbody"
     hx-swap="beforeend"

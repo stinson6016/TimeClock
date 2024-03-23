@@ -6,6 +6,7 @@
         ----
         {% endif %}
     </td>
+    
     <td class="col">
         {% if punch.clock_in %}
         {{punch.clock_in.strftime("%H:%M:%S")}}
@@ -13,13 +14,7 @@
         ----
         {% endif %}
     </td>
-    <!-- <td class="col">
-        {% if punch.clock_out %}
-        {{punch.clock_out.strftime("%m/%d/%Y")}}
-        {% else %}
-        ----
-        {% endif %}
-    </td> -->
+
     <td class="col">
         {% if punch.clock_out %}
         {{punch.clock_out.strftime("%H:%M:%S")}}
@@ -27,11 +22,13 @@
         ----
         {% endif %}
     </td>
+
     <td class="col">
         {% if punch.time_total %}
         {{ punch.time_total }}
         {% endif %}
   </td>
+
     <td class="col">
         {% if punch.type =='n' %}
         Normal
@@ -43,7 +40,8 @@
     <td class="col">
         {% if punch.flag == 'n' %}
         <button 
-            class="btn btn-info"
+            class="btn btn-outline-warning"
+            style="color: black"
             title="flag punch for review"
             hx-get="{{url_for('clock.punchflag', flag='flag', id=punch.id)}}"
             hx-target="closest tr"

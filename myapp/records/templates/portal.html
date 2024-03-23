@@ -3,6 +3,7 @@
     class="btn btn-secondary"
     disabled
 >Hours</button>
+
 &nbsp;&nbsp;
 <button
     class="btn btn-secondary"
@@ -10,6 +11,7 @@
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Time Entries</button>
+
 &nbsp;&nbsp;
 <button
     class="btn btn-secondary"
@@ -17,6 +19,15 @@
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Users</button>
+
+&nbsp;&nbsp;
+<button
+    class="btn btn-secondary"
+    hx-get="{{url_for('records.company.show')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>Company</button>
+
 &nbsp;&nbsp;
 <button
     class="btn btn-secondary"
@@ -26,4 +37,5 @@
 >Logout</button>
 &nbsp;&nbsp;
 
+<br/>
 <br/>

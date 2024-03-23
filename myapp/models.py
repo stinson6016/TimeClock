@@ -31,7 +31,13 @@ class Users(db.Model, UserMixin):
     last_clock  = db.Column(db.Integer, db.ForeignKey('punch.id'))
 
 class Settings(db.Model):
-    id          = db.Column(db.Integer, primary_key=True)
-    key         = db.Column(db.String(MAX_SET_KEY))
-    value       = db.Column(db.String(MAX_SET_VALUE))
-    type        = db.Column(db.String(1))
+    id           = db.Column(db.Integer, primary_key=True)
+    comp_name    = db.Column(db.String(20))
+    email_active = db.Column(db.String(1))
+    email_server = db.Column(db.String(20))
+    email_send   = db.Column(db.String(40))
+    email_user   = db.Column(db.String(40))
+    email_pass   = db.Column(db.String(40))
+    email_port   = db.Column(db.String(5))
+    email_secure = db.Column(db.String(1))
+    
