@@ -22,6 +22,7 @@ records.register_blueprint(hours, url_prefix='/hours')
 def main():
     if current_user.is_authenticated:
         if current_user.admin != 'y':
+            flash("Please log out of Time Clock to access the Time Records")
             return redirect(url_for('clock.home'))
     user_count = Users.query.count()
     if user_count == 0:

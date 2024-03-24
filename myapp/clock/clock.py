@@ -16,6 +16,7 @@ clock = Blueprint("clock", __name__,
 def home():
     if current_user.is_authenticated:
         if current_user.admin == 'y':
+            flash('Please logout of Time Records to access the Time Clock')
             return redirect(url_for('records.main'))
     user_count = Users.query.count()
     if user_count == 0:
