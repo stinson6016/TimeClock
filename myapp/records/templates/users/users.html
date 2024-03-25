@@ -1,0 +1,58 @@
+
+{% include 'portal.html' %}
+
+Employees / Admin
+<br/>
+{% if disabled == 'n' %}
+{% set newdisabled = 'y' %}
+{% set linktext = 'show disabled' %}
+{% else %}
+{% set newdisabled = 'n' %}
+{% set linktext = 'hide disabled' %}
+{% endif %}
+<a 
+    href="#"
+    hx-get="{{url_for('records.users.showall', disabled=newdisabled)}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>{{linktext}}</a>
+
+<table class="table">
+    <thead>
+        <tr class="row">
+            <th class="col">Name</th>
+            <th class="col">Status</th>
+            <th class="col">Email</th>
+            <th class="col">Password Changed</th>
+            <th class="col">Added</th>
+            <th class="col">Funcs</th>
+        </tr>
+    </thead>
+    <tbody id="mainbody">
+        <tr class="row">
+            <td class="col">loading users...</td>
+            <td class="col"></td>
+            <td class="col"></td>
+            <td class="col"></td>
+            <td class="col"></td>
+            <td class="col"></td>
+        </tr>
+    </tbody>
+</table>
+
+<button
+    class="btn btn-primary"
+    hx-post="{{url_for('records.users.newshow')}}"
+    hx-target="#mainbody"
+    hx-swap="beforeend"
+>New Employee</button>
+<br/>
+<br/>
+{% include 'users/users-footer.html' %}
+
+<div
+    hx-get="{{url_for('records.users.showall')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+    hx-trigger="load"
+></div>

@@ -10,6 +10,13 @@ from ..models import Users, Punch
 users = Blueprint('users', __name__,
                   template_folder='templates')
 
+@users.route('/show')
+@login_required
+def show():
+    return render_template('users/users.html',
+                           disabled='n',
+                           page='u')
+
 @users.route('/showall')
 @login_required
 def showall():
