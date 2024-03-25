@@ -81,16 +81,27 @@ Clocked Out
 <br/>
 <br/>
 
-<table class="table">
-    <tr class="row">
-        <th class="col">Date</th>
-        <th class="col">Clock In</th>
-        <th class="col">Clock Out</th>
-        <th class="col">Hours</th>
-        <th class="col">Flag</th>
-    </tr>
-    {% for punch in punches %}
-        {% include 'punch-row.html' %}
-    {% endfor %}
-
-</table>
+<div
+    id="hourstable"
+    hx-post="{{url_for('clock.pullpunches')}}"
+    hx-target="#hourstable"
+    hx-swap="innerHTML"
+    hx-trigger="load"
+>
+    <table class="table">
+        <tr class="row">
+            <th class="col">Date</th>
+            <th class="col">Clock In</th>
+            <th class="col">Clock Out</th>
+            <th class="col">Hours</th>
+            <th class="col">Flag</th>
+        </tr>
+        <tr>
+            <td>loading records...</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>

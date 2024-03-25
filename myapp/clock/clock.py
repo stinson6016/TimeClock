@@ -7,6 +7,7 @@ from datetime import datetime, datetime, date
 from .. import db
 from ..extra import getUsers, getTimeTotal
 from ..models import Users, Punch
+from ..maxvars import MAX_LAST_PUNCHES
 from .webforms import PunchForm, UserProfile, UserPW
 
 clock = Blueprint("clock", __name__,
@@ -123,11 +124,16 @@ def onepunch():
 @clock.route('/punches')
 @login_required
 def punches():
-    last:int = 20
-    punches = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out)).limit(last)
     return render_template('punches.html',
+                           last=MAX_LAST_PUNCHES)
+
+@clock.post('/pullpunches')
+@login_required
+def pullpunches():
+    punches = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out)).limit(MAX_LAST_PUNCHES)
+    return render_template('punches-table.html',
                            punches=punches,
-                           last=last)
+                           last=MAX_LAST_PUNCHES)
 
 @clock.route('/punch/flag')
 @login_required
