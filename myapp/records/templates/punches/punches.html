@@ -28,9 +28,7 @@
 {% include 'punches/punches-quick.html' %}
 <br/>
 <br/>
-{% if flag_count > 0 %}
-<b>flagged entries: </b><b class="something">{{flag_count}}</b>
-{% endif %}
+
 <table class="table">
     <thead>
         <tr class="row">
@@ -44,9 +42,15 @@
         </tr>
     </thead>
     <tbody id="mainbody">
-        {% for punch in punches %}
-            {% include 'punches/punches-row.html' %}
-        {% endfor %}
+        <tr class="row">
+            <td class="col">loading data</td>
+            <td class="col"></td>
+            <td class="col"></td>
+            <td class="col"></td>
+            <td class="col"></td>
+            <td class="col"></td>
+            <td class="col"></td>
+        </tr>
     </tbody>
 </table>
 
@@ -56,3 +60,10 @@
     hx-target="#mainbody"
     hx-swap="beforeend"
 >New Time Entry</button>
+
+<div
+    hx-post="{{url_for('records.entries.portalsearch')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+    hx-trigger="load"
+></div>

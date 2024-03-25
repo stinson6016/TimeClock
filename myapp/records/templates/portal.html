@@ -1,38 +1,65 @@
 &nbsp;&nbsp;
+{% if page == 'h' %}
+{% set button = 'btn-outline-secondary' %}
+{% else %}
+{% set button = 'btn-secondary' %}
+{% endif %}
+
 <button
-    class="btn btn-secondary"
+    class="btn {{button}}"
     hx-get="{{url_for('records.hours.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Hours</button>
 
 &nbsp;&nbsp;
+{% if page == 't' %}
+{% set button = 'btn-outline-secondary' %}
+{% else %}
+{% set button = 'btn-secondary' %}
+{% endif %}
+
 <button
-    class="btn btn-secondary"
+    class="btn {{button}}"
     hx-get="{{url_for('records.entries.showportal')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Time Entries</button>
 
 &nbsp;&nbsp;
+{% if page == 'u' %}
+{% set button = 'btn-outline-secondary' %}
+{% else %}
+{% set button = 'btn-secondary' %}
+{% endif %}
+
 <button
-    class="btn btn-secondary"
+    class="btn {{button}}"
     hx-get="{{url_for('records.users.showall')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Users</button>
 
 &nbsp;&nbsp;
+{% if page == 'c' %}
+{% set button = 'btn-outline-secondary' %}
+{% else %}
+{% set button = 'btn-secondary' %}
+{% endif %}
+
 <button
-    class="btn btn-secondary"
+    class="btn {{button}}"
     hx-get="{{url_for('records.company.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Company</button>
 
 &nbsp;&nbsp;
+
+{% set button = 'btn-secondary' %}
+
 <button
-    class="btn btn-secondary"
+    class="btn {{button}}"
     hx-get="{{url_for('records.logout')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
@@ -41,3 +68,9 @@
 
 <br/>
 <br/>
+
+{% if not page %}
+<br/>
+Time Records Admin portal
+</br>
+{% endif %}

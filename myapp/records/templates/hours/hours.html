@@ -1,46 +1,6 @@
-&nbsp;&nbsp;
-<button
-    class="btn btn-outline-secondary"
-    hx-get="{{url_for('records.hours.portalsearch')}}"
-    hx-target="#recordsarea"
-    hx-swap="innerHTML"
->Hours</button>
 
-&nbsp;&nbsp;
-<button
-    class="btn btn-secondary"
-    hx-get="{{url_for('records.entries.showportal')}}"
-    hx-target="#recordsarea"
-    hx-swap="innerHTML"
->Time Entries</button>
+{% include 'portal.html' %}
 
-&nbsp;&nbsp;
-<button
-    class="btn btn-secondary"
-    hx-get="{{url_for('records.users.showall')}}"
-    hx-target="#recordsarea"
-    hx-swap="innerHTML"
->Users</button>
-
-&nbsp;&nbsp;
-<button
-    class="btn btn-secondary"
-    hx-get="{{url_for('records.company.show')}}"
-    hx-target="#recordsarea"
-    hx-swap="innerHTML"
->Company</button>
-
-&nbsp;&nbsp;
-<button
-    class="btn btn-secondary"
-    hx-get="{{url_for('records.logout')}}"
-    hx-target="#recordsarea"
-    hx-swap="innerHTML"
->Logout</button>
-&nbsp;&nbsp;
-
-<br/>
-<br/>
 <form
     hx-post="{{url_for('records.hours.portalsearch')}}"
     hx-target="#recordsarea"
@@ -64,19 +24,22 @@
 </table>
 </form>
 
+{% include 'hours/hours-quick.html' %}
 <br/>
-
-Hours
+<br/>
 
 <table class="table">
     <thead>
-        <tr>
-            <th>Employee</th>
-            <th>Total Time</th>
+        <tr class="row">
+            <th class="col-2">Employee</th>
+            <th class="col-1">Total Time</th>
         </tr>
     </thead>
     <tbody>
-        
+        <tr class="row">
+            <td class="col-2">loading data</td>
+            <td class="col-1"></td>
+        </tr>
     </tbody>
 </table>
 <div

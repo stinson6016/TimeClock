@@ -1,11 +1,14 @@
-from datetime import date
+from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from dateutil.rrule import MO
+import calendar
 
 from ..models import Punch
 
 
 def searchPunchData(start_date:date = date.today(), end_date:date = date.today(), user_id:int = None, flag:str = None):
     # end_date = end_date + timedelta(days= 1)
-    
+    print("0")
     if not user_id and not flag:
         punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(Punch.clock_date,Punch.clock_in)
         flag_count = Punch.query.where(Punch.flag=='y', Punch.clock_date >= start_date, Punch.clock_date <= end_date).count()
@@ -19,3 +22,41 @@ def searchPunchData(start_date:date = date.today(), end_date:date = date.today()
         punches = Punch.query.where(Punch.user_id==user_id, Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(Punch.clock_date,Punch.clock_in)
         flag_count = Punch.query.where(Punch.user_id==user_id, Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).count()
     return punches, flag_count
+
+def quickSearch(quick:str):
+    
+    today = datetime.now()
+    if quick == '' or quick == 'tw':
+        first = (today - relativedelta(weekday=MO(-1)))
+        last = (first + timedelta(weeks = 1)) - timedelta(days = 1)
+    elif quick=='lw':
+        first = (today - relativedelta(weekday=MO(-2)))
+        last =  (first + timedelta(weeks = 1)) - timedelta(days = 1)
+    elif quick=='td':
+        first = today
+        last = today
+    elif quick=='yd':
+        first = today - timedelta(days = 1)
+        last = today - timedelta(days = 1)
+    elif quick=='tm':
+        first = today.replace(day=1)
+        mon_cal = calendar.monthrange(today.year, today.month)
+        last = datetime.strptime(  str(today.year) +"-"+ str(today.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
+    elif quick=='lm':
+        first = (today - timedelta(days=today.day)).replace(day=1)
+        mon_cal = calendar.monthrange(first.year, first.month)
+        last = datetime.strptime(  str(first.year) +"-"+ str(first.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
+        print(first)
+        print(last)
+    elif quick=='ty':
+        first = today.date().replace(month=1, day=1)
+        last = today.date().replace(month=12, day=31)
+        return first, last
+    elif quick=='ly':
+        first = today.date().replace(month=1, day=1) - relativedelta(years=1)
+        last = today.date().replace(month=12, day=31) - relativedelta(years=1)
+        return first, last
+
+    first_date = first.date()
+    last_date = last.date()
+    return first_date, last_date

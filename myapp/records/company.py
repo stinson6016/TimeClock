@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import login_required, current_user
-from datetime import datetime, date
+from flask import Blueprint, render_template, redirect, url_for
+from flask_login import login_required
 
 from .webforms import CompanyEdit
+
 from .. import db
 from ..models import Settings
 
@@ -15,7 +15,8 @@ def show():
     
     settings = Settings.query.where(Settings.id=='1').first()
     return render_template('company/company.html',
-                           settings=settings)
+                           settings=settings,
+                           page='c')
 
 @company.post('/edit')
 @login_required

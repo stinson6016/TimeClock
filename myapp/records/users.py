@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
-from datetime import datetime, date
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from .webforms import UserEdit, UserNew, UserPW
@@ -20,7 +20,8 @@ def showall():
         users = Users.query.where(Users.active!='n').order_by(Users.name)
     return render_template('users/users-table.html', 
                            users=users,
-                           disabled=disabled)
+                           disabled=disabled,
+                           page='u')
 
 @users.post('/newshow')
 @login_required
