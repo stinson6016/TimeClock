@@ -47,7 +47,6 @@ def portalsearch():
         last_day_search = last
     form.start_date.default = first_day_search
     form.end_date.default = last_day_search
-    form.employee.default = employee
     form.process()
     punches, flag_count = searchPunchData(first_day_search, last_day_search, employee, flag)
     return render_template('punches/punches-table.html',

@@ -41,7 +41,6 @@ def portalsearch():
 
     form.start_date.default = first_day_search
     form.end_date.default = last_day_search
-    form.employee.default = employee
     form.process()
     # print(first_day_search)
     user_hours = {}
