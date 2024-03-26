@@ -1,56 +1,56 @@
 Quick Search - 
 <a 
     href="#"
-    hx-post="{{url_for('records.hours.portalsearch', quick='td')}}"
+    hx-post="{{url_for('records.hours.portalsearch', quick='td', employee=employee)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >today</a>
  - 
 <a 
     href="#"
-    hx-post="{{url_for('records.hours.portalsearch', quick='yd')}}"
+    hx-post="{{url_for('records.hours.portalsearch', quick='yd', employee=employee)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >yesterday</a>
 - 
 <a
     href="#"
-    hx-post="{{url_for('records.hours.portalsearch', quick='tw')}}"
+    hx-post="{{url_for('records.hours.portalsearch', quick='tw', employee=employee)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >this week</a>
 - 
 <a
     href="#"
-    hx-post="{{url_for('records.hours.portalsearch', quick='lw')}}"
+    hx-post="{{url_for('records.hours.portalsearch', quick='lw', employee=employee)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >last weeek</a>
 - 
 <a
     href="#"
-    hx-post="{{url_for('records.hours.portalsearch', quick='tm')}}"
+    hx-post="{{url_for('records.hours.portalsearch', quick='tm', employee=employee)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >this month</a>
 - 
 <a 
     href="#"
-    hx-post="{{url_for('records.hours.portalsearch', quick='lm')}}"
+    hx-post="{{url_for('records.hours.portalsearch', quick='lm', employee=employee)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >last month</a>
 - 
 <a
     href="#"
-    hx-post="{{url_for('records.hours.portalsearch', quick='ty')}}"
+    hx-post="{{url_for('records.hours.portalsearch', quick='ty', employee=employee)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >this year</a>
 - 
 <a
     href="#"
-    hx-post="{{url_for('records.hours.portalsearch', quick='ly')}}"
+    hx-post="{{url_for('records.hours.portalsearch', quick='ly', employee=employee)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >last year</a>

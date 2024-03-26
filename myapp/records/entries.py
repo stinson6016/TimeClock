@@ -1,9 +1,9 @@
+from datetime import date
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
-from datetime import date
 
-from .webforms import SearchPunches, EditPunch, NewPunch
 from .extra import searchPunchData, quickSearch
+from .webforms import SearchPunches, EditPunch, NewPunch
 from .. import db
 from ..extra import getUsers, getTimeTotal
 from ..models import Users, Punch
@@ -32,10 +32,12 @@ def showportal():
 def portalsearch():
     print('search')
     quick = request.args.get('quick', default='', type=str)
+    get_flag = request.args.get('flag', default=None, type=str)
+    get_employee = request.args.get('employee', default=None, type=str)
     form = SearchPunches()
     
-    employee = form.employee.data if form.employee.data else None
-    flag = form.flagged.data if form.flagged.data else None
+    employee = form.employee.data if form.employee.data else get_employee
+    flag = form.flagged.data if form.flagged.data else get_flag
     first, last = quickSearch(quick)
     if not quick:
         first_day_search = form.start_date.data if form.start_date.data else first
@@ -55,7 +57,9 @@ def portalsearch():
                            form = form,
                            punches=punches,
                            flag_count=flag_count,
-                           page='t')
+                           page='t',
+                           employee=employee,
+                           flag=flag)
 
 @entries.post('/newshow')
 @login_required

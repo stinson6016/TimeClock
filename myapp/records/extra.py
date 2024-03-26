@@ -23,40 +23,42 @@ def searchPunchData(start_date:date = date.today(), end_date:date = date.today()
         flag_count = Punch.query.where(Punch.user_id==user_id, Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).count()
     return punches, flag_count
 
+
 def quickSearch(quick:str):
-    
+    # bad code to get the start and finish dates for the searches
     today = datetime.now()
-    if quick == '' or quick == 'tw':
+    if quick == '' or quick == 'tw': # default / this week
         first = (today - relativedelta(weekday=MO(-1)))
         last = (first + timedelta(weeks = 1)) - timedelta(days = 1)
-    elif quick=='lw':
+    elif quick=='lw': # last week
         first = (today - relativedelta(weekday=MO(-2)))
         last =  (first + timedelta(weeks = 1)) - timedelta(days = 1)
-    elif quick=='td':
+    elif quick=='td': # today
         first = today
         last = today
-    elif quick=='yd':
+    elif quick=='yd': # yesterday 
         first = today - timedelta(days = 1)
         last = today - timedelta(days = 1)
-    elif quick=='tm':
+    elif quick=='tm': # this month
         first = today.replace(day=1)
         mon_cal = calendar.monthrange(today.year, today.month)
         last = datetime.strptime(  str(today.year) +"-"+ str(today.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
-    elif quick=='lm':
+    elif quick=='lm': # last month
         first = (today - timedelta(days=today.day)).replace(day=1)
         mon_cal = calendar.monthrange(first.year, first.month)
         last = datetime.strptime(  str(first.year) +"-"+ str(first.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
         print(first)
         print(last)
-    elif quick=='ty':
+    elif quick=='ty': # this year
         first = today.date().replace(month=1, day=1)
         last = today.date().replace(month=12, day=31)
-        return first, last
-    elif quick=='ly':
+        return first, last # don't have to convert to date
+    elif quick=='ly': # last year
         first = today.date().replace(month=1, day=1) - relativedelta(years=1)
         last = today.date().replace(month=12, day=31) - relativedelta(years=1)
-        return first, last
+        return first, last # don't have to conver to date
 
+    # convert the datetime to just date
     first_date = first.date()
     last_date = last.date()
     return first_date, last_date

@@ -1,12 +1,12 @@
+from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
-from datetime import datetime
 
-from .entries import entries
-from .users import users
 from .company import company
+from .entries import entries
 from .hours import hours
+from .users import users
 
 from .webforms import RecordsLogin, UserPW
 from .. import db
