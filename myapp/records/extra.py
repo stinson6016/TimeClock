@@ -8,7 +8,6 @@ from ..models import Punch
 
 def searchPunchData(start_date:date = date.today(), end_date:date = date.today(), user_id:int = None, flag:str = None):
     # end_date = end_date + timedelta(days= 1)
-    print("0")
     if not user_id and not flag:
         punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(Punch.clock_date,Punch.clock_in)
         flag_count = Punch.query.where(Punch.flag=='y', Punch.clock_date >= start_date, Punch.clock_date <= end_date).count()
@@ -47,8 +46,6 @@ def quickSearch(quick:str):
         first = (today - timedelta(days=today.day)).replace(day=1)
         mon_cal = calendar.monthrange(first.year, first.month)
         last = datetime.strptime(  str(first.year) +"-"+ str(first.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
-        print(first)
-        print(last)
     elif quick=='ty': # this year
         first = today.date().replace(month=1, day=1)
         last = today.date().replace(month=12, day=31)

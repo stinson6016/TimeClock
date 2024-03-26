@@ -30,7 +30,6 @@ def showportal():
 @entries.post('/search')
 @login_required
 def portalsearch():
-    print('search')
     quick = request.args.get('quick', default='', type=str)
     get_flag = request.args.get('flag', default=None, type=str)
     get_employee = request.args.get('employee', default=None, type=str)
