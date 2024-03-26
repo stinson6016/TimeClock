@@ -9,11 +9,18 @@
     <td class="col">
         {% if user.admin == 'y' %}
         <i class="bi bi-building-gear h4" style="color:gray" title="ADMIN"></i>
+        {% else %}
+        <i class="bi bi-person-badge h4" style="color: gray" title="Employee"></i>
         {% endif %}
+        &nbsp;&nbsp;
         {% if user.active != 'y' %}
         <i class="bi bi-person-slash h4" style="color:red" title="Employee disabled"></i>
+        {% else %}
+        <i class="bi bi-person-check-fill h4" style="color:green" title="Employee active"></i>
         {% endif %}
+
         {% if user.pw_change == 'y' %}
+        &nbsp;&nbsp;
         <i class="bi bi-key-fill h4" style="color:goldenrod" title="Much change password to login"></i>
         {% endif %}
         
@@ -41,6 +48,7 @@
             hx-target="closest tr"
             hx-swap="outerHTML"
         >edit</button>
+        &nbsp;&nbsp;
         <button
             class="btn btn-warning"
             hx-post="{{url_for('records.users.passwordshow', id=user.id)}}"
