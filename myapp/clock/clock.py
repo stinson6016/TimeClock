@@ -42,6 +42,7 @@ def loginshow():
 @clock.post('/login')
 def login():
     form = PunchForm()
+    pw_form = UserPW()
     user = form.name.data
     password = form.password.data
     
@@ -56,9 +57,41 @@ def login():
         form.process()
         return render_template('clock-login.html',
                                form=form)
+    
+    if check_user.pw_change == 'y':
+        message='Must reset password to login'
+        return render_template('clock-login-pw.html',
+                               form=pw_form,
+                               editid=check_user.id,
+                               message=message)
+    
     login_user(check_user)
     return redirect(url_for('clock.punches'))
-  
+
+@clock.post('/login/pwreset')
+def loginpwreset():
+    id = request.args.get('id', default='', type=str)
+    user = Users.query.get_or_404(id)
+    form = UserPW()
+    if not check_password_hash(user.pass_hash, form.admin_pass.data):
+        message = 'current password incorrect'
+        return render_template('clock-login-pw.html',
+                               form=form,
+                               editid=user.id,
+                               message=message)
+    if form.password1.data != form.password2.data:
+        message='passwords do not match'
+        return render_template('clock-login-pw.html',
+                               form=form,
+                               editid=user.id,
+                               message=message)
+    user.pass_hash = generate_password_hash(form.password1.data)
+    user.pw_last = datetime.today()
+    user.pw_change = 'n'
+    db.session.commit()
+    login_user(user)
+    return redirect(url_for('clock.punches'))
+
 @clock.route('/logout')
 def logout():
     logout_user()
@@ -197,6 +230,8 @@ def profilepwedit():
     
     pass_hash = generate_password_hash(form.password1.data)
     user.pass_hash = pass_hash
+    user.pw_last = datetime.today()
+    user.pw_change = 'n'
     db.session.commit()
     return render_template('clock-profile.html')
 

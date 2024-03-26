@@ -1,13 +1,15 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 
 from .entries import entries
 from .users import users
 from .company import company
 from .hours import hours
 
-from .webforms import RecordsLogin
+from .webforms import RecordsLogin, UserPW
+from .. import db
 from ..extra import getUsersAdmins
 from ..models import Users
 
@@ -52,6 +54,7 @@ def loginshow():
 @records.post('/login')
 def login():
     form = RecordsLogin()
+    pw_form=UserPW()
     user = form.name.data
     password = form.password.data
     if user == '':
@@ -64,9 +67,41 @@ def login():
         form.process()
         return render_template('recordslogin.html',
                                form=form)
+    
+    if check_user.pw_change == 'y':
+        message = 'Must reset password to login'
+        return render_template('recordslogin-pw.html',
+                               form=pw_form,
+                               editid=check_user.id,
+                               message=message)
+
+
     login_user(check_user)
     return redirect(url_for('records.mainportal'))
 
+@records.post('/login/pwreset')
+def loginpwreset():
+    id = request.args.get('id', default='', type=str)
+    user = Users.query.get_or_404(id)
+    form = UserPW()
+    if not check_password_hash(user.pass_hash, form.admin_pass.data):
+        message = 'current password incorrect'
+        return render_template('recordslogin-pw.html',
+                               form=form,
+                               editid=user.id,
+                               message=message)
+    if form.password1.data != form.password2.data:
+        message = 'passwords do not match'
+        return render_template('recordslogin-pw.html',
+                               form=form,
+                               editid=user.id,
+                               message=message)
+    user.pass_hash = generate_password_hash(form.password1.data)
+    user.pw_last = datetime.today()
+    user.pw_change = 'n'
+    db.session.commit()
+    login_user(user)
+    return redirect(url_for('records.mainportal'))
 
 @records.route('/logout')
 def logout():
