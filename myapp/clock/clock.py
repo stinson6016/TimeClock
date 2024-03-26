@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user, login_user, logout_user
 from sqlalchemy import desc
 from werkzeug.security import check_password_hash, generate_password_hash
+import logging
 
 from .. import db
 from ..extra import getUsers, getTimeTotal
@@ -51,6 +52,7 @@ def login():
 
     check_user = Users.query.filter_by(id=user).first_or_404()
     if not check_password_hash(check_user.pass_hash, password):
+        logging.warning(f'password incorrect {check_user.name}')
         flash('Password Incorrect')
         form.name.choices = getUsers()
         form.name.default = user
@@ -59,6 +61,7 @@ def login():
                                form=form)
     
     if check_user.pw_change == 'y':
+        logging.warning(f'must rest password {check_user.name}')
         message='Must reset password to login'
         return render_template('clock-login-pw.html',
                                form=pw_form,
@@ -66,6 +69,7 @@ def login():
                                message=message)
     
     login_user(check_user)
+    logging.info(f'{current_user.name} logged in')
     return redirect(url_for('clock.punches'))
 
 @clock.post('/login/pwreset')
@@ -74,6 +78,7 @@ def loginpwreset():
     user = Users.query.get_or_404(id)
     form = UserPW()
     if not check_password_hash(user.pass_hash, form.admin_pass.data):
+        logging.warning(f'password reset incorrect password {user.name}')
         message = 'current password incorrect'
         return render_template('clock-login-pw.html',
                                form=form,
@@ -94,6 +99,7 @@ def loginpwreset():
 
 @clock.route('/logout')
 def logout():
+    logging.info(f'{current_user.name} logged out')
     logout_user()
     flash('logged out')
     return redirect(url_for('clock.loginshow'))
@@ -119,6 +125,7 @@ def onepunch():
         edit_user.last_clock = new_punch.id
         db.session.commit()
         flash('Clocked In')
+        logging.info(f'{current_user.name} clocked in')
         
     if type == 'i' and not current_user.last_clock: ### punch in not punched in
         # add new punch and update user
@@ -130,6 +137,7 @@ def onepunch():
         edit_user.last_clock = new_punch.id
         db.session.commit()
         flash('Clocked In')
+        logging.info(f'{current_user.name} clocked in, error already clocked in')
 
     if type == 'o' and not current_user.last_clock: # punch out not punched in
         # add new punch out and clear user punch and flag for review
@@ -139,6 +147,7 @@ def onepunch():
         db.session.add(new_punch)
         db.session.commit()
         flash('Clocked Out')
+        logging.info(f'{current_user.name} clocked out')
 
     if type == 'o' and current_user.last_clock: ### punch out and punched in
         # edit punch and clear user punch
@@ -151,6 +160,7 @@ def onepunch():
         edit_punch.flag = 'n' if time_total else 'y'
         db.session.commit()
         flash('Clocked Out')
+        logging.info(f'{current_user.name} clocked out, error already clocked out')
     
     return redirect(url_for('clock.punches'))
 

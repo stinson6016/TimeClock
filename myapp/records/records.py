@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
+import logging
 
 from .company import company
 from .entries import entries
@@ -61,6 +62,7 @@ def login():
         return '', 404
     check_user = Users.query.filter_by(id=user).first_or_404()
     if not check_password_hash(check_user.pass_hash, password):
+        logging.warning(f'incorrect password {check_user.name}')
         flash('Password Incorrect')
         form.name.choices = getUsersAdmins()
         form.name.default = user
@@ -69,6 +71,7 @@ def login():
                                form=form)
     
     if check_user.pw_change == 'y':
+        logging.warning(f'must change password {check_user.name}')
         message = 'Must reset password to login'
         return render_template('recordslogin-pw.html',
                                form=pw_form,
@@ -77,6 +80,7 @@ def login():
 
 
     login_user(check_user)
+    logging.info(f'{current_user.name} logged in')
     return redirect(url_for('records.mainportal'))
 
 @records.post('/login/pwreset')
@@ -85,6 +89,7 @@ def loginpwreset():
     user = Users.query.get_or_404(id)
     form = UserPW()
     if not check_password_hash(user.pass_hash, form.admin_pass.data):
+        logging.warning(f'password change incorrect password {user.name}')
         message = 'current password incorrect'
         return render_template('recordslogin-pw.html',
                                form=form,
@@ -105,6 +110,7 @@ def loginpwreset():
 
 @records.route('/logout')
 def logout():
+    logging.info(f'{current_user.name} logged in')
     logout_user()
     flash('Logged out')
     return redirect(url_for('records.loginshow'))
