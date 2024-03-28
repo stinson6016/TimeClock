@@ -96,4 +96,4 @@ def spamlogger():
     from art import text2art
     year=(date.today()).year
     art=text2art('\n TimeClock')
-    logging.info(f"Time Clock {year}{art}")
+    logging.info(f"\nTime Clock \nMyHosted/app {year}{art}")

@@ -2,7 +2,7 @@ from datetime import date
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
 
-from .extra import searchPunchData, quickSearch
+from .extra import searchPunchData, quickSearch, searchFlagged
 from .webforms import SearchPunches, EditPunch, NewPunch
 from .. import db
 from ..extra import getUsers, getTimeTotal
@@ -51,14 +51,28 @@ def portalsearch():
     form.flagged.default = flag
     form.employee.default = employee
     form.process()
-    punches, flag_count = searchPunchData(first_day_search, last_day_search, employee, flag)
+    punches = searchPunchData(first_day_search, last_day_search, employee, flag)
     return render_template('punches/punches-table.html',
                            form = form,
                            punches=punches,
-                           flag_count=flag_count,
+                           start=first_day_search,
+                           end=last_day_search,
                            page='t',
                            employee=employee,
                            flag=flag)
+
+@entries.post('/getflagged')
+@login_required
+def getflagged():
+    start = request.args.get('start', default='')
+    end = request.args.get('end', default='')
+    employee = request.args.get('employee', default=None)
+    flag_count = searchFlagged(start, end, employee)
+    return render_template('punches/punches-flagged.html',
+                           flag_count=flag_count,
+                           start=start,
+                           end=end,
+                           employee=employee)
 
 @entries.post('/newshow')
 @login_required

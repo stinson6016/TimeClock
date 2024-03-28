@@ -1,0 +1,11 @@
+{% if flag_count > 0 %}
+<b>flagged entries: </b><b class="something">{{flag_count}}</b>
+{% else %}
+flagged entries: 0
+{% endif %}
+<a
+    href="#"
+    hx-post="{{url_for('records.entries.getflagged', start=start, end=end, employee=employee)}}"
+    hx-target="#flaggedarea"
+    hx-swap="innerHTML"
+><i class="bi bi-arrow-clockwise" title="updates every 30 seconds"></i></a>
