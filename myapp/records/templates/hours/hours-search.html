@@ -26,10 +26,14 @@
 <br/>
 <br/>
 
-{% if flagged > 0 %}
-<b>flagged entries: </b><b class="something">{{flagged}}</b>
-<br/>
-{% endif %}
+<div
+    id="flaggedarea"
+    hx-post="{{url_for('records.hours.getflagged', start=start, end=end, employee=employee)}}"
+    hx-target="#flaggedarea"
+    hx-swap="innerHTML"
+    hx-trigger="load, every 30s"
+>flagged entries: 0 <i class="bi bi-arrow-clockwise" title="updates every 30 seconds"></i></div>
+
 <table class="table">
     <thead>
         <tr class="row">
