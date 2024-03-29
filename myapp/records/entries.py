@@ -51,7 +51,9 @@ def portalsearch():
     form.flagged.default = flag
     form.employee.default = employee
     form.process()
-    punches = searchPunchData(first_day_search, last_day_search, employee, flag)
+    punches_master = searchPunchData(first_day_search, last_day_search, employee, flag)
+    punches = db.paginate(punches_master, page=1, per_page=20, error_out=False)
+    page_search = punches.next_num
     return render_template('punches/punches-table.html',
                            form = form,
                            punches=punches,
@@ -59,13 +61,35 @@ def portalsearch():
                            end=last_day_search,
                            page='t',
                            employee=employee,
-                           flag=flag)
+                           flag=flag,
+                           page_search=page_search)
+
+@entries.post('/search/showmore')
+@login_required
+def searchshowmore():
+    flag = request.args.get('flag', default=None, type=str)
+    employee = request.args.get('employee', default=None, type=str)
+    start = request.args.get('start', default='', type=str)
+    end = request.args.get('end', default='', type=str)
+    page_search = request.args.get('page_search', default='', type=int)
+    punches_master = searchPunchData(start, end, employee, flag)
+    punches = db.paginate(punches_master, page=page_search, per_page=20, error_out=False)
+    page_search = punches.next_num
+    return render_template('punches/punches-row-build.html',
+                           punches=punches,
+                           start=start,
+                           end=end,
+                           page='t',
+                           employee=employee,
+                           flag=flag,
+                           page_search=page_search)
+
 
 @entries.post('/getflagged')
 @login_required
 def getflagged():
-    start = request.args.get('start', default='')
-    end = request.args.get('end', default='')
+    start = request.args.get('start', default='', type=str)
+    end = request.args.get('end', default='', type=str)
     employee = request.args.get('employee', default=None)
     flag_count = searchFlagged(start, end, employee)
     return render_template('punches/punches-flagged.html',

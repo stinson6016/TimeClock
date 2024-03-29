@@ -173,10 +173,24 @@ def punches():
 @clock.post('/pullpunches')
 @login_required
 def pullpunches():
-    punches = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out)).limit(MAX_LAST_PUNCHES)
+    punches_master = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out))
+    punches = db.paginate(punches_master, page=1, per_page=MAX_LAST_PUNCHES, error_out=False)
+    page_search = punches.next_num
     return render_template('punches-table.html',
                            punches=punches,
-                           last=MAX_LAST_PUNCHES)
+                           last=MAX_LAST_PUNCHES,
+                           page_search=page_search)
+
+@clock.post('pullpunches/showmore')
+@login_required
+def pullpunchesshowmore():
+    page_search = request.args.get('page_search', default='', type=int)
+    punches_master = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out))
+    punches = db.paginate(punches_master, page=page_search, per_page=MAX_LAST_PUNCHES, error_out=False)
+    page_search = punches.next_num
+    return render_template('punches-row-build.html',
+                           punches=punches,
+                           page_search=page_search)
 
 @clock.route('/punch/flag')
 @login_required

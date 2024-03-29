@@ -161,3 +161,13 @@ def password():
     db.session.commit()
     return redirect(url_for('records.users.showrow',
                             id=user.id))
+
+@users.route('/showkey')
+@login_required
+def showkey():
+    return render_template('users/users-key.html')
+
+@users.route('/hidekey')
+@login_required
+def hidekey():
+    return render_template('users/users-key-min.html')
