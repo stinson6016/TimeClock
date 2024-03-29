@@ -77,7 +77,13 @@ Clocked Out
 <br/>
 
  Your last <b class="something">{{last}}</b> time entries
-
+ <a
+    href="#"
+    hx-post="{{url_for('clock.pullpunches')}}"
+    hx-target="#hourstable"
+    hx-swap="innerHTML"
+ ><i class="bi bi-arrow-clockwise" title="refresh punches"></i></a>
+ 
 <br/>
 <br/>
 

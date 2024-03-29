@@ -62,3 +62,17 @@
     hx-target="#mainbody"
     hx-swap="beforeend"
 >New Time Entry</button>
+<br/><br/>
+
+{% include 'punches/punches-key-min.html' %}
+
+<div class="floating-container" title="Add Bill">
+    <a 
+        href="#top"
+        hx-post="{{ url_for('records.entries.portalnewshow')}}"
+        hx-target="#mainbody"
+        hx-swap="afterbegin"
+    >
+        <div class="floating-button">+</div>
+    </a>
+</div>

@@ -1,0 +1,21 @@
+<div id="userskey">
+    Hide status key 
+    <a
+        href="#"
+        hx-get="{{url_for('records.entries.hidekey')}}"
+        hx-target="#userskey"
+        hx-swap="outerHTML"
+    ><i class="bi bi-arrow-up-circle h6"></i></a>
+    
+    <br/><br/>
+
+    <i class="bi bi-flag-fill flagged" title="Flagged for review"></i>
+    &nbsp;&nbsp;
+    Flagged for review, either by the employee or by the system
+
+    <br/>
+    <i class="bi bi-journal-text h4 flagnote" title="show flagged note"></i>
+    &nbsp;&nbsp;
+    Flagged entry has attached notes
+
+</div>

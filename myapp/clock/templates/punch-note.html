@@ -1,0 +1,51 @@
+<tr class="row">
+    <td class="col">
+        {% if punch.clock_date %}
+        {{punch.clock_date.strftime("%m/%d/%Y")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+    
+    <td class="col">
+        {% if punch.clock_in %}
+        {{punch.clock_in.strftime("%H:%M:%S")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+
+    <td class="col">
+        {% if punch.clock_out %}
+        {{punch.clock_out.strftime("%H:%M:%S")}}
+        {% else %}
+        ----
+        {% endif %}
+    </td>
+
+    <td class="col">
+        {% if punch.time_total %}
+        {{ punch.time_total }}
+        {% endif %}
+  </td>
+    <td class="col">
+        <form 
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+            hx-post="{{url_for('clock.punchnote', id=punch.id)}}"
+            id="editform">
+            {{ form.hidden_tag() }}
+
+        {{form.flag_note(class='form-control')}}
+        <br/>
+        <input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
+			form="editform">
+        <button
+            class="btn btn-secondary"
+            hx-get="{{url_for('clock.punchshowrow', id=punch.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+        >cancel</button>
+        </form>
+    </td>
+</tr>

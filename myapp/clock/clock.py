@@ -9,7 +9,7 @@ from .. import db
 from ..extra import getUsers, getTimeTotal
 from ..models import Users, Punch
 from ..maxvars import MAX_LAST_PUNCHES
-from .webforms import PunchForm, UserProfile, UserPW
+from .webforms import PunchForm, UserProfile, UserPW, FlagNote
 
 clock = Blueprint("clock", __name__,
                   template_folder='templates')
@@ -118,6 +118,7 @@ def onepunch():
         # print("in -> in")
         edit_punch = Punch.query.get(current_user.last_clock)
         edit_punch.flag = 'y'
+        edit_punch.flag_note = 'auto - clocked in while already marked as clocked in'
         new_punch = Punch(clock_date=date.today(), clock_in=time_now,
                           user_id=current_user.id)
         db.session.add(new_punch)
@@ -143,7 +144,8 @@ def onepunch():
         # add new punch out and clear user punch and flag for review
         # print("out -> out")
         new_punch = Punch(clock_date=date.today(), clock_out=time_now, 
-                          flag='y', user_id=current_user.id)
+                          flag='y', user_id=current_user.id,
+                          flag_note='auto - clocked out while already marked as clocked out')
         db.session.add(new_punch)
         db.session.commit()
         flash('Clocked Out')
@@ -200,6 +202,40 @@ def punchflag():
     punch = Punch.query.get_or_404(id)
     punch.flag = 'n' if flag == 'unflag' else 'y'
     db.session.commit()
+    return redirect(url_for('clock.punchshowrow',
+                            id=punch.id))
+
+
+@clock.post('/punch/noteshow')
+@login_required
+def punchnoteshow():
+    id = request.args.get('id', default='', type=int)
+    punch = Punch.query.get_or_404(id)
+    form = FlagNote()
+    form.flag_note.default = punch.flag_note
+    form.process()
+    return render_template('punch-note.html',
+                           form=form,
+                           punch=punch)
+
+@clock.post('/punch/note')
+@login_required
+def punchnote():
+    id = request.args.get('id', default='', type=int)
+    punch = Punch.query.get_or_404(id)
+    form = FlagNote()
+    punch.flag_note = form.flag_note.data
+    print('##############')
+    print(form.flag_note.data)
+    db.session.commit()
+    return redirect(url_for('clock.punchshowrow',
+                            id=punch.id))
+
+@clock.route('/punch/showrow')
+@login_required
+def punchshowrow():
+    id = request.args.get('id', default='', type=int)
+    punch = Punch.query.get_or_404(id)
     return render_template('punch-row.html',
                            punch=punch)
 

@@ -16,6 +16,9 @@ class UserPW(FlaskForm):
     submit      = SubmitField   ('Save')
 
 class UserProfile(FlaskForm):
-    name        = StringField   ("name", render_kw={"placeholder": " (Name) ..."}, validators=[Length(max=MAX_NAME)])
+    name        = StringField   ("name", render_kw={"placeholder": " (Name) ..."}, validators=[DataRequired(), Length(max=MAX_NAME)])
     email       = EmailField    ("email", render_kw={"placeholder": " (Email - Optional) ..."}, validators=[Length(max=MAX_EMAIL)])
     submit      = SubmitField   ('Save')
+
+class FlagNote(FlaskForm):
+    flag_note   = StringField   ("notes", render_kw={"placeholder": " (late punch) ..."}, validators=[Length(max=MAX_PUNCH_NOTE)])

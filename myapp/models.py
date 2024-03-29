@@ -15,6 +15,7 @@ class Punch(db.Model):
     time_total  = db.Column(db.Time)
     flag        = db.Column(db.String(1), default='n') # flag for admin review
     user        = relationship("Users", primaryjoin='Punch.user_id==Users.id')
+    flag_note   = db.Column(db.String(MAX_PUNCH_NOTE))
 
 class Settings(db.Model):
     id           = db.Column(db.Integer, primary_key=True)

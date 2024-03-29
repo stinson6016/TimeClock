@@ -183,3 +183,21 @@ def portalshowrow():
 @login_required
 def portalcancel():
     return '', 200
+
+@entries.post('/shownote')
+@login_required
+def portalshownote():
+    id = request.args.get('id', default='', type=int)
+    punch = Punch.query.get_or_404(id)
+    return render_template('punches/punches-row-note.html',
+                           punch=punch)
+
+@entries.route('/showkey')
+@login_required
+def showkey():
+    return render_template('punches/punches-key.html')
+
+@entries.route('/hidekey')
+@login_required
+def hidekey():
+    return render_template('punches/punches-key-min.html')

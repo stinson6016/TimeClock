@@ -39,6 +39,7 @@
             hx-target="closest tr"
             hx-swap="outerHTML"
         ><i class="bi bi-flag"></i> flag</button>
+        
         {% else %}
         <button 
             class="btn btn-warning"
@@ -47,6 +48,21 @@
             hx-target="closest tr"
             hx-swap="outerHTML"
         ><i class="bi bi-flag"></i> unflag</button>
+        &nbsp;&nbsp;
+        <a
+            href="#"
+            hx-post="{{url_for('clock.punchnoteshow', id=punch.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+        >
+        {% if punch.flag_note %}
+        <i class="bi bi-journal-text h4 flagnote" title="{{punch.flag_note}}"></i>
+        {% else %}
+        <i class="bi bi-journal h5 flagnote" title="Note why this is flagged for the admin"></i>
         {% endif %}
+        </a>
+        {% endif %}
+        
+        
     </td>
 </tr>

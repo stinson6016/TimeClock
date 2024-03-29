@@ -25,18 +25,17 @@
         {{ punch.time_total }}
     </td>
     <td class="col">
-        {% if punch.flag == 'y' %}
         <i class="bi bi-flag-fill flagged" title="Flagged for review"></i>
-            {% if punch.flag_note %}
-                &nbsp;&nbsp;
-                <a
-                    href="#"
-                    hx-post="{{url_for('records.entries.portalshownote', id=punch.id)}}"
-                    hx-target="closest tr"
-                    hx-swap="outerHTML"
-                ><i class="bi bi-journal-text h4 flagnote" title="show flagged note"></i></a>
-            {% endif %}
-        {% endif %}
+        &nbsp;&nbsp;
+        <a
+            href="#"
+            hx-post="{{url_for('records.entries.portalshowrow', id=punch.id)}}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+        ><i class="bi bi-journal-text h4" title="hide flagged note"></i></a>
+        
+        <br/>
+        {{punch.flag_note}}
     </td>
     <td class="col">
         <button
