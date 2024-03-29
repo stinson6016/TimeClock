@@ -158,6 +158,7 @@ def password():
     pass_hash = generate_password_hash(form.password1.data)
     user.pass_hash = pass_hash
     user.pw_last = datetime.now()
+    user.pw_change = 'n'
     db.session.commit()
     return redirect(url_for('records.users.showrow',
                             id=user.id))

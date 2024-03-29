@@ -6,11 +6,10 @@
 {% endif %}
 
 <button
-    class="btn {{button}}"
+    class="btn {{button}} recordbutton"
     hx-get="{{url_for('records.hours.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
-    style="width: 150px;"
 >Hours</button>
 
 &nbsp;&nbsp;
@@ -21,11 +20,10 @@
 {% endif %}
 
 <button
-    class="btn {{button}}"
+    class="btn {{button}} recordbutton"
     hx-get="{{url_for('records.entries.showportal')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
-    style="width: 150px;"
 >Time Entries</button>
 
 &nbsp;&nbsp;
@@ -36,11 +34,10 @@
 {% endif %}
 
 <button
-    class="btn {{button}}"
+    class="btn {{button}} recordbutton"
     hx-get="{{url_for('records.users.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
-    style="width: 150px;"
 >Users</button>
 
 &nbsp;&nbsp;
@@ -51,11 +48,10 @@
 {% endif %}
 
 <button
-    class="btn {{button}}"
+    class="btn {{button}} recordbutton"
     hx-get="{{url_for('records.company.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
-    style="width: 150px;"
 >Company</button>
 
 &nbsp;&nbsp;
@@ -64,11 +60,10 @@
 {% set button = 'btn-dark' %}
 
 <button
-    class="btn {{button}}"
+    class="btn {{button}} recordbutton"
     hx-get="{{url_for('records.logout')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
-    style="width: 150px;"
 >Logout</button>
 &nbsp;&nbsp;
 
