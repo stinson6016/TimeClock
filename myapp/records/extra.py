@@ -9,7 +9,6 @@ from ..models import Punch
 
 def searchPunchData(start_date:date = date.today(), end_date:date = date.today(), user_id:int = None, flag:str = None) -> int:
     # end_date = end_date + timedelta(days= 1)
-    print(user_id)
     if not user_id and not flag:
         punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
     elif not user_id and flag:

@@ -115,7 +115,7 @@ def onepunch():
     if type == 'i' and current_user.last_clock: #punch in already punched in
         # flag current punch for review
         # add new punch and update user
-        # print("in -> in")
+        # ("in -> in")
         edit_punch = Punch.query.get(current_user.last_clock)
         edit_punch.flag = 'y'
         edit_punch.flag_note = 'auto - clocked in while already marked as clocked in'
@@ -130,7 +130,7 @@ def onepunch():
         
     if type == 'i' and not current_user.last_clock: ### punch in not punched in
         # add new punch and update user
-        # print("out -> in")
+        # ("out -> in")
         new_punch = Punch(clock_date=date.today(), clock_in=time_now, 
                           user_id=current_user.id)
         db.session.add(new_punch)
@@ -142,7 +142,7 @@ def onepunch():
 
     if type == 'o' and not current_user.last_clock: # punch out not punched in
         # add new punch out and clear user punch and flag for review
-        # print("out -> out")
+        # ("out -> out")
         new_punch = Punch(clock_date=date.today(), clock_out=time_now, 
                           flag='y', user_id=current_user.id,
                           flag_note='auto - clocked out while already marked as clocked out')
@@ -153,7 +153,7 @@ def onepunch():
 
     if type == 'o' and current_user.last_clock: ### punch out and punched in
         # edit punch and clear user punch
-        # print("in -> out")
+        # ("in -> out")
         edit_punch = Punch.query.get(current_user.last_clock)
         edit_punch.clock_out = time_now
         edit_user.last_clock = None
@@ -225,8 +225,6 @@ def punchnote():
     punch = Punch.query.get_or_404(id)
     form = FlagNote()
     punch.flag_note = form.flag_note.data
-    print('##############')
-    print(form.flag_note.data)
     db.session.commit()
     return redirect(url_for('clock.punchshowrow',
                             id=punch.id))

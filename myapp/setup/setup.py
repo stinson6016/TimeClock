@@ -27,6 +27,5 @@ def show():
         check_users = Users.query.count()
         if check_users > 0:
             return redirect(url_for('main.home'))
-        print(check_users)
     return render_template('setup.html',
                            form=form)
