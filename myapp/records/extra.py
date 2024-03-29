@@ -1,6 +1,7 @@
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from dateutil.rrule import MO
+from sqlalchemy import desc
 import calendar
 
 from ..models import Punch
@@ -10,13 +11,13 @@ def searchPunchData(start_date:date = date.today(), end_date:date = date.today()
     # end_date = end_date + timedelta(days= 1)
     print(user_id)
     if not user_id and not flag:
-        punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(Punch.clock_date,Punch.clock_in)
+        punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
     elif not user_id and flag:
-        punches = Punch.query.where(Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(Punch.clock_date,Punch.clock_in)
+        punches = Punch.query.where(Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
     elif user_id and not flag:
-        punches = Punch.query.where(Punch.user_id==user_id, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(Punch.clock_date,Punch.clock_in)
+        punches = Punch.query.where(Punch.user_id==user_id, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
     elif user_id and flag:
-        punches = Punch.query.where(Punch.user_id==user_id, Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(Punch.clock_date,Punch.clock_in)
+        punches = Punch.query.where(Punch.user_id==user_id, Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
     return punches
 
 def searchFlagged(start_date:date = date.today(), end_date:date = date.today(), user_id:int = None) -> int:

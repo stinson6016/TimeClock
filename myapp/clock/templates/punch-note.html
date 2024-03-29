@@ -36,7 +36,7 @@
             id="editform">
             {{ form.hidden_tag() }}
 
-        {{form.flag_note(class='form-control')}}
+        {{form.flag_note(class='form-control', autofocus=true)}}
         <br/>
         <input class="btn btn-success" id="submit" name="submit" type="submit" value="Save"
 			form="editform">

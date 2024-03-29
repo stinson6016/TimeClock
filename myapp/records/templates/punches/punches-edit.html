@@ -6,7 +6,7 @@
         id="editform">
         {{ form.hidden_tag() }}
     </form>
-    <td class="col">{{ form.user_id(class="form-control", form="editform") }}</td>
+    <td class="col">{{ form.user_id(class="form-control", form="editform", autofocus=true) }}</td>
     <td class="col">{{ form.clock_date(class="form-control", form="editform") }}</td>
     <td class="col">{{ form.clock_in(class="form-control", form="editform") }}</td>
     <td class="col">{{ form.clock_out(class="form-control", form="editform") }}</td>
