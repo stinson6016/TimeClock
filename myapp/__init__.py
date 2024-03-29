@@ -14,6 +14,7 @@ def create_app():
         datefmt="%Y-%m-%d %H:%M:%S",
     )
     # import os
+    check_env()
     load_dotenv()
     basedir = path.abspath(path.dirname(__name__))
     DB_NAME = getenv('DB_NAME')
@@ -97,3 +98,13 @@ def spamlogger():
     year=(date.today()).year
     art=text2art('\n TimeClock')
     logging.info(f"\nTime Clock \nMyHosted/app {year}{art}")
+
+def check_env():
+    import secrets
+    if not path.exists('.env'):
+        logging.warning('dotenv file missing')
+        key = secrets.token_hex()
+        new_file = open(".env", "a")
+        new_file.writelines(["DB_NAME = 'timeclock.db'\n"])
+        new_file.writelines([f"SECRET_KEY = {key}"])
+        new_file.close()
