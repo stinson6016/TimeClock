@@ -37,6 +37,7 @@ Employees / Admin
 
 <button
     class="btn btn-primary"
+    title="New Employee or Admin"
     hx-post="{{url_for('records.users.newshow')}}"
     hx-target="#mainbody"
     hx-swap="beforeend"
@@ -44,3 +45,14 @@ Employees / Admin
 <br/><br/>
 
 {% include 'users/users-key-min.html' %}
+
+<div class="floating-container" title="New Employee or Admin">
+    <a 
+        href="#bottom"
+        hx-post="{{ url_for('records.users.newshow')}}"
+        hx-target="#mainbody"
+        hx-swap="beforeend"
+    >
+        <div class="floating-button">+</div>
+    </a>
+</div>

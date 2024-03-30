@@ -58,6 +58,7 @@
 
 <button
     class="btn btn-primary"
+    title="New Time Entry"
     hx-post="{{url_for('records.entries.portalnewshow')}}"
     hx-target="#mainbody"
     hx-swap="beforeend"
@@ -66,7 +67,7 @@
 
 {% include 'punches/punches-key-min.html' %}
 
-<div class="floating-container" title="Add Bill">
+<div class="floating-container" title="New Time Entry">
     <a 
         href="#top"
         hx-post="{{ url_for('records.entries.portalnewshow')}}"
