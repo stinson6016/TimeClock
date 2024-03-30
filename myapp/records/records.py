@@ -86,7 +86,7 @@ def login():
 
 
     login_user(check_user)
-    logging.info(f'{current_user.name} logged in')
+    logging.info(f'ADMIN - {current_user.name} logged in')
     return redirect(url_for('records.mainportal'))
 
 @records.post('/login/pwreset')

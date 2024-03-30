@@ -69,7 +69,7 @@ def login():
                                message=message)
     
     login_user(check_user)
-    logging.info(f'{current_user.name} logged in')
+    logging.info(f'Employee - {current_user.name} logged in')
     return redirect(url_for('clock.punches'))
 
 @clock.post('/login/pwreset')
