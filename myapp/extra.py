@@ -35,9 +35,10 @@ def converttime(time_entry:time):
     time_entry_str:str = str(date.today()) + " " + str(time_entry)
     new_datetime:datetime = datetime.strptime(time_entry_str, "%Y-%m-%d %H:%M:%S")
     return new_datetime
+
 PunchTypes = [
-	('n', 'Normal'),
-	('h', 'Holiday'),
-	('m', 'Make Up')
-	
+    ('n', 'Normal'),
+    ('h', 'Holiday'),
+    ('m', 'Make Up')
+    
 ]

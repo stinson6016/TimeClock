@@ -1,0 +1,24 @@
+<form
+    hx-post="{{url_for('records.loginlostpwsend')}}"
+    hx-target="#recordsarea"
+    hx-swap="innerHTML"
+>
+    <div class="d-grid gap-2 col-3">
+        {{ form.hidden_tag() }}
+        {{ form.email.label(class='form-label') }}
+        {{ form.email(class='form-control', autofocus=true) }}
+    </div>
+    <br/>
+    <div class="row">
+        <div class="d-grid col-1 gap-2">{{ form.submit(class="btn btn-warning") }}</div>
+        <div class="d-grid col-1 gap-2">
+            <button 
+                type="button" title="Cancel"
+                class="btn btn-secondary"
+                hx-get="{{url_for('records.showmain')}}"
+                hx-target="#recordsarea"
+                hx-swap="innerHTML"
+            >Cancel</button>
+        </div>
+    </div>
+</form>

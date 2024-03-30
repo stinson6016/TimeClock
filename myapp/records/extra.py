@@ -6,17 +6,16 @@ import calendar
 
 from ..models import Punch
 
-
 def searchPunchData(start_date:date = date.today(), end_date:date = date.today(), user_id:int = None, flag:str = None) -> int:
     # end_date = end_date + timedelta(days= 1)
     if not user_id and not flag:
-        punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
+        punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out)
     elif not user_id and flag:
-        punches = Punch.query.where(Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
+        punches = Punch.query.where(Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out)
     elif user_id and not flag:
-        punches = Punch.query.where(Punch.user_id==user_id, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
+        punches = Punch.query.where(Punch.user_id==user_id, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out)
     elif user_id and flag:
-        punches = Punch.query.where(Punch.user_id==user_id, Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),desc(Punch.clock_in))
+        punches = Punch.query.where(Punch.user_id==user_id, Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in), Punch.clock_out
     return punches
 
 def searchFlagged(start_date:date = date.today(), end_date:date = date.today(), user_id:int = None) -> int:
@@ -25,6 +24,7 @@ def searchFlagged(start_date:date = date.today(), end_date:date = date.today(), 
     else:
         flag_count = Punch.query.where(Punch.user_id==user_id, Punch.flag=='y', Punch.clock_date >= start_date, Punch.clock_date <= end_date).count()
     return flag_count
+
 def quickSearch(quick:str):
     # bad code to get the start and finish dates for the searches
     today = datetime.now()

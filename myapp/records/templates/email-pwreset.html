@@ -1,0 +1,40 @@
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Time Clock</title>
+  </head>
+    <body>
+        <div class="container text-center">
+            <div>
+                <b>Password reset</b>
+            </div>
+            <div class="shadow p-3 mb-5 bg-body rounded">
+                <b>A password reset has been requested for this email</b>
+                <br/>
+                <p>
+                    To reset your password, visit the following address:
+                </p>
+                <a href="{{pass_reset_url}}">
+                    <button type="button" class="btn btn-primary" title="Reset Password">Click here to reset your password</button>
+                </a>
+                <p>
+                    If this was a mistake, just ignore this email and nothing will happen
+                </p>
+
+            </div>
+                
+                <p>
+                    <a href="{{ url_for('records.main', _external=True) }}">
+                        Time Clock by MyHosted/App
+                    </a>
+                </p>
+
+            </p>
+        </div>
+    </body>
+
+</html>

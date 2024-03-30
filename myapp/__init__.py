@@ -1,11 +1,13 @@
 from datetime import date
 from dotenv import load_dotenv
 from flask import Flask, render_template
-from flask_login import LoginManager, current_user
-from os import path, getenv
+from flask_login import LoginManager
+from os import path, getenv, environ
 import logging
 
-from .extensions import db, migrate, mail
+from .extensions import db, mail
+from .startup import check_env_file, create_database, spamlogger
+from .blueprints import load_blueprints
 
 def create_app():
     logging.basicConfig(
@@ -13,15 +15,17 @@ def create_app():
         format="%(asctime)s %(levelname)s %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-    # import os
-    check_env()
+    check_env_file() # checks for the dotenv file and makes a new one if needed, in startup.py
     load_dotenv()
+    
+    
     basedir = path.abspath(path.dirname(__name__))
     DB_NAME = getenv('DB_NAME')
     DB_SERVER = path.join(basedir, DB_NAME)
-    # DB_SERVER = os.getenv('DB_SERVER')
-    SECRET_KEY = getenv('SECRET_KEY')
+    # DB_SERVER = getenv('DB_SERVER')
+    
 
+    SECRET_KEY = getenv('SECRET_KEY')
     MYENV = '' if getenv('DEV_ENV') == None else getenv('DEV_ENV')
 
     app = Flask(__name__)
@@ -31,23 +35,19 @@ def create_app():
     # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = SECRET_KEY
     db.init_app(app)
-    migrate.init_app(app, db)
+    mail.init_app(app)
+    app.config['MAIL_SERVER'] = getenv('MAIL_SERVER')
+    app.config['MAIL_PORT'] = getenv('MAIL_PORT')
+    app.config['MAIL_USERNAME'] = getenv('MAIL_USERNAME')
+    app.config['MAIL_PASSWORD'] = getenv('MAIL_PASSWORD')
+    app.config['MAIL_USE_TLS'] = getenv('MAIL_USE_TLS')
+    app.config['MAIL_DEFAULT_SENDER'] = environ.get('MAIL_DEFAULT_SENDER')
     mail.init_app(app)
 
-    from .models import Punch, Users
-    create_database(app, DB_SERVER)
+    from .models import Users
+    create_database(app, DB_SERVER) # create database moved to startup.py
 
-    # load blueprints
-    from .records.records import records
-    from .clock.clock import clock
-    from .main import main
-    from .setup.setup import setup
-
-    # register blueprints
-    app.register_blueprint(records, url_prefix='/records')
-    app.register_blueprint(clock, url_prefix='/clock')
-    app.register_blueprint(main)
-    app.register_blueprint(setup, url_prefix='/setup')
+    load_blueprints(app) # blueprints loading moves to blueprints.py
 
     from .models import Users
 
@@ -61,9 +61,7 @@ def create_app():
     
     @app.context_processor
     def inject_myenv():
-        from .models import Settings
-        settings = Settings.query.first()
-        return dict(myenv=MYENV, nav_year=(date.today()).year, nav_company=settings.comp_name)
+        return dict(myenv=MYENV, nav_year=(date.today()).year, nav_company=getenv('COMP_NAME'))
     
     # Invalid URL
     @app.errorhandler(404)
@@ -74,37 +72,6 @@ def create_app():
     @app.errorhandler(500)
     def page_not_found(e):
         return render_template("500.html"), 500
-    spamlogger()
+    spamlogger() # ascii art in the logs on start up in startup.py
     return app
 
-def fix_database():
-    from .models import Settings
-    new_setting = Settings(comp_name='setup')
-    db.session.add(new_setting)
-    db.session.commit()
-
-def create_database(app, db_server):
-    if not path.exists(db_server):
-        logging.info("no database file found")
-        with app.app_context():
-            db.create_all()
-            logging.info("Created database!")
-            fix_database()
-    else:
-        logging.info("Database file already exisits")
-
-def spamlogger():
-    from art import text2art
-    year=(date.today()).year
-    art=text2art('\n TimeClock')
-    logging.info(f"\nTime Clock \nMyHosted/app {year}{art}")
-
-def check_env():
-    import secrets
-    if not path.exists('.env'):
-        logging.warning('dotenv file missing')
-        key = secrets.token_hex()
-        new_file = open(".env", "a")
-        new_file.writelines(["DB_NAME = 'timeclock.db'\n"])
-        new_file.writelines([f"SECRET_KEY = {key}"])
-        new_file.close()

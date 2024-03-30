@@ -1,4 +1,5 @@
 {% include 'portal.html' %}
+
 <form 
     hx-target="#recordsarea"
     hx-swap="innerHTML"
@@ -25,27 +26,32 @@ Company Settings
         <div class="col-2">{{ form.email_active(form="editform") }}</div>
     </div>
     <div class="row justify-content-start">
-        <div class="col-2">email_server</div>
+        <div class="col-2">Email Server:</div>
         <div class="col-2">{{ form.email_server(class="form-control", form="editform") }}</div>
     </div>
     <div class="row justify-content-start">
-        <div class="col-2">email_send</div>
+        <div class="col-2">Send as Address</div>
         <div class="col-2">{{ form.email_send(class="form-control", form="editform") }}</div>
     </div>
     <div class="row justify-content-start">
-        <div class="col-2">email_user</div>
+        <div class="col-2">Server User</div>
         <div class="col-2">{{ form.email_user(class="form-control", form="editform") }}</div>
     </div>
     <div class="row justify-content-start">
-        <div class="col-2">email_pass</div>
-        <div class="col-2">{{ form.email_pass(class="form-control", form="editform") }}</div>
+        <div class="col-2">
+            Server Password
+            <br/> (no change on blank)
+        </div>
+        <div class="col-2">
+            {{ form.email_pass(class="form-control", form="editform") }}
+        </div>
     </div>
     <div class="row justify-content-start">
-        <div class="col-2">email_port</div>
+        <div class="col-2">Server Port</div>
         <div class="col-2">{{ form.email_port(class="form-control", form="editform") }}</div>
     </div>
     <div class="row justify-content-start">
-        <div class="col-2">email_secure</div>
+        <div class="col-2">Server Security</div>
         <div class="col-2">{{ form.email_secure(class="form-control", form="editform") }}</div>
     </div>
     
@@ -63,3 +69,7 @@ Company Settings
     hx-swap="innerHTML"
     hx-confirm="Cancel with out saving?"
 >Cancel</button>
+<br/>
+<br/>
+Refresh the browser to update the company name<br/>
+Restart the time clock to update the email settings<br/>

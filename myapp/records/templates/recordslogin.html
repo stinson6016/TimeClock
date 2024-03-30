@@ -29,6 +29,16 @@
             >Clear</button>
         </div>
     </div>
+
+    {% if email_active == 'y' %}
+    <br/>
+    <a 
+        href="#"
+        hx-get="{{ url_for('records.loginlostpw')}}"
+        hx-target="#recordsarea"
+        hx-swap="innerHTML"
+    >Lost Password</a>
+    {% endif %}
     
     <br/>
     <br/>
