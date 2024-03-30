@@ -71,6 +71,6 @@ class LostPassword(FlaskForm):
 	submit      = SubmitField   ("Submit")
 
 class PasswordSet(FlaskForm):
-    password1   = PasswordField ('Password', render_kw={"placeholder": " (New password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
-    password2   = PasswordField ('Password2', render_kw={"placeholder": " (Confirm password) ..."}, validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
+    password1   = PasswordField ('New password', validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
+    password2   = PasswordField ('Confirm new password', validators=[DataRequired(), Length(min=MIN_PASS_STR, max=MAX_PASS_STR)])
     submit 		= SubmitField	("Save")

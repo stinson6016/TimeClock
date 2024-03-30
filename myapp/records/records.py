@@ -116,7 +116,7 @@ def loginpwreset():
 
 @records.route('/logout')
 def logout():
-    logging.info(f'{current_user.name} logged in')
+    logging.info(f'ADMIN - {current_user.name} logged in')
     logout_user()
     flash('Logged out')
     return redirect(url_for('records.loginshow'))
@@ -138,8 +138,12 @@ def loginlostpwsend():
         msg.subject = "Password Reset Request"
         msg.recipients = [user.email]
         msg.html = render_template('email-pwreset.html',
-                                    pass_reset_url=pass_reset_url)        
-        mail.send(msg)
+                                    pass_reset_url=pass_reset_url)
+        try:
+            mail.send(msg)
+        except:
+            flash('email send failed, check server settings')
+            return redirect(url_for('records.showmain'))
     flash('email sent, check your spam folder')
     return redirect(url_for('records.showmain'))
 

@@ -4,7 +4,7 @@ click==8.1.7
 colorama==0.4.6
 Flask==3.0.2
 Flask-Login==0.6.3
-Flask-Mail==0.9.1
+Flask-Mail2==1.0.2
 Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.1
 greenlet==3.0.3

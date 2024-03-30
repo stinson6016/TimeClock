@@ -99,7 +99,7 @@ def loginpwreset():
 
 @clock.route('/logout')
 def logout():
-    logging.info(f'{current_user.name} logged out')
+    logging.info(f'Employee - {current_user.name} logged out')
     logout_user()
     flash('logged out')
     return redirect(url_for('clock.loginshow'))
