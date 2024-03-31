@@ -2,11 +2,11 @@
 
 {% block content %}
 
-	<br/>
-	<center>
-	<h1>404 Error</h1>
-	<p>Page Not Found - Try Again...</p>
-
-	</center>
-
+	<div class="container text-center">
+		<h1>404 Error</h1>
+		<br/>
+		<p>Page Not Found - Try Again...</p>
+		<img src="{{ url_for('static', filename='images/404clock.png')}}" class="img-fluid" >
+		
+	</div>
 {% endblock %}
