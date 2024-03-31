@@ -34,7 +34,7 @@ def main():
     user_count = Users.query.count()
     if user_count == 0:
         return redirect(url_for('setup.show'))
-    return render_template("records.html")
+    return render_template("records/records.html")
 
 @records.route('/showmain')
 def showmain():
@@ -46,7 +46,7 @@ def showmain():
 @records.route('/portal')
 @login_required
 def mainportal():
-    return render_template('portal.html')
+    return render_template('records/portal.html')
 
 @records.route('/login/show')
 def loginshow():
@@ -54,7 +54,7 @@ def loginshow():
     form.name.choices = getUsersAdmins()
     form.process()
     email_active:str = getenv('EMAIL_ACTIVE')
-    return render_template('recordslogin.html',
+    return render_template('records/recordslogin.html',
                            form=form,
                            email_active=email_active)
 
@@ -73,13 +73,13 @@ def login():
         form.name.choices = getUsersAdmins()
         form.name.default = user
         form.process()
-        return render_template('recordslogin.html',
+        return render_template('records/recordslogin.html',
                                form=form)
     
     if check_user.pw_change == 'y':
         logging.warning(f'must change password {check_user.name}')
         message = 'Must reset password to login'
-        return render_template('recordslogin-pw.html',
+        return render_template('records/recordslogin-pw.html',
                                form=pw_form,
                                editid=check_user.id,
                                message=message)
@@ -97,13 +97,13 @@ def loginpwreset():
     if not check_password_hash(user.pass_hash, form.admin_pass.data):
         logging.warning(f'password change incorrect password {user.name}')
         message = 'current password incorrect'
-        return render_template('recordslogin-pw.html',
+        return render_template('records/recordslogin-pw.html',
                                form=form,
                                editid=user.id,
                                message=message)
     if form.password1.data != form.password2.data:
         message = 'passwords do not match'
-        return render_template('recordslogin-pw.html',
+        return render_template('records/recordslogin-pw.html',
                                form=form,
                                editid=user.id,
                                message=message)
@@ -124,7 +124,7 @@ def logout():
 @records.route('/login/lostpw')
 def loginlostpw():
     form = LostPassword()
-    return render_template('records-lostpw.html',
+    return render_template('records/records-lostpw.html',
                            form=form)
 
 @records.post('/login/lostpw/send')
@@ -137,7 +137,7 @@ def loginlostpwsend():
         msg = Message()
         msg.subject = "Password Reset Request"
         msg.recipients = [user.email]
-        msg.html = render_template('email-pwreset.html',
+        msg.html = render_template('records/email-pwreset.html',
                                     pass_reset_url=pass_reset_url)
         try:
             mail.send(msg)
@@ -155,7 +155,7 @@ def resetpw():
     if id == False:
         flash('Link error, link might be expired')
         return redirect(url_for('records.main'))
-    return render_template('records-pw-link.html',
+    return render_template('records/records-pw-link.html',
                            form=form,
                            id=id)
 
@@ -164,7 +164,7 @@ def resetpwupdate():
     form = PasswordSet()
     if form.password1.data != form.password2.data:
         flash('passwords do not match')
-        return render_template('records-pw-link.html',
+        return render_template('records/records-pw-link.html',
                                form=form)
     id = request.args.get('id', default='', type=int)
     user = Users.query.get_or_404(id)
