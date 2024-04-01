@@ -1,6 +1,7 @@
 from datetime import date
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
+from datetime import datetime
 
 from .extra import searchPunchData, quickSearch, searchFlagged
 from .webforms import SearchPunches, EditPunch, NewPunch
@@ -122,6 +123,10 @@ def portalnew():
                   clock_in=start_time, clock_out=end_time,
                   time_total=time_total, flag=form.flag.data)
     db.session.add(punch)
+    user = Users.query.get(form.user_id.data)
+    print(date.today())
+    if start_time and not end_time and form.clock_date.data == date.today():
+        user.last_clock = punch.id
     db.session.commit()
     return redirect(url_for('records.entries.portalshowrow', id=punch.id))
 
