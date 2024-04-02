@@ -3,10 +3,10 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required
 from datetime import datetime
 
-from .extra import searchPunchData, quickSearch, searchFlagged
+from .extra import search_punch_data, quick_search, search_flagged
 from .webforms import SearchPunches, EditPunch, NewPunch
 from .. import db
-from ..extra import getUsers, getTimeTotal
+from ..extra import get_users, get_time_total
 from ..models import Users, Punch
 
 entries = Blueprint("entries", __name__,
@@ -38,7 +38,7 @@ def portalsearch():
     
     employee = form.employee.data if form.employee.data else get_employee
     flag = form.flagged.data if form.flagged.data else get_flag
-    first, last = quickSearch(quick)
+    first, last = quick_search(quick)
     if not quick:
         first_day_search = form.start_date.data if form.start_date.data else first
         last_day_search = form.end_date.data if form.end_date.data else last
@@ -46,13 +46,13 @@ def portalsearch():
         first_day_search = first
         last_day_search = last
     
-    form.employee.choices = getUsers(all='y')
+    form.employee.choices = get_users(all='y')
     form.start_date.default = first_day_search
     form.end_date.default = last_day_search
     form.flagged.default = flag
     form.employee.default = employee
     form.process()
-    punches_master = searchPunchData(first_day_search, last_day_search, employee, flag)
+    punches_master = search_punch_data(first_day_search, last_day_search, employee, flag)
     punches = db.paginate(punches_master, page=1, per_page=20, error_out=False)
     page_search = punches.next_num
     return render_template('punches/punches-table.html',
@@ -73,7 +73,7 @@ def searchshowmore():
     start = request.args.get('start', default='', type=str)
     end = request.args.get('end', default='', type=str)
     page_search = request.args.get('page_search', default='', type=int)
-    punches_master = searchPunchData(start, end, employee, flag)
+    punches_master = search_punch_data(start, end, employee, flag)
     punches = db.paginate(punches_master, page=page_search, per_page=20, error_out=False)
     page_search = punches.next_num
     return render_template('punches/punches-row-build.html',
@@ -92,7 +92,7 @@ def getflagged():
     start = request.args.get('start', default='', type=str)
     end = request.args.get('end', default='', type=str)
     employee = request.args.get('employee', default=None)
-    flag_count = searchFlagged(start, end, employee)
+    flag_count = search_flagged(start, end, employee)
     return render_template('punches/punches-flagged.html',
                            flag_count=flag_count,
                            start=start,
@@ -103,7 +103,7 @@ def getflagged():
 @login_required
 def portalnewshow():
     form = NewPunch()
-    form.user_id.choices = getUsers()
+    form.user_id.choices = get_users()
     form.clock_date.default = date.today()
     form.process()
     return render_template('punches/punches-new.html',
@@ -116,7 +116,7 @@ def portalnew():
     start_time = form.clock_in.data if form.clock_in.data else None
     end_time = form.clock_out.data if form.clock_out.data else None
     if start_time and end_time:
-        time_total = getTimeTotal(start_time, end_time)
+        time_total = get_time_total(start_time, end_time)
     else:
         time_total = None
     punch = Punch(clock_date=form.clock_date.data, user_id=form.user_id.data,
@@ -136,7 +136,7 @@ def portaleditshow():
     id = request.args.get('id', default='', type=int)
     punch = Punch.query.get_or_404(id)
     form = EditPunch()
-    form.user_id.choices = getUsers()
+    form.user_id.choices = get_users()
     form.user_id.default = punch.user_id
     form.clock_date.default = punch.clock_date
     form.clock_in.default = punch.clock_in
@@ -159,7 +159,7 @@ def portaledit():
     punch.clock_out = form.clock_out.data if form.clock_out.data else None
     punch.flag = form.flag.data
     if form.clock_in.data and form.clock_out.data:
-        punch.time_total = getTimeTotal(punch.clock_in, punch.clock_out)
+        punch.time_total = get_time_total(punch.clock_in, punch.clock_out)
         user = Users.query.get(form.user_id.data)
         if user.last_clock == punch.id:
             user.last_clock = None

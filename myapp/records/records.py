@@ -14,7 +14,7 @@ from .users import users
 
 from .webforms import RecordsLogin, UserPW, LostPassword, PasswordSet
 from .. import db
-from ..extra import getUsersAdmins
+from ..extra import get_users_admins
 from ..models import Users
 from ..extensions import mail
 
@@ -51,7 +51,7 @@ def mainportal():
 @records.route('/login/show')
 def loginshow():
     form = RecordsLogin()
-    form.name.choices = getUsersAdmins()
+    form.name.choices = get_users_admins()
     form.process()
     email_active:str = getenv('EMAIL_ACTIVE')
     return render_template('records/recordslogin.html',
@@ -70,7 +70,7 @@ def login():
     if not check_password_hash(check_user.pass_hash, password):
         logging.warning(f'incorrect password {check_user.name}')
         flash('Password Incorrect')
-        form.name.choices = getUsersAdmins()
+        form.name.choices = get_users_admins()
         form.name.default = user
         form.process()
         return render_template('records/recordslogin.html',

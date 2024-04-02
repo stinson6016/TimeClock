@@ -25,6 +25,12 @@ def check_env_file():
         set_key(dotenv_path=env_file_path, key_to_set="SECRET_KEY", value_to_set=f'{key}')
         set_key(dotenv_path=env_file_path, key_to_set="PASSWORD_RESET_SALT", value_to_set=f'{salt}')
         set_key(dotenv_path=env_file_path, key_to_set="EMAIL_ACTIVE", value_to_set='n')
+        set_key(dotenv_path=env_file_path, key_to_set="MAIL_SERVER", value_to_set='')
+        set_key(dotenv_path=env_file_path, key_to_set="MAIL_PORT", value_to_set='587')
+        set_key(dotenv_path=env_file_path, key_to_set="MAIL_USE_TLS", value_to_set='True')
+        set_key(dotenv_path=env_file_path, key_to_set="MAIL_USERNAME", value_to_set='')
+        set_key(dotenv_path=env_file_path, key_to_set="MAIL_DEFAULT_SENDER", value_to_set='')
+        set_key(dotenv_path=env_file_path, key_to_set="MAIL_PASSWORD", value_to_set='')
 
 def create_database(app, db_server):
     from .models import Punch, Users
@@ -39,19 +45,9 @@ def create_database(app, db_server):
         logging.info("Database file already exisits")
 
 
-def spamlogger():
+def spam_logger():
     # this does nothing but put ascii art in the logs 
     from art import text2art
     year=(date.today()).year
     art=text2art('\n TimeClock')
     logging.info(f"\nTime Clock \nMyHosted/app {year}{art}")
-
-# def email_setup(app):
-#     from os import getenv, environ
-#     if getenv('MAIL_ACTIVE') == 'y':
-#         app.config['MAIL_SERVER'] = getenv('MAIL_SERVER')
-#         app.config['MAIL_PORT'] = getenv('MAIL_PORT')
-#         app.config['MAIL_USERNAME'] = getenv('MAIL_USERNAME')
-#         app.config['MAIL_PASSWORD'] = getenv('MAIL_PASSWORD')
-#         app.config['MAIL_USE_TLS'] = getenv('MAIL_USE_TLS')
-#         app.config['MAIL_DEFAULT_SENDER'] = environ.get('MAIL_DEFAULT_SENDER')

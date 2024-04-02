@@ -2,10 +2,10 @@ from datetime import date
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 
-from .extra import quickSearch, searchFlagged
+from .extra import quick_search, search_flagged
 from .webforms import SearchPunches
 
-from ..extra import getUsers
+from ..extra import get_users
 from ..models import Punch, Users
 
 hours = Blueprint('hours', __name__,
@@ -32,7 +32,7 @@ def portalsearch():
     
     employee = form.employee.data if form.employee.data else get_employee
 
-    first, last = quickSearch(quick)
+    first, last = quick_search(quick)
     if not quick:
         first_day_search = form.start_date.data if form.start_date.data else first
         last_day_search = form.end_date.data if form.end_date.data else last
@@ -40,7 +40,7 @@ def portalsearch():
         first_day_search = first
         last_day_search = last
     
-    form.employee.choices = getUsers(all='y')
+    form.employee.choices = get_users(all='y')
     form.start_date.default = first_day_search
     form.end_date.default = last_day_search
     form.employee.default = employee
@@ -53,7 +53,7 @@ def portalsearch():
         pull_users = Punch.query.join(Punch.user).where(Punch.clock_date >= first_day_search, Punch.clock_date <= last_day_search).group_by(Users.name)
         # flagged = Punch.query.where(Punch.clock_date >= first_day_search, Punch.clock_date <= last_day_search, Punch.flag=='y').count()
     for user in pull_users:
-        user_hours[user.user_id] = getHours(user.user_id, first_day_search, last_day_search)
+        user_hours[user.user_id] = get_hours(user.user_id, first_day_search, last_day_search)
     return render_template('hours/hours-search.html',
                            form = form,
                            user_hours=user_hours,
@@ -70,14 +70,14 @@ def getflagged():
     start = request.args.get('start', default='')
     end = request.args.get('end', default='')
     employee = request.args.get('employee', default=None)
-    flag_count = searchFlagged(start, end, employee)
+    flag_count = search_flagged(start, end, employee)
     return render_template('punches/punches-flagged.html',
                            flag_count=flag_count,
                            start=start,
                            end=end,
                            employee=employee)
 
-def getHours(user_id, first_day_search, last_day_search):
+def get_hours(user_id, first_day_search, last_day_search):
     punches = Punch.query.where(Punch.clock_date >= first_day_search, Punch.clock_date <= last_day_search, Punch.user_id==user_id)
     total_hour: int = 0
     total_minute:int = 0

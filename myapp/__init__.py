@@ -6,7 +6,7 @@ from os import path, getenv, environ
 import logging
 
 from .extensions import db, mail
-from .startup import check_env_file, create_database, spamlogger
+from .startup import check_env_file, create_database, spam_logger
 from .blueprints import load_blueprints
 
 def create_app():
@@ -72,6 +72,6 @@ def create_app():
     @app.errorhandler(500)
     def page_not_found(e):
         return render_template("500.html"), 500
-    spamlogger() # ascii art in the logs on start up in startup.py
+    spam_logger() # ascii art in the logs on start up in startup.py
     return app
 

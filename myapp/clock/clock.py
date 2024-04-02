@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import logging
 
 from .. import db
-from ..extra import getUsers, getTimeTotal
+from ..extra import get_users, get_time_total
 from ..models import Users, Punch
 from ..maxvars import MAX_LAST_PUNCHES
 from .webforms import PunchForm, UserProfile, UserPW, FlagNote
@@ -35,7 +35,7 @@ def showmain():
 @clock.route('/login/show')
 def loginshow():
     form = PunchForm()
-    form.name.choices = getUsers()
+    form.name.choices = get_users()
     form.process()
     return render_template('clock-login.html',
                            form=form)
@@ -54,7 +54,7 @@ def login():
     if not check_password_hash(check_user.pass_hash, password):
         logging.warning(f'password incorrect {check_user.name}')
         flash('Password Incorrect')
-        form.name.choices = getUsers()
+        form.name.choices = get_users()
         form.name.default = user
         form.process()
         return render_template('clock-login.html',
@@ -157,7 +157,7 @@ def onepunch():
         edit_punch = Punch.query.get(current_user.last_clock)
         edit_punch.clock_out = time_now
         edit_user.last_clock = None
-        time_total = getTimeTotal(edit_punch.clock_in, edit_punch.clock_out)
+        time_total = get_time_total(edit_punch.clock_in, edit_punch.clock_out)
         edit_punch.time_total = time_total
         edit_punch.flag = 'n' if time_total else 'y'
         db.session.commit()

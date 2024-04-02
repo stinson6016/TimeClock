@@ -2,7 +2,7 @@ from datetime import datetime, time, date
 
 from .models import Users
 
-def getUsers(all:str = 'n'):
+def get_users(all:str = 'n'):
     users = Users.query.where(Users.active == 'y', Users.admin == 'n').order_by(Users.name)
     start:str = 'All Employees' if all == 'y' else ''
     return_users = [("",start)]
@@ -10,14 +10,14 @@ def getUsers(all:str = 'n'):
         return_users.append((user.id, user.name))
     return return_users
 
-def getUsersAdmins():
+def get_users_admins():
     users = Users.query.where(Users.active == 'y', Users.admin == 'y').order_by(Users.name)
     return_users = [("","")]
     for user in users:
         return_users.append((user.id, user.name))
     return return_users
 
-def getTimeTotal(start_time: time, end_time: time):
+def get_time_total(start_time: time, end_time: time):
     if start_time > end_time:
         return None
     # take time and convert to datetime because I'm lazy and this works
@@ -30,15 +30,3 @@ def getTimeTotal(start_time: time, end_time: time):
     return_time = datetime.strptime(str(sub_time), "%H:%M:%S").time()
 
     return return_time
-
-def converttime(time_entry:time):
-    time_entry_str:str = str(date.today()) + " " + str(time_entry)
-    new_datetime:datetime = datetime.strptime(time_entry_str, "%Y-%m-%d %H:%M:%S")
-    return new_datetime
-
-PunchTypes = [
-    ('n', 'Normal'),
-    ('h', 'Holiday'),
-    ('m', 'Make Up')
-    
-]
