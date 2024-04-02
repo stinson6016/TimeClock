@@ -27,16 +27,13 @@ def check_env_file():
         set_key(dotenv_path=env_file_path, key_to_set="EMAIL_ACTIVE", value_to_set='n')
 
 def create_database(app, db_server):
-    from .models import Punch, Users, Settings
+    from .models import Punch, Users
     if not path.exists(db_server):
         logging.warning("no database file found")
         with app.app_context():
             db.create_all()
             # need to have a comp_name in the database settings table for the front end to work
             # on setup this will get changed
-            new_setting = Settings(comp_name='setup')
-            db.session.add(new_setting)
-            db.session.commit()
             logging.info("Created database!")
     else:
         logging.info("Database file already exisits")

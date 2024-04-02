@@ -2,11 +2,9 @@ from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required
 from dotenv import set_key
 from pathlib import Path
-from os import path, environ
+from os import path, environ, getenv
 
 from .webforms import CompanyEdit
-from .. import db
-from ..models import Settings
 
 company = Blueprint('company', __name__, 
                     template_folder='templates')
@@ -14,48 +12,37 @@ company = Blueprint('company', __name__,
 @company.route('/show')
 @login_required
 def show():
-    
-    settings = Settings.query.where(Settings.id=='1').first()
+    comp_name:str = getenv('COMP_NAME')
+    email_active = True if getenv('EMAIL_ACTIVE') == 'y' else False
+    email_setup = True if getenv('MAIL_DEFAULT_SENDER') and getenv('MAIL_SERVER') else False
     return render_template('company/company.html',
-                           settings=settings,
+                           comp_name=comp_name,
+                           email_setup=email_setup,
+                           email_active=email_active,
                            page='c')
 
 @company.post('/edit')
 @login_required
 def edit():
     form = CompanyEdit()
-    settings = Settings.query.first()
-    
-    form.comp_name.default      = settings.comp_name
-    form.email_active.default   = settings.email_active
-    form.email_server.default   = settings.email_server
-    form.email_send.default     = settings.email_send
-    form.email_user.default     = settings.email_user
-    form.email_pass.default     = settings.email_pass
-    form.email_port.default     = settings.email_port
-    form.email_secure.default   = settings.email_secure
+    env_tls:str = '1' if getenv('MAIL_USE_TLS') == 'True' else '0'
+    form.comp_name.default      = getenv('COMP_NAME')
+    form.email_active.default   = getenv('EMAIL_ACTIVE')
+    form.email_server.default   = getenv('MAIL_SERVER')
+    form.email_send.default     = getenv('MAIL_DEFAULT_SENDER')
+    form.email_user.default     = getenv('MAIL_USERNAME')
+    form.email_pass.default     = getenv('MAIL_PASSWORD')
+    form.email_port.default     = getenv('MAIL_PORT')
+    form.email_secure.default   = env_tls
     form.process()
     return render_template('company/company-edit.html',
                            form=form,
-                           settings=settings,
                            page='c')
 
 @company.post('/save')
 @login_required
 def save():
     form = CompanyEdit()
-    settings = Settings.query.first()
-    active = '1' if form.email_active.data == True else None
-    settings.comp_name = form.comp_name.data
-    settings.email_active = active
-    settings.email_server = form.email_server.data
-    settings.email_send = form.email_send.data
-    settings.email_user = form.email_user.data
-    settings.email_pass = form.email_pass.data
-    settings.email_port = form.email_port.data
-    settings.email_secure = form.email_secure.data
-    db.session.commit()
-
     env_active:str = 'y' if form.email_active.data == True else 'n'
     if path.exists('.env'):
             print('found env')

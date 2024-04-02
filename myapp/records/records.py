@@ -15,7 +15,7 @@ from .users import users
 from .webforms import RecordsLogin, UserPW, LostPassword, PasswordSet
 from .. import db
 from ..extra import getUsersAdmins
-from ..models import Users, Settings
+from ..models import Users
 from ..extensions import mail
 
 records = Blueprint("records", __name__,
