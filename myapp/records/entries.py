@@ -123,9 +123,9 @@ def portalnew():
                   clock_in=start_time, clock_out=end_time,
                   time_total=time_total, flag=form.flag.data)
     db.session.add(punch)
-    user = Users.query.get(form.user_id.data)
-    print(date.today())
+    # set user punched in if only adding a clock in and date is today
     if start_time and not end_time and form.clock_date.data == date.today():
+        user = Users.query.get(form.user_id.data)
         user.last_clock = punch.id
     db.session.commit()
     return redirect(url_for('records.entries.portalshowrow', id=punch.id))
@@ -160,6 +160,9 @@ def portaledit():
     punch.flag = form.flag.data
     if form.clock_in.data and form.clock_out.data:
         punch.time_total = getTimeTotal(punch.clock_in, punch.clock_out)
+        user = Users.query.get(form.user_id.data)
+        if user.last_clock == punch.id:
+            user.last_clock = None
     db.session.commit()
     return redirect(url_for('records.entries.portalshowrow', id=punch.id))
 

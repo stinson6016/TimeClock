@@ -49,7 +49,7 @@
             hx-post="{{url_for('records.users.showrow', id=user.id)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
-            hx-confirm="Cancel with out saving?"
+            hx-confirm="Cancel without saving?"
         >Cancel</button>
         {% if user.id != current_user.id %}
         &nbsp;
