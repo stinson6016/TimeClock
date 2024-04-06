@@ -1,0 +1,40 @@
+Hide punches help 
+<a
+        href="#"
+        title="click to hide the help"
+        hx-get="{{url_for('clock.hidehelp')}}"
+        hx-target="#punchhelp"
+        hx-swap="innerHTML"
+    ><i class="bi bi-arrow-up-circle h6"></i></a>
+
+<br/><br/>
+
+<button 
+    class="btn btn-outline-warning"
+    style="color: black"
+    title="flag punch for review"
+><i class="bi bi-flag"></i> flag</button>
+- click to flag this entry for admin review - example forgot to click in our out
+
+<br/><br/>
+
+<button 
+    class="btn btn-warning"
+    title="unflag punch for review"
+><i class="bi bi-flag"></i> unflag</button>
+- click to unflag this entry for admin review
+
+<br/><br/>
+
+<i class="bi bi-journal h5 flagnote" title="Note why this is flagged for the admin"></i>
+&nbsp;&nbsp;- there is <b class="something">not</b> a note for this entry for admin review, click to add a note
+
+<br/>
+
+<i class="bi bi-journal-text h4 flagnote" title="forgot to click out yesterday"></i>
+&nbsp;- there is a note  for this entry for admin review, click to add or edit the note
+
+<br/><br/>
+Auto flagged entries <br/>
+&nbsp;- clocking in when already clocked in; the previous clock in entry will auto flag for review<br/>
+&nbsp;- clocking out when already clocked out; the current clock out entry will auto flag for review<br/>

@@ -298,3 +298,13 @@ def getdate():
     getdate = date.today()
     return render_template('clock-date.html',
                            getdate=getdate)
+
+@clock.route('/showhelp')
+@login_required
+def showhelp():
+    return render_template('punch-help.html')
+
+@clock.route('/hidehelp')
+@login_required
+def hidehelp():
+    return render_template('punch-help-min.html')
