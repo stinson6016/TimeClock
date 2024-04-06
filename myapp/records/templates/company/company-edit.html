@@ -40,7 +40,7 @@ Company Settings
     <div class="row justify-content-start">
         <div class="col-2">
             Server Password
-            <br/> (no change on blank)
+            <br/><span class="text-muted">&nbsp;(no change on blank)</span>
         </div>
         <div class="col-2">
             {{ form.email_pass(class="form-control", form="editform") }}
@@ -71,5 +71,7 @@ Company Settings
 >Cancel</button>
 <br/>
 <br/>
+<span class="text-muted">
 Refresh the browser to update the company name<br/>
-Restart the time clock to update the email settings<br/>
+Restart the time clock for the email settings to take affect<br/>
+</span>

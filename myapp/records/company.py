@@ -13,7 +13,7 @@ company = Blueprint('company', __name__,
 @login_required
 def show():
     comp_name:str = getenv('COMP_NAME')
-    email_active = True if getenv('EMAIL_ACTIVE') == 'y' else False
+    email_active = getenv('EMAIL_ACTIVE')
     email_setup = True if getenv('MAIL_DEFAULT_SENDER') and getenv('MAIL_SERVER') else False
     return render_template('company/company.html',
                            comp_name=comp_name,
@@ -27,7 +27,7 @@ def edit():
     form = CompanyEdit()
     env_tls:str = '1' if getenv('MAIL_USE_TLS') == 'True' else '0'
     form.comp_name.default      = getenv('COMP_NAME')
-    form.email_active.default   = getenv('EMAIL_ACTIVE')
+    form.email_active.default   = True if getenv('EMAIL_ACTIVE') == 'y' else False
     form.email_server.default   = getenv('MAIL_SERVER')
     form.email_send.default     = getenv('MAIL_DEFAULT_SENDER')
     form.email_user.default     = getenv('MAIL_USERNAME')
@@ -58,6 +58,13 @@ def save():
     if form.email_pass.data:
         set_key(dotenv_path=env_file_path, key_to_set="MAIL_PASSWORD", value_to_set=form.email_pass.data)
     set_key(dotenv_path=env_file_path, key_to_set="EMAIL_ACTIVE", value_to_set=env_active)
+    
     environ['COMP_NAME'] = form.comp_name.data
-    # environ['EMAIL_ACTIVE'] = env_active
+    environ['MAIL_SERVER'] = form.email_server.data
+    environ['MAIL_PORT'] = str(form.email_port.data)
+    environ['MAIL_USE_TLS'] = env_tls
+    environ['MAIL_USERNAME'] = form.email_user.data
+    environ['MAIL_DEFAULT_SENDER'] = form.email_send.data
+    environ['EMAIL_ACTIVE'] = env_active
+
     return redirect(url_for('records.company.show'))

@@ -17,7 +17,7 @@ Company Settings
     <div class="row justify-content-start">
         <div class="col-2">Active</div>
         <div class="col-2">
-            {% if email_active %}
+            {% if email_active == 'y' %}
             Yes
             {% else %}
             No
@@ -32,9 +32,12 @@ Company Settings
             {% else %}
             No
             {% endif %}
+            
         </div>
     </div>
-    
+    <span class="text-muted">
+    (changes will not take affect until server restarted)
+    </span>
 </div>
 
 <br/>
