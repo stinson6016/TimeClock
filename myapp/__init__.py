@@ -27,6 +27,9 @@ def create_app():
 
     SECRET_KEY = getenv('SECRET_KEY')
     MYENV = '' if getenv('DEV_ENV') == None else getenv('DEV_ENV')
+    LOCAL_FILES = 'y' if getenv('LOCAL_FILES') == None else 'n'
+
+    print(LOCAL_FILES)
 
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_SERVER}'
@@ -61,7 +64,8 @@ def create_app():
     
     @app.context_processor
     def inject_myenv():
-        return dict(myenv=MYENV, nav_year=(date.today()).year, nav_company=getenv('COMP_NAME'))
+        print(LOCAL_FILES)
+        return dict(myenv=MYENV,LOCAL_FILES=LOCAL_FILES, nav_year=(date.today()).year, nav_company=getenv('COMP_NAME'))
     
     # Invalid URL
     @app.errorhandler(404)
