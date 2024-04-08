@@ -1,0 +1,40 @@
+{% extends 'print-hours-base.html' %}
+
+{% block content %}
+
+<div class="shadow p-3 mb-5 bg-body rounded">
+	<h3>
+		<i class="bi bi-clock-history"></i>
+		Time Records
+	</h3>
+	<br/>
+	Employee hours for <b>{{start}}</b> to <b>{{end}}</b>
+	<br/><br/>
+	<table class="table">
+		<thead>
+			<tr class="row">
+				<th class="col">Employee</th>
+				<th class="col">Total Time</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in pull_users %}
+			
+			<tr class="row">
+				<td class="col">
+					{{ user.user.name }}
+
+					{% if user_flagged[user.user.id] %}
+                		&nbsp;&nbsp;<i class="bi bi-flag-fill flagged" title="Time entry flagged for review"></i>
+                	{% endif %}
+
+				</td>
+				<td class="col">{{ user_hours[user.user.id] }}</td>
+			</tr>
+
+			{% endfor %}
+		</tbody>
+	</table>
+
+</div>
+{% endblock %}
