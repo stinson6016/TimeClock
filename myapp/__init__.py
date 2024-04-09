@@ -9,7 +9,7 @@ from .extensions import db, mail
 from .startup import check_env_file, create_database, spam_logger
 from .blueprints import load_blueprints
 
-def create_app():
+def create_app() -> Flask:
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(message)s",
@@ -29,9 +29,7 @@ def create_app():
     MYENV = '' if getenv('DEV_ENV') == None else getenv('DEV_ENV')
     LOCAL_FILES = 'y' if getenv('LOCAL_FILES') == None else 'n'
 
-    print(LOCAL_FILES)
-
-    app = Flask(__name__)
+    app:Flask = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_SERVER}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # app.config['SQLALCHEMY_DATABASE_URI'] = DB_SERVER
@@ -64,7 +62,6 @@ def create_app():
     
     @app.context_processor
     def inject_myenv():
-        print(LOCAL_FILES)
         return dict(myenv=MYENV,LOCAL_FILES=LOCAL_FILES, nav_year=(date.today()).year, nav_company=getenv('COMP_NAME'))
     
     # Invalid URL
@@ -76,6 +73,6 @@ def create_app():
     @app.errorhandler(500)
     def page_not_found(e):
         return render_template("500.html"), 500
-    spam_logger() # ascii art in the logs on start up in startup.py
+    spam_logger('TimeClock') # ascii art in the logs on start up in startup.py
     return app
 

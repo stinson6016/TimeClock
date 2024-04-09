@@ -80,7 +80,6 @@ def printhours():
     
     for user in pull_users:
         user_hours[user.user_id], user_flagged[user.user_id] = get_hours(user.user_id, first_day_search, last_day_search)
-    print(first_day_search)
     start:str = (datetime.strptime(first_day_search, '%Y-%m-%d').date()).strftime("%m/%d/%Y")
     end:str = (datetime.strptime(last_day_search, '%Y-%m-%d').date()).strftime("%m/%d/%Y")
     return render_template('hours/print-hours.html',

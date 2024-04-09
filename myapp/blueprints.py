@@ -1,5 +1,7 @@
+from flask import Flask
 
-def load_blueprints(app):
+def load_blueprints(app: Flask) -> None:
+    '''Moved loading blueprints to another file to make editing easier'''
     # load blueprints
     from .main import main
     from .records.records import records

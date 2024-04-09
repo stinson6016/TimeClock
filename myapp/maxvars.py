@@ -1,3 +1,5 @@
+# max vars for both web forms and database 
+# sqlite doesn't care about the max var length, but left it here incase the database is changed from sqlite
 
 MAX_NAME: int = 100
 MAX_EMPLOYEE: int = 50

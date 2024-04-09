@@ -44,8 +44,6 @@ def edit():
 def save():
     form = CompanyEdit()
     env_active:str = 'y' if form.email_active.data == True else 'n'
-    if path.exists('.env'):
-            print('found env')
     env_tls:str = 'True' if form.email_secure.data == '1' else 'False'
 
     env_file_path = Path('.env')

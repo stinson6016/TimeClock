@@ -1,3 +1,4 @@
+from flask import Flask
 from datetime import date
 from os import path
 import logging
@@ -5,7 +6,8 @@ import logging
 from . import db
 
 
-def check_env_file():
+def check_env_file() -> None:
+    '''Check the dotenv file exists; create with default values if not found'''
     # make .env file if not found
     # sets the database file to the default file name
     # creates a new secret key
@@ -32,22 +34,21 @@ def check_env_file():
         set_key(dotenv_path=env_file_path, key_to_set="MAIL_DEFAULT_SENDER", value_to_set='')
         set_key(dotenv_path=env_file_path, key_to_set="MAIL_PASSWORD", value_to_set='')
 
-def create_database(app, db_server):
+def create_database(app: Flask, db_server: str) -> None:
     from .models import Punch, Users
     if not path.exists(db_server):
         logging.warning("no database file found")
         with app.app_context():
             db.create_all()
-            # need to have a comp_name in the database settings table for the front end to work
-            # on setup this will get changed
             logging.info("Created database!")
     else:
         logging.info("Database file already exisits")
 
 
-def spam_logger():
+def spam_logger(text: str) -> None:
+    '''takes text input and turns into ascii art and write into the logs'''
     # this does nothing but put ascii art in the logs 
     from art import text2art
     year=(date.today()).year
-    art=text2art('\n TimeClock')
-    logging.info(f"\nTime Clock \nMyHosted/app {year}{art}")
+    art=text2art(f'\n {text}')
+    logging.info(f"\n{text} \nMyHosted/app {year}{art}")

@@ -8,7 +8,6 @@ from .maxvars import *
 class Punch(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     user_id     = db.Column(db.Integer, db.ForeignKey('users.id'))
-    # type        = db.Column(db.String(1), default='n') # normal ? holiday ? make up ? # not used
     clock_date  = db.Column(db.Date)
     clock_in    = db.Column(db.Time)
     clock_out   = db.Column(db.Time)
