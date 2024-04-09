@@ -37,7 +37,37 @@
 		hx-swap="innerHTML"
 		hx-trigger="load"
 	>
-		Time Clock - loading....
+		
+	<form>
+    <b>Login to clock in / out</b>
+    <span class="text-muted">(and see your last punches)</span>
+
+    
+    <br/>
+    <br/>
+    
+    <div class="d-grid gap-2 col-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control", list="software-list", autofocus=true) }}
+
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control", list="software-version") }}
+        
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="d-grid col-1 gap-2"><button class="btn btn-success">Login</button></div>
+        <div class="d-grid col-1 gap-2">
+            <button class="btn btn-secondary">Clear</button>
+        </div>
+    </div>
+    
+    <br/>
+    <br/>
+    
+	</form>
+
 	</div>
 	
 	<br/>

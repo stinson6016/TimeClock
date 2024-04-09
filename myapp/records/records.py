@@ -34,7 +34,13 @@ def main():
     user_count = Users.query.count()
     if user_count == 0:
         return redirect(url_for('setup.show'))
-    return render_template("records/records.html")
+    form = RecordsLogin()
+    form.name.choices = [('loading admins...')]
+    form.process()
+    email_active:str = getenv('EMAIL_ACTIVE')
+    return render_template("records/records.html",
+                           form=form,
+                           email_active=email_active )
 
 @records.route('/showmain')
 def showmain():
