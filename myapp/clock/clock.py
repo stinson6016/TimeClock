@@ -24,7 +24,7 @@ def home():
     if user_count == 0:
         return redirect(url_for('setup.show'))
     form = PunchForm()
-    form.name.choices = [('loading employees')]
+    form.name.choices = [(''),('loading employees')]
     # form.name.default = 'loading'
     form.process()
     return render_template("clock.html",

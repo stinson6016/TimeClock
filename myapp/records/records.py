@@ -35,7 +35,7 @@ def main():
     if user_count == 0:
         return redirect(url_for('setup.show'))
     form = RecordsLogin()
-    form.name.choices = [('loading admins...')]
+    form.name.choices = [(''), ('loading admins...')]
     form.process()
     email_active:str = getenv('EMAIL_ACTIVE')
     return render_template("records/records.html",
