@@ -2,7 +2,7 @@ art==6.1
 blinker==1.7.0
 click==8.1.7
 colorama==0.4.6
-Flask==3.0.2
+Flask==3.0.3
 Flask-Login==0.6.3
 Flask-Mail2==1.0.2
 Flask-SQLAlchemy==3.1.1
@@ -17,7 +17,7 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 six==1.16.0
 SQLAlchemy==2.0.29
-typing_extensions==4.10.0
+typing_extensions==4.11.0
 waitress==3.0.0
-Werkzeug==3.0.1
+Werkzeug==3.0.2
 WTForms==3.1.2
