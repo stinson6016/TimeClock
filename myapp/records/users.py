@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import desc
 
 from .webforms import UserEdit, UserNew, UserPW
 from .. import db 
@@ -24,7 +25,7 @@ def showall():
     if disabled == 'y':
         users = Users.query.order_by(Users.name)
     else:
-        users = Users.query.where(Users.active!='n').order_by(Users.name)
+        users = Users.query.where(Users.active!='n').order_by(desc(Users.admin), Users.name)
     return render_template('users/users-table.html', 
                            users=users,
                            disabled=disabled,
