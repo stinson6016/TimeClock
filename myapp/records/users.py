@@ -23,7 +23,7 @@ def show():
 def showall():
     disabled = request.args.get('disabled', default='n', type=str)
     if disabled == 'y':
-        users = Users.query.order_by(Users.name)
+        users = Users.query.order_by(desc(Users.admin), Users.name)
     else:
         users = Users.query.where(Users.active!='n').order_by(desc(Users.admin), Users.name)
     return render_template('users/users-table.html', 
