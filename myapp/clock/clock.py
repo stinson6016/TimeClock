@@ -5,10 +5,9 @@ from sqlalchemy import desc
 from werkzeug.security import check_password_hash, generate_password_hash
 import logging
 
-from .. import db
+from .. import db, max_vars
 from ..extra import get_users, get_time_total
 from ..models import Users, Punch
-from ..maxvars import MAX_LAST_PUNCHES
 from .webforms import PunchForm, UserProfile, UserPW, FlagNote
 
 clock = Blueprint("clock", __name__,
@@ -175,17 +174,17 @@ def onepunch():
 @login_required
 def punches():
     return render_template('punches.html',
-                           last=MAX_LAST_PUNCHES)
+                           last=max_vars.MAX_LAST_PUNCHES)
 
 @clock.post('/pullpunches')
 @login_required
 def pullpunches():
     punches_master = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out))
-    punches = db.paginate(punches_master, page=1, per_page=MAX_LAST_PUNCHES, error_out=False)
+    punches = db.paginate(punches_master, page=1, per_page=max_vars.MAX_LAST_PUNCHES, error_out=False)
     page_search = punches.next_num
     return render_template('punches-table.html',
                            punches=punches,
-                           last=MAX_LAST_PUNCHES,
+                           last=max_vars.MAX_LAST_PUNCHES,
                            page_search=page_search)
 
 @clock.post('pullpunches/showmore')
@@ -193,7 +192,7 @@ def pullpunches():
 def pullpunchesshowmore():
     page_search = request.args.get('page_search', default='', type=int)
     punches_master = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out))
-    punches = db.paginate(punches_master, page=page_search, per_page=MAX_LAST_PUNCHES, error_out=False)
+    punches = db.paginate(punches_master, page=page_search, per_page=max_vars.MAX_LAST_PUNCHES, error_out=False)
     page_search = punches.next_num
     return render_template('punches-row-build.html',
                            punches=punches,
