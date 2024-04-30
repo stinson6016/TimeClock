@@ -13,8 +13,8 @@ company = Blueprint('company', __name__,
 @login_required
 def show():
     comp_name:str = getenv('COMP_NAME')
-    email_active = getenv('EMAIL_ACTIVE')
-    email_setup = True if getenv('MAIL_DEFAULT_SENDER') and getenv('MAIL_SERVER') else False
+    email_active:str = getenv('EMAIL_ACTIVE')
+    email_setup:bool = True if getenv('MAIL_DEFAULT_SENDER') and getenv('MAIL_SERVER') else False
     return render_template('company/company.html',
                            comp_name=comp_name,
                            email_setup=email_setup,

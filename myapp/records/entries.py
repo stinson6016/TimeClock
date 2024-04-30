@@ -16,12 +16,10 @@ entries = Blueprint("entries", __name__,
 @login_required
 def showportal():
     # quick load default page while pulling data
-    first_day_search = date.today()
-    last_day_search = date.today()
     form = SearchPunches()
     form.employee.choices = [(('', 'All Employees'))]
-    form.start_date.default = first_day_search
-    form.end_date.default = last_day_search
+    form.start_date.default = date.today()
+    form.end_date.default = date.today()
     form.process()
     
     return render_template('punches/punches.html',

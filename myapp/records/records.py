@@ -181,17 +181,17 @@ def resetpwupdate():
     flash('password reset')
     return redirect(url_for('records.main'))
 
-def make_token(userid):
+def make_token(userid:int) -> str:
     from os import getenv
     password_reset_serializer = Serializer(getenv('SECRET_KEY'))
 
-    password_reset_url = url_for(
+    password_reset_url:str = url_for(
         'records.resetpw',
         token=password_reset_serializer.dumps(userid, salt=getenv('PASSWORD_RESET_SALT')),
         _external=True)
     return password_reset_url
 
-def validate_token(token, expire_time=600):
+def validate_token(token, expire_time=600) -> int:
     """from token and expire_time to confirm user's email"""
     from os import getenv
     serializercheck = Serializer(getenv('SECRET_KEY'))

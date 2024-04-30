@@ -112,7 +112,7 @@ def logout():
 @clock.route('/punch')
 @login_required
 def onepunch():
-    now = datetime.now()
+    now:datetime = datetime.now()
     time_now = datetime.strptime(now.strftime("%H:%M:%S"), "%H:%M:%S").time()
     
     type = request.args.get('type', default='', type=str)
