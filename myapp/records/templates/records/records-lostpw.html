@@ -15,7 +15,7 @@
             <button 
                 type="button" title="Cancel"
                 class="btn btn-secondary"
-                hx-get="{{url_for('records.showmain')}}"
+                hx-post="{{url_for('records.showmain')}}"
                 hx-target="#recordsarea"
                 hx-swap="innerHTML"
             >Cancel</button>

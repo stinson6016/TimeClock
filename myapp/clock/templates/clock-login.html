@@ -25,7 +25,7 @@
         <div class="d-grid col-1 gap-2">
             <button 
                 class="btn btn-secondary"
-                hx-get="{{url_for('clock.loginshow')}}"
+                hx-post="{{url_for('clock.loginshow')}}"
                 hx-target="#mainarea"
                 hx-swap="innerHTML"
             >Clear</button>

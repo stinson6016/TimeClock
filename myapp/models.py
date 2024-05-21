@@ -2,8 +2,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 
-from . import db
-from .maxvars import *
+from . import db, max_vars
 
 class Punch(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
@@ -14,14 +13,14 @@ class Punch(db.Model):
     time_total  = db.Column(db.Time)
     flag        = db.Column(db.String(1), default='n') # flag for admin review
     user        = relationship("Users", primaryjoin='Punch.user_id==Users.id')
-    flag_note   = db.Column(db.String(MAX_PUNCH_NOTE))
+    flag_note   = db.Column(db.String(max_vars.MAX_PUNCH_NOTE))
    
 class Users(db.Model, UserMixin):
     id          = db.Column(db.Integer, primary_key=True)
-    name        = db.Column(db.String(MAX_NAME))
-    employee_id = db.Column(db.String(MAX_EMPLOYEE))
-    email       = db.Column(db.String(MAX_EMAIL))
-    pass_hash   = db.Column(db.String(MAX_PASS_HASH))
+    name        = db.Column(db.String(max_vars.MAX_NAME))
+    employee_id = db.Column(db.String(max_vars.MAX_EMPLOYEE))
+    email       = db.Column(db.String(max_vars.MAX_EMAIL))
+    pass_hash   = db.Column(db.String(max_vars.MAX_PASS_HASH))
     active      = db.Column(db.String(1), default='y')
     admin       = db.Column(db.String(1), default='n')
     date_added  = db.Column(db.DateTime, default=datetime.now)

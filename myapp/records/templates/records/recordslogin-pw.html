@@ -34,7 +34,7 @@ Please reset your password to login.
 
 <button
     class="btn btn-secondary"
-    hx-get="{{url_for('records.main')}}"
+    hx-post="{{url_for('records.main')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
     hx-confirm="Cancel with out saving?"

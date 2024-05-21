@@ -11,7 +11,7 @@ from ..models import Punch, Users
 hours = Blueprint('hours', __name__,
                   template_folder='templates')
 
-@hours.route('/show')
+@hours.post('/show')
 @login_required
 def show():
     # quick load default page while pulling data
@@ -23,7 +23,7 @@ def show():
     return render_template('hours/hours.html',
                            form=form,
                            page='h')
-@hours.route('/search', methods=['GET', 'POST'])
+@hours.post('/search')
 @login_required
 def portalsearch():
     quick = request.args.get('quick', default='', type=str)
@@ -63,7 +63,7 @@ def portalsearch():
                            start=first_day_search,
                            end=last_day_search)
 
-@hours.route('/print')
+@hours.post('/print')
 @login_required
 def printhours():
     employee = request.args.get('employee', default="", type=str) 

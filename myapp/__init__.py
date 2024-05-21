@@ -5,7 +5,7 @@ from flask_login import LoginManager
 from os import path, getenv, environ
 import logging
 
-from .extensions import db, mail
+from .extensions import db, mail, max_vars
 from .startup import check_env_file, create_database, spam_logger
 from .blueprints import load_blueprints
 
@@ -19,15 +19,15 @@ def create_app() -> Flask:
     load_dotenv()
     
     
-    basedir = path.abspath(path.dirname(__name__))
-    DB_NAME = getenv('DB_NAME')
-    DB_SERVER = path.join(basedir, DB_NAME)
+    basedir:str = path.abspath(path.dirname(__name__))
+    DB_NAME:str = getenv('DB_NAME')
+    DB_SERVER:str = path.join(basedir, DB_NAME)
     # DB_SERVER = getenv('DB_SERVER')
     
 
-    SECRET_KEY = getenv('SECRET_KEY')
-    MYENV = '' if getenv('DEV_ENV') == None else getenv('DEV_ENV')
-    LOCAL_FILES = 'y' if getenv('LOCAL_FILES') == None else 'n'
+    SECRET_KEY:str = getenv('SECRET_KEY')
+    MYENV:str = '' if getenv('DEV_ENV') == None else getenv('DEV_ENV')
+    LOCAL_FILES:str = 'y' if getenv('LOCAL_FILES') == None else 'n'
 
     app:Flask = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_SERVER}'

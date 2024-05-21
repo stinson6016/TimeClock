@@ -23,7 +23,7 @@
         <div class="d-grid col-1 gap-2">
             <button 
                 class="btn btn-secondary"
-                hx-get="{{url_for('records.showmain')}}"
+                hx-post="{{url_for('records.showmain')}}"
                 hx-target="#recordsarea"
                 hx-swap="innerHTML"
             >Clear</button>
@@ -34,7 +34,7 @@
     <br/>
     <a 
         href="#"
-        hx-get="{{ url_for('records.loginlostpw')}}"
+        hx-post="{{ url_for('records.loginlostpw')}}"
         hx-target="#recordsarea"
         hx-swap="innerHTML"
     >Lost Password</a>

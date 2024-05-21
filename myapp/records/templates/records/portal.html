@@ -7,7 +7,7 @@
 
 <button
     class="btn {{button}} recordbutton"
-    hx-get="{{url_for('records.hours.show')}}"
+    hx-post="{{url_for('records.hours.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Hours</button>
@@ -21,7 +21,7 @@
 
 <button
     class="btn {{button}} recordbutton"
-    hx-get="{{url_for('records.entries.showportal')}}"
+    hx-post="{{url_for('records.entries.showportal')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Time Entries</button>
@@ -35,7 +35,7 @@
 
 <button
     class="btn {{button}} recordbutton"
-    hx-get="{{url_for('records.users.show')}}"
+    hx-post="{{url_for('records.users.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Users</button>
@@ -49,7 +49,7 @@
 
 <button
     class="btn {{button}} recordbutton"
-    hx-get="{{url_for('records.company.show')}}"
+    hx-post="{{url_for('records.company.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Company</button>
@@ -61,7 +61,7 @@
 
 <button
     class="btn {{button}} recordbutton"
-    hx-get="{{url_for('records.logout')}}"
+    hx-post="{{url_for('records.logout')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >Logout</button>

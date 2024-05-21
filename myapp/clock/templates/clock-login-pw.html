@@ -34,7 +34,7 @@ Please reset your password
 
 <button
     class="btn btn-secondary"
-    hx-get="{{url_for('clock.loginshow')}}"
+    hx-post="{{url_for('clock.loginshow')}}"
     hx-target="#mainarea"
     hx-swap="innerHTML"
     hx-confirm="Cancel without saving?"

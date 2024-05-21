@@ -1,14 +1,13 @@
-from datetime import datetime, datetime, date
+from datetime import datetime, datetime, date, time
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user, login_user, logout_user
 from sqlalchemy import desc
 from werkzeug.security import check_password_hash, generate_password_hash
 import logging
 
-from .. import db
+from .. import db, max_vars
 from ..extra import get_users, get_time_total
 from ..models import Users, Punch
-from ..maxvars import MAX_LAST_PUNCHES
 from .webforms import PunchForm, UserProfile, UserPW, FlagNote
 
 clock = Blueprint("clock", __name__,
@@ -19,10 +18,10 @@ def home():
     if current_user.is_authenticated:
         if current_user.admin == 'y':
             flash('Please logout of Time Records to access the Time Clock')
-            return redirect(url_for('records.main'))
+            return redirect(url_for('records.main'), code=307)
     user_count = Users.query.count()
     if user_count == 0:
-        return redirect(url_for('setup.show'))
+        return redirect(url_for('setup.show'), code=307)
     form = PunchForm()
     form.name.choices = [(''),('loading employees')]
     # form.name.default = 'loading'
@@ -30,14 +29,14 @@ def home():
     return render_template("clock.html",
                            form=form)
 
-@clock.route('/showmain')
+@clock.post('/showmain')
 def showmain():
     if current_user.is_authenticated:
-        return redirect(url_for('clock.punches'))
+        return redirect(url_for('clock.punches'), code=307)
     else:
-        return redirect(url_for('clock.loginshow'))
+        return redirect(url_for('clock.loginshow'), code=307)
 
-@clock.route('/login/show')
+@clock.post('/login/show')
 def loginshow():
     form = PunchForm()
     form.name.choices = get_users()
@@ -75,7 +74,7 @@ def login():
     
     login_user(check_user)
     logging.info(f'Employee - {current_user.name} logged in')
-    return redirect(url_for('clock.punches'))
+    return redirect(url_for('clock.punches'), code=307)
 
 @clock.post('/login/pwreset')
 def loginpwreset():
@@ -100,20 +99,20 @@ def loginpwreset():
     user.pw_change = 'n'
     db.session.commit()
     login_user(user)
-    return redirect(url_for('clock.punches'))
+    return redirect(url_for('clock.punches'), code=307)
 
-@clock.route('/logout')
+@clock.post('/logout')
 def logout():
     logging.info(f'Employee - {current_user.name} logged out')
     logout_user()
     flash('logged out')
-    return redirect(url_for('clock.loginshow'))
+    return redirect(url_for('clock.loginshow'), code=307)
 
-@clock.route('/punch')
+@clock.post('/punch')
 @login_required
 def onepunch():
-    now = datetime.now()
-    time_now = datetime.strptime(now.strftime("%H:%M:%S"), "%H:%M:%S").time()
+    now:datetime = datetime.now()
+    time_now:time = datetime.strptime(now.strftime("%H:%M:%S"), "%H:%M:%S").time()
     
     type = request.args.get('type', default='', type=str)
     edit_user = Users.query.get(current_user.id)
@@ -130,7 +129,7 @@ def onepunch():
         db.session.commit()
         edit_user.last_clock = new_punch.id
         db.session.commit()
-        flash('Clocked In')
+        flash(f'Clocked In - {time_now.strftime("%H:%M:%S")}')
         logging.info(f'{current_user.name} clocked in')
         
     if type == 'i' and not current_user.last_clock: ### punch in not punched in
@@ -142,7 +141,7 @@ def onepunch():
         db.session.commit()
         edit_user.last_clock = new_punch.id
         db.session.commit()
-        flash('Clocked In')
+        flash(f'Clocked In - {time_now.strftime("%H:%M:%S")}')
         logging.info(f'{current_user.name} clocked in, error already clocked in')
 
     if type == 'o' and not current_user.last_clock: # punch out not punched in
@@ -153,7 +152,7 @@ def onepunch():
                           flag_note='auto - clocked out while already marked as clocked out')
         db.session.add(new_punch)
         db.session.commit()
-        flash('Clocked Out')
+        flash(f'Clocked Out - {time_now.strftime("%H:%M:%S")}')
         logging.info(f'{current_user.name} clocked out')
 
     if type == 'o' and current_user.last_clock: ### punch out and punched in
@@ -166,26 +165,26 @@ def onepunch():
         edit_punch.time_total = time_total
         edit_punch.flag = 'n' if time_total else 'y'
         db.session.commit()
-        flash('Clocked Out')
+        flash(f'Clocked Out - {time_now.strftime("%H:%M:%S")}')
         logging.info(f'{current_user.name} clocked out, error already clocked out')
     
-    return redirect(url_for('clock.punches'))
+    return redirect(url_for('clock.punches'), code=307)
 
-@clock.route('/punches')
+@clock.post('/punches')
 @login_required
 def punches():
     return render_template('punches.html',
-                           last=MAX_LAST_PUNCHES)
+                           last=max_vars.MAX_LAST_PUNCHES)
 
 @clock.post('/pullpunches')
 @login_required
 def pullpunches():
     punches_master = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out))
-    punches = db.paginate(punches_master, page=1, per_page=MAX_LAST_PUNCHES, error_out=False)
+    punches = db.paginate(punches_master, page=1, per_page=max_vars.MAX_LAST_PUNCHES, error_out=False)
     page_search = punches.next_num
     return render_template('punches-table.html',
                            punches=punches,
-                           last=MAX_LAST_PUNCHES,
+                           last=max_vars.MAX_LAST_PUNCHES,
                            page_search=page_search)
 
 @clock.post('pullpunches/showmore')
@@ -193,13 +192,13 @@ def pullpunches():
 def pullpunchesshowmore():
     page_search = request.args.get('page_search', default='', type=int)
     punches_master = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out))
-    punches = db.paginate(punches_master, page=page_search, per_page=MAX_LAST_PUNCHES, error_out=False)
+    punches = db.paginate(punches_master, page=page_search, per_page=max_vars.MAX_LAST_PUNCHES, error_out=False)
     page_search = punches.next_num
     return render_template('punches-row-build.html',
                            punches=punches,
                            page_search=page_search)
 
-@clock.route('/punch/flag')
+@clock.post('/punch/flag')
 @login_required
 def punchflag():
     id = request.args.get('id', default='', type=int)
@@ -208,7 +207,7 @@ def punchflag():
     punch.flag = 'n' if flag == 'unflag' else 'y'
     db.session.commit()
     return redirect(url_for('clock.punchshowrow',
-                            id=punch.id))
+                            id=punch.id), code=307)
 
 
 @clock.post('/punch/noteshow')
@@ -232,9 +231,9 @@ def punchnote():
     punch.flag_note = form.flag_note.data
     db.session.commit()
     return redirect(url_for('clock.punchshowrow',
-                            id=punch.id))
+                            id=punch.id), code=307)
 
-@clock.route('/punch/showrow')
+@clock.post('/punch/showrow')
 @login_required
 def punchshowrow():
     id = request.args.get('id', default='', type=int)
@@ -298,18 +297,18 @@ def profilepwedit():
     db.session.commit()
     return render_template('clock-profile.html')
 
-@clock.route('/date')
+@clock.post('/date')
 def getdate():
     getdate = date.today()
     return render_template('clock-date.html',
                            getdate=getdate)
 
-@clock.route('/showhelp')
+@clock.post('/showhelp')
 @login_required
 def showhelp():
     return render_template('punch-help.html')
 
-@clock.route('/hidehelp')
+@clock.post('/hidehelp')
 @login_required
 def hidehelp():
     return render_template('punch-help-min.html')

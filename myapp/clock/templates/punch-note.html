@@ -42,7 +42,7 @@
 			form="editform">
         <button
             class="btn btn-secondary"
-            hx-get="{{url_for('clock.punchshowrow', id=punch.id)}}"
+            hx-post="{{url_for('clock.punchshowrow', id=punch.id)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
         >Cancel</button>

@@ -49,7 +49,7 @@ flagged entries: 0 <i class="bi bi-arrow-clockwise" title="updates every 30 seco
     </tbody>
 </table>
 <div
-    hx-get="{{url_for('records.hours.portalsearch')}}"
+    hx-post="{{url_for('records.hours.portalsearch')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
     hx-trigger="load"

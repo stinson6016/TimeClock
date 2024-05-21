@@ -9,12 +9,12 @@ from .webforms import CompanyEdit
 company = Blueprint('company', __name__, 
                     template_folder='templates')
 
-@company.route('/show')
+@company.post('/show')
 @login_required
 def show():
     comp_name:str = getenv('COMP_NAME')
-    email_active = getenv('EMAIL_ACTIVE')
-    email_setup = True if getenv('MAIL_DEFAULT_SENDER') and getenv('MAIL_SERVER') else False
+    email_active:str = getenv('EMAIL_ACTIVE')
+    email_setup:bool = True if getenv('MAIL_DEFAULT_SENDER') and getenv('MAIL_SERVER') else False
     return render_template('company/company.html',
                            comp_name=comp_name,
                            email_setup=email_setup,
@@ -65,4 +65,4 @@ def save():
     environ['MAIL_DEFAULT_SENDER'] = form.email_send.data
     environ['EMAIL_ACTIVE'] = env_active
 
-    return redirect(url_for('records.company.show'))
+    return redirect(url_for('records.company.show'), code=307)
