@@ -18,6 +18,7 @@ def get_users_admins() -> list[int:str]:
     return return_users
 
 def get_time_total(start_time: time, end_time: time) -> time:
+    '''takes the start and end times and returns the total amount of time'''
     if start_time > end_time:
         return None
     # take time and convert to datetime because I'm lazy and this works

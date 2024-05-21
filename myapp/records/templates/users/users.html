@@ -12,7 +12,7 @@ Employees / Admin
 {% endif %}
 <a 
     href="#"
-    hx-get="{{url_for('records.users.showall', disabled=newdisabled)}}"
+    hx-post="{{url_for('records.users.showall', disabled=newdisabled)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >{{linktext}}</a>
@@ -51,7 +51,7 @@ Employees / Admin
 {% include 'users/users-key-min.html' %}
 
 <div
-    hx-get="{{url_for('records.users.showall')}}"
+    hx-post="{{url_for('records.users.showall')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
     hx-trigger="load"

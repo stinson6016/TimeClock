@@ -42,19 +42,19 @@ def main():
                            form=form,
                            email_active=email_active )
 
-@records.route('/showmain')
+@records.post('/showmain')
 def showmain():
     if current_user.is_authenticated:
-        return redirect(url_for('records.mainportal'))
+        return redirect(url_for('records.mainportal'), code=307)
     else: 
-        return redirect(url_for('records.loginshow'))
+        return redirect(url_for('records.loginshow'), code=307)
         
-@records.route('/portal')
+@records.post('/portal')
 @login_required
 def mainportal():
     return render_template('records/portal.html')
 
-@records.route('/login/show')
+@records.post('/login/show')
 def loginshow():
     form = RecordsLogin()
     form.name.choices = get_users_admins()
@@ -93,7 +93,7 @@ def login():
 
     login_user(check_user)
     logging.info(f'ADMIN - {current_user.name} logged in')
-    return redirect(url_for('records.mainportal'))
+    return redirect(url_for('records.mainportal'), code=307)
 
 @records.post('/login/pwreset')
 def loginpwreset():
@@ -118,16 +118,16 @@ def loginpwreset():
     user.pw_change = 'n'
     db.session.commit()
     login_user(user)
-    return redirect(url_for('records.mainportal'))
+    return redirect(url_for('records.mainportal'), code=307)
 
-@records.route('/logout')
+@records.post('/logout')
 def logout():
     logging.info(f'ADMIN - {current_user.name} logged in')
     logout_user()
     flash('Logged out')
-    return redirect(url_for('records.loginshow'))
+    return redirect(url_for('records.loginshow'), code=307)
 
-@records.route('/login/lostpw')
+@records.post('/login/lostpw')
 def loginlostpw():
     form = LostPassword()
     return render_template('records/records-lostpw.html',
@@ -149,9 +149,9 @@ def loginlostpwsend():
             mail.send(msg)
         except:
             flash('email send failed, check server settings')
-            return redirect(url_for('records.showmain'))
+            return redirect(url_for('records.showmain'), code=307)
     flash('email sent, check your spam folder')
-    return redirect(url_for('records.showmain'))
+    return redirect(url_for('records.showmain'), code=307)
 
 @records.get('/resetpassword')
 def resetpw():
@@ -160,7 +160,7 @@ def resetpw():
     id = validate_token(token)
     if id == False:
         flash('Link error, link might be expired')
-        return redirect(url_for('records.main'))
+        return redirect(url_for('records.main'), code=307)
     return render_template('records/records-pw-link.html',
                            form=form,
                            id=id)
@@ -179,7 +179,7 @@ def resetpwupdate():
     user.pw_change = 'n'
     db.session.commit()
     flash('password reset')
-    return redirect(url_for('records.main'))
+    return redirect(url_for('records.main'), code=307)
 
 def make_token(userid:int) -> str:
     from os import getenv

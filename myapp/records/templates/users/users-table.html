@@ -12,7 +12,7 @@ Employees / Admin
 {% endif %}
 <a 
     href="#"
-    hx-get="{{url_for('records.users.showall', disabled=newdisabled)}}"
+    hx-post="{{url_for('records.users.showall', disabled=newdisabled)}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
 >{{linktext}}</a>

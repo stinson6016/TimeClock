@@ -13,7 +13,7 @@
 	<div 
 		id="date"
 		class="date"
-		hx-get="{{url_for('clock.getdate')}}"
+		hx-post="{{url_for('clock.getdate')}}"
 		hx-target="#date"
 		hx-swap="outerHTML"
 		hx-trigger="load"
@@ -32,7 +32,7 @@
 
 	<div 
 		id="mainarea"
-		hx-get="{{url_for('clock.showmain')}}"
+		hx-post="{{url_for('clock.showmain')}}"
 		hx-target="#mainarea"
 		hx-swap="innerHTML"
 		hx-trigger="load"

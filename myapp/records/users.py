@@ -11,14 +11,14 @@ from ..models import Users, Punch
 users = Blueprint('users', __name__,
                   template_folder='templates')
 
-@users.route('/show')
+@users.post('/show')
 @login_required
 def show():
     return render_template('users/users.html',
                            disabled='n',
                            page='u')
 
-@users.route('/showall')
+@users.post('/showall')
 @login_required
 def showall():
     disabled = request.args.get('disabled', default='n', type=str)
@@ -62,7 +62,7 @@ def new():
     db.session.add(new_user)
     db.session.commit()
     return redirect(url_for('records.users.showrow', 
-                            id=new_user.id))
+                            id=new_user.id), code=307)
 
 @users.post('/cancel')
 @login_required
@@ -106,9 +106,9 @@ def edit():
         user.admin = form.admin.data
     db.session.commit()
     return redirect(url_for('records.users.showrow',
-                            id=user.id))
+                            id=user.id), code=307)
 
-@users.route('/showrow', methods=['GET', 'POST'])
+@users.post('/showrow')
 @login_required
 def showrow():
     id = request.args.get('id', default = '', type =int)
@@ -162,14 +162,14 @@ def password():
     user.pw_change = 'n'
     db.session.commit()
     return redirect(url_for('records.users.showrow',
-                            id=user.id))
+                            id=user.id), code=307)
 
-@users.route('/showkey')
+@users.post('/showkey')
 @login_required
 def showkey():
     return render_template('users/users-key.html')
 
-@users.route('/hidekey')
+@users.post('/hidekey')
 @login_required
 def hidekey():
     return render_template('users/users-key-min.html')

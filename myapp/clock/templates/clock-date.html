@@ -1,7 +1,7 @@
 <div 
 		id="date"
 		class="date"
-		hx-get="{{url_for('clock.getdate')}}"
+		hx-post="{{url_for('clock.getdate')}}"
 		hx-target="#date"
 		hx-swap="outerHTML"
 		hx-trigger="every 3600s"

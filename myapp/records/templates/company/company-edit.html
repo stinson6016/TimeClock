@@ -64,7 +64,7 @@ Company Settings
 &nbsp; &nbsp; 
 <button
     class="btn btn-secondary"
-    hx-get="{{url_for('records.company.show')}}"
+    hx-post="{{url_for('records.company.show')}}"
     hx-target="#recordsarea"
     hx-swap="innerHTML"
     hx-confirm="Cancel without saving?"

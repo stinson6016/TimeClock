@@ -1,7 +1,7 @@
 <div class="d-grid gap-2 col-1">
     <button
         class="btn btn-secondary"
-        hx-get="{{url_for('clock.logout')}}"
+        hx-post="{{url_for('clock.logout')}}"
         hx-target="#mainarea"
         hx-swap="innerHTML"
     >Logout</button>
@@ -10,7 +10,7 @@
     <!-- already logged in -->
         <button 
             class="btn btn-outline-info"
-            hx-get="{{url_for('clock.onepunch', type='i')}}"
+            hx-post="{{url_for('clock.onepunch', type='i')}}"
             hx-target="#mainarea"
             hx-swap="innerHTML"
             hx-confirm="You are already clocked in. Clock in anyways?"
@@ -18,7 +18,7 @@
 
         <button 
             class="btn btn-primary"
-            hx-get="{{url_for('clock.onepunch', type='o')}}"
+            hx-post="{{url_for('clock.onepunch', type='o')}}"
             hx-target="#mainarea"
             hx-swap="innerHTML"
         >Clock Out</button>
@@ -26,14 +26,14 @@
     <!-- not logged in -->
         <button 
             class="btn btn-primary"
-            hx-get="{{url_for('clock.onepunch', type='i')}}"
+            hx-post="{{url_for('clock.onepunch', type='i')}}"
             hx-target="#mainarea"
             hx-swap="innerHTML"
         >Clock In</button>
 
         <button 
             class="btn btn-outline-info"
-            hx-get="{{url_for('clock.onepunch', type='o')}}"
+            hx-post="{{url_for('clock.onepunch', type='o')}}"
             hx-target="#mainarea"
             hx-swap="innerHTML"
             hx-confirm="You are already clocked out. Clock out anyways?"

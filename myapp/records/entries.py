@@ -12,7 +12,7 @@ from ..models import Users, Punch
 entries = Blueprint("entries", __name__,
                     template_folder='templates')
 
-@entries.route('/')
+@entries.post('/')
 @login_required
 def showportal():
     # quick load default page while pulling data
@@ -126,7 +126,8 @@ def portalnew():
         user = Users.query.get(form.user_id.data)
         user.last_clock = punch.id
     db.session.commit()
-    return redirect(url_for('records.entries.portalshowrow', id=punch.id))
+    return redirect(url_for('records.entries.portalshowrow', 
+                            id=punch.id), code=307)
 
 @entries.post('/editshow')
 @login_required
@@ -162,7 +163,8 @@ def portaledit():
         if user.last_clock == punch.id:
             user.last_clock = None
     db.session.commit()
-    return redirect(url_for('records.entries.portalshowrow', id=punch.id))
+    return redirect(url_for('records.entries.portalshowrow', 
+                            id=punch.id), code=307)
 
 @entries.delete('/delete')
 @login_required
@@ -177,7 +179,7 @@ def portaldelete():
     db.session.commit()
     return '', 200
 
-@entries.route('/showrow', methods=['GET', 'POST'])
+@entries.post('/showrow')
 @login_required
 def portalshowrow():
     id = request.args.get('id', default='', type=int)
@@ -198,12 +200,12 @@ def portalshownote():
     return render_template('punches/punches-row-note.html',
                            punch=punch)
 
-@entries.route('/showkey')
+@entries.post('/showkey')
 @login_required
 def showkey():
     return render_template('punches/punches-key.html')
 
-@entries.route('/hidekey')
+@entries.post('/hidekey')
 @login_required
 def hidekey():
     return render_template('punches/punches-key-min.html')
