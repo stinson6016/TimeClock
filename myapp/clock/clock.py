@@ -263,6 +263,11 @@ def profileeditshow():
 def profileedit():
     user = Users.query.get(current_user.id)
     form = UserProfile()
+    check_email = Users.query.where(Users.email == form.email.data, Users.id != user.id, Users.admin=='n').first()
+    if check_email and form.email.data:
+        flash("that email already in use")
+        return render_template('clock-profile-edit.html',
+                           form=form)
     user.name = form.name.data
     user.email = form.email.data
     user.time_format = form.time_format.data

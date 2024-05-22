@@ -36,3 +36,13 @@
     hx-swap="innerHTML"
     hx-confirm="Cancel without saving?"
 >Cancel</button>
+<br/>
+<div  class="d-grid gap-2 col-4">
+    {% for message in get_flashed_messages() %}
+    <br/>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
