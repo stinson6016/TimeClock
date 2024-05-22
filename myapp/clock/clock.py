@@ -174,17 +174,17 @@ def onepunch():
 @login_required
 def punches():
     return render_template('punches.html',
-                           last=max_vars.MAX_LAST_PUNCHES)
+                           last=current_user.last_punch)
 
 @clock.post('/pullpunches')
 @login_required
 def pullpunches():
     punches_master = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out))
-    punches = db.paginate(punches_master, page=1, per_page=max_vars.MAX_LAST_PUNCHES, error_out=False)
+    punches = db.paginate(punches_master, page=1, per_page=current_user.last_punch, error_out=False)
     page_search = punches.next_num
     return render_template('punches-table.html',
                            punches=punches,
-                           last=max_vars.MAX_LAST_PUNCHES,
+                           last=current_user.last_punch,
                            page_search=page_search)
 
 @clock.post('pullpunches/showmore')
@@ -192,7 +192,7 @@ def pullpunches():
 def pullpunchesshowmore():
     page_search = request.args.get('page_search', default='', type=int)
     punches_master = Punch.query.where(Punch.user_id==current_user.id).order_by(desc(Punch.clock_date), desc(Punch.clock_in),desc(Punch.clock_out))
-    punches = db.paginate(punches_master, page=page_search, per_page=max_vars.MAX_LAST_PUNCHES, error_out=False)
+    punches = db.paginate(punches_master, page=page_search, per_page=current_user.last_punch, error_out=False)
     page_search = punches.next_num
     return render_template('punches-row-build.html',
                            punches=punches,
@@ -252,6 +252,8 @@ def profileeditshow():
     form = UserProfile()
     form.name.default = current_user.name
     form.email.default = current_user.email
+    form.time_format.default = current_user.time_format
+    form.last_punch.default = current_user.last_punch
     form.process()
     return render_template('clock-profile-edit.html',
                            form=form)
@@ -263,6 +265,8 @@ def profileedit():
     form = UserProfile()
     user.name = form.name.data
     user.email = form.email.data
+    user.time_format = form.time_format.data
+    user.last_punch = form.last_punch.data
     db.session.commit()
     return render_template('clock-profile.html')
 

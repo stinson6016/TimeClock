@@ -9,7 +9,11 @@
     
     <td class="col">
         {% if punch.clock_in %}
-        {{punch.clock_in.strftime("%H:%M:%S")}}
+        {% if current_user.time_format == 0 %}
+            {{punch.clock_in.strftime("%T")}}
+        {% else%}
+            {{punch.clock_in.strftime("%r")}}
+        {% endif %}
         {% else %}
         ----
         {% endif %}
@@ -17,7 +21,11 @@
 
     <td class="col">
         {% if punch.clock_out %}
-        {{punch.clock_out.strftime("%H:%M:%S")}}
+        {% if current_user.time_format == 0 %}
+            {{punch.clock_out.strftime("%T")}}
+        {% else%}
+            {{punch.clock_out.strftime("%r")}}
+        {% endif %}
         {% else %}
         ----
         {% endif %}
