@@ -63,7 +63,7 @@ def portalsearch():
                            start=first_day_search,
                            end=last_day_search)
 
-@hours.post('/print')
+@hours.route('/print')
 @login_required
 def printhours():
     employee = request.args.get('employee', default="", type=str) 
