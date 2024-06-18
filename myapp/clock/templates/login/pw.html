@@ -1,7 +1,7 @@
 <form 
     hx-target="#mainarea"
     hx-swap="innerHTML"
-    hx-post="{{url_for('clock.profilepwedit')}}"
+    hx-post="{{url_for('clock.login.loginpwreset', id=editid)}}"
     id="editform">
     {{ form.hidden_tag() }}
 </form>
@@ -14,10 +14,13 @@
 </div>
 {% endif %}
 </div>
+Please reset your password
+<br/>
+<br/>
 
 <div class="d-grid gap-2 col-3">
     {{ form.admin_pass.label }}
-    {{ form.admin_pass(class="form-control", form="editform", autofocus=true) }}
+    {{ form.admin_pass(class="form-control", form="editform") }}
 
     {{ form.password1.label }}
     {{ form.password1(class="form-control", form="editform") }}
@@ -31,7 +34,7 @@
 
 <button
     class="btn btn-secondary"
-    hx-post="{{url_for('clock.profileshow')}}"
+    hx-post="{{url_for('clock.login.loginshow')}}"
     hx-target="#mainarea"
     hx-swap="innerHTML"
     hx-confirm="Cancel without saving?"

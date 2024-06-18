@@ -1,5 +1,5 @@
 <form
-    hx-post="{{url_for('clock.login')}}"
+    hx-post="{{url_for('clock.login.loginmain')}}"
     hx-target="#mainarea"
     hx-swap="innerHTML"
 >
@@ -25,7 +25,7 @@
         <div class="d-grid col-1 gap-2">
             <button 
                 class="btn btn-secondary"
-                hx-post="{{url_for('clock.loginshow')}}"
+                hx-post="{{url_for('clock.login.loginshow')}}"
                 hx-target="#mainarea"
                 hx-swap="innerHTML"
             >Clear</button>

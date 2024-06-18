@@ -1,7 +1,7 @@
 <form 
     hx-target="#mainarea"
     hx-swap="innerHTML"
-    hx-post="{{url_for('clock.profileedit')}}"
+    hx-post="{{url_for('clock.profile.profileedit')}}"
     id="editform">
     {{ form.hidden_tag() }}
 </form>
@@ -31,7 +31,7 @@
 
 <button
     class="btn btn-secondary"
-    hx-post="{{url_for('clock.profileshow')}}"
+    hx-post="{{url_for('clock.profile.profileshow')}}"
     hx-target="#mainarea"
     hx-swap="innerHTML"
     hx-confirm="Cancel without saving?"

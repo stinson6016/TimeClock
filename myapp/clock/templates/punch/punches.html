@@ -1,7 +1,7 @@
 Welcome {{current_user.name}}
 <a
     href="#"
-    hx-post="{{url_for('clock.profileshow')}}"
+    hx-post="{{url_for('clock.profile.profileshow')}}"
     hx-target="#mainarea"
     hx-swap="innerHTML"
 >profile</a>
@@ -20,7 +20,7 @@ Clocked Out
 <br/>
 
 <!-- moved the clock in/out logout buttons to new page just because -->
-{% include 'punch-buttons.html' %}
+{% include 'punch/buttons.html' %}
 
 <br/>
 <div  class="d-grid gap-2 col-4">
@@ -38,7 +38,7 @@ Clocked Out
  Your last <b class="something">{{last}}</b> time entries
  <a
     href="#"
-    hx-post="{{url_for('clock.pullpunches')}}"
+    hx-post="{{url_for('clock.punch.pullpunches')}}"
     hx-target="#hourstable"
     hx-swap="innerHTML"
  ><i class="bi bi-arrow-clockwise" title="refresh punches"></i></a>
@@ -48,7 +48,7 @@ Clocked Out
 
 <div
     id="hourstable"
-    hx-post="{{url_for('clock.pullpunches')}}"
+    hx-post="{{url_for('clock.punch.pullpunches')}}"
     hx-target="#hourstable"
     hx-swap="innerHTML"
     hx-trigger="load"
@@ -73,5 +73,5 @@ Clocked Out
 
 <br/><br/>
 <div id="punchhelp">
-    {% include 'punch-help-min.html' %}
+    {% include 'help-min.html' %}
 </div>

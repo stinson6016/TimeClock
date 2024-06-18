@@ -1,5 +1,5 @@
 {% for punch in punches %}
-    {% include 'punch-row.html' %}
+    {% include 'punch/row.html' %}
 {% endfor %}  
 
 {% if page_search %}
@@ -7,7 +7,7 @@
     <td class="text-center">
         <button
             class="btn btn-outline-info"
-            hx-post="{{url_for('clock.pullpunchesshowmore', flag=flag, employee=employee, start=start, end=end, page_search=page_search)}}"
+            hx-post="{{url_for('clock.punch.pullpunchesshowmore', flag=flag, employee=employee, start=start, end=end, page_search=page_search)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
         >show more</button>

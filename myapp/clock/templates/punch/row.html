@@ -43,7 +43,7 @@
             class="btn btn-outline-warning"
             style="color: black"
             title="flag punch for review"
-            hx-post="{{url_for('clock.punchflag', flag='flag', id=punch.id)}}"
+            hx-post="{{url_for('clock.punch.punchflag', flag='flag', id=punch.id)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
         ><i class="bi bi-flag"></i> flag</button>
@@ -52,14 +52,14 @@
         <button 
             class="btn btn-warning"
             title="unflag punch for review"
-            hx-post="{{url_for('clock.punchflag', flag='unflag', id=punch.id)}}"
+            hx-post="{{url_for('clock.punch.punchflag', flag='unflag', id=punch.id)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
         ><i class="bi bi-flag"></i> unflag</button>
         &nbsp;&nbsp;
         <a
             href="#"
-            hx-post="{{url_for('clock.punchnoteshow', id=punch.id)}}"
+            hx-post="{{url_for('clock.punch.punchnoteshow', id=punch.id)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
         >

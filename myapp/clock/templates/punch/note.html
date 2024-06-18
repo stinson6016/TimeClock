@@ -40,7 +40,7 @@
         <form 
             hx-target="closest tr"
             hx-swap="outerHTML"
-            hx-post="{{url_for('clock.punchnote', id=punch.id)}}"
+            hx-post="{{url_for('clock.punch.punchnote', id=punch.id)}}"
             id="editform">
             {{ form.hidden_tag() }}
 
@@ -50,7 +50,7 @@
 			form="editform">
         <button
             class="btn btn-secondary"
-            hx-post="{{url_for('clock.punchshowrow', id=punch.id)}}"
+            hx-post="{{url_for('clock.punch.punchshowrow', id=punch.id)}}"
             hx-target="closest tr"
             hx-swap="outerHTML"
         >Cancel</button>
