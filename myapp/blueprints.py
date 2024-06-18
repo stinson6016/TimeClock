@@ -9,7 +9,7 @@ def load_blueprints(app: Flask) -> None:
     from .setup.setup import setup
 
     # register blueprints
-    app.register_blueprint(main, url_prefix='/')
-    app.register_blueprint(records, url_prefix='/records')
-    app.register_blueprint(clock, url_prefix='/clock')
-    app.register_blueprint(setup, url_prefix='/setup')
+    app.register_blueprint(main)
+    app.register_blueprint(records)
+    app.register_blueprint(clock)
+    app.register_blueprint(setup)

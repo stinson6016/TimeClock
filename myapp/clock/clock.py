@@ -10,7 +10,8 @@ from ..models import Users
 from .webforms import PunchForm
 
 clock = Blueprint("clock", __name__,
-                  template_folder='templates')
+                  template_folder='templates', 
+                  url_prefix='/clock')
 clock.register_blueprint(login)
 clock.register_blueprint(profile)
 clock.register_blueprint(punch)

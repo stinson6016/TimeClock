@@ -19,7 +19,8 @@ from ..models import Users
 from ..extensions import mail
 
 records = Blueprint("records", __name__,
-                    template_folder='templates')
+                    template_folder='templates', 
+                    url_prefix='/records')
 records.register_blueprint(entries, url_prefix='/entries')
 records.register_blueprint(users, url_prefix='/users')
 records.register_blueprint(company, url_prefix='/company')
