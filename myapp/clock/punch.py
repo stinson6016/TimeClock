@@ -14,12 +14,19 @@ punch = Blueprint("punch", __name__,
                   template_folder='templates',
                   url_prefix='/punch')
 
+def user_timenow():
+    now = datetime.now()
+    if current_user.time_format == 0:
+        return now.strftime("%T") # 24 hour
+    else:
+        return now.strftime("%I:%M:%S %p") # 12 hour
 
 @punch.post('/one')
 @login_required
 def onepunch():
     now:datetime = datetime.now()
     time_now:time = datetime.strptime(now.strftime("%H:%M:%S"), "%H:%M:%S").time()
+    user_time:time = user_timenow()
     
     type = request.args.get('type', default='', type=str)
     edit_user = Users.query.get(current_user.id)
@@ -36,7 +43,7 @@ def onepunch():
         db.session.commit()
         edit_user.last_clock = new_punch.id
         db.session.commit()
-        flash(f'Clocked In - {time_now.strftime("%H:%M:%S")}')
+        flash(f'Clocked In - {user_time}')
         logging.info(f'{current_user.name} clocked in')
         
     if type == 'i' and not current_user.last_clock: ### punch in not punched in
@@ -48,7 +55,7 @@ def onepunch():
         db.session.commit()
         edit_user.last_clock = new_punch.id
         db.session.commit()
-        flash(f'Clocked In - {time_now.strftime("%H:%M:%S")}')
+        flash(f'Clocked In - {user_time}')
         logging.info(f'{current_user.name} clocked in, error already clocked in')
 
     if type == 'o' and not current_user.last_clock: # punch out not punched in
@@ -59,7 +66,7 @@ def onepunch():
                           flag_note='auto - clocked out while already marked as clocked out')
         db.session.add(new_punch)
         db.session.commit()
-        flash(f'Clocked Out - {time_now.strftime("%H:%M:%S")}')
+        flash(f'Clocked Out - {user_time}')
         logging.info(f'{current_user.name} clocked out')
 
     if type == 'o' and current_user.last_clock: ### punch out and punched in
@@ -72,7 +79,7 @@ def onepunch():
         edit_punch.time_total = time_total
         edit_punch.flag = 'n' if time_total else 'y'
         db.session.commit()
-        flash(f'Clocked Out - {time_now.strftime("%H:%M:%S")}')
+        flash(f'Clocked Out - {user_time}')
         logging.info(f'{current_user.name} clocked out, error already clocked out')
     
     return redirect(url_for('clock.punch.punches'), code=307)

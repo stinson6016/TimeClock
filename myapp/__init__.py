@@ -27,7 +27,7 @@ def create_app() -> Flask:
 
     SECRET_KEY:str = getenv('SECRET_KEY')
     MYENV:str = '' if getenv('DEV_ENV') == None else getenv('DEV_ENV')
-    LOCAL_FILES:str = 'y' if getenv('LOCAL_FILES') == None else 'n'
+    LOCAL_FILES:str = 'n' if getenv('LOCAL_FILES') == None else 'y'
 
     app:Flask = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_SERVER}'
