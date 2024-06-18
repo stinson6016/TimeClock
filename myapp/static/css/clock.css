@@ -18,7 +18,7 @@
     height: 10vw;
     /*to make the height and width responsive*/
     width: 10vw;
-    background: url("/static/clock.jpg") no-repeat;
+    background: url("/static/images/clock.jpg") no-repeat;
     /*setting our background image*/
     background-size: 100%;
     }
