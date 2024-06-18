@@ -33,6 +33,7 @@ def check_env_file() -> None:
         set_key(dotenv_path=env_file_path, key_to_set="MAIL_USERNAME", value_to_set='')
         set_key(dotenv_path=env_file_path, key_to_set="MAIL_DEFAULT_SENDER", value_to_set='')
         set_key(dotenv_path=env_file_path, key_to_set="MAIL_PASSWORD", value_to_set='')
+        set_key(dotenv_path=env_file_path, key_to_set="LOCAL_FILES", value_to_set='y')
 
 def create_database(app: Flask, db_server: str) -> None:
     from .models import Punch, Users

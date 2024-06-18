@@ -1,0 +1,14 @@
+h1, h3 {
+	color: darkblue;
+	
+}
+
+body {
+	background: white;
+}
+
+body::before {
+	display: block;
+	content: '';
+	height: 60px;
+  }

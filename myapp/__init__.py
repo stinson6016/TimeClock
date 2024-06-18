@@ -18,12 +18,9 @@ def create_app() -> Flask:
     check_env_file() # checks for the dotenv file and makes a new one if needed, in startup.py
     load_dotenv()
     
-    
     basedir:str = path.abspath(path.dirname(__name__))
     DB_NAME:str = getenv('DB_NAME')
-    DB_SERVER:str = path.join(basedir, DB_NAME)
-    # DB_SERVER = getenv('DB_SERVER')
-    
+    DB_SERVER:str = path.join(basedir, DB_NAME)    
 
     SECRET_KEY:str = getenv('SECRET_KEY')
     MYENV:str = '' if getenv('DEV_ENV') == None else getenv('DEV_ENV')
@@ -32,8 +29,6 @@ def create_app() -> Flask:
     app:Flask = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_SERVER}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # app.config['SQLALCHEMY_DATABASE_URI'] = DB_SERVER
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = SECRET_KEY
     db.init_app(app)
     mail.init_app(app)
