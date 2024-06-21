@@ -28,5 +28,5 @@ class Users(db.Model, UserMixin):
     pw_last     = db.Column(db.DateTime)
     pw_change   = db.Column(db.String(1), default='n')
     last_clock  = db.Column(db.Integer, db.ForeignKey('punch.id'))
-    time_format = db.Column(db.Integer, default=0)
+    time_format = db.Column(db.Integer, default=1)
     last_punch  = db.Column(db.Integer, default=20)
