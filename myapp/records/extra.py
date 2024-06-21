@@ -37,34 +37,44 @@ def quick_search(quick:str) -> tuple[date, date]:
     ''' returns the start and stop dates for doing a quick database search in a specific date range '''
     # bad code to get the start and finish dates for the searches
     today: datetime = datetime.now()
-    if quick == '' or quick == 'tw': # default / this week
-        first: datetime = (today - relativedelta(weekday=MO(-1)))
-        last: datetime = (first + timedelta(weeks = 1)) - timedelta(days = 1)
-    elif quick=='lw': # last week
-        first: datetime = (today - relativedelta(weekday=MO(-2)))
-        last: datetime =  (first + timedelta(weeks = 1)) - timedelta(days = 1)
-    elif quick=='td': # today
-        first: datetime = today
-        last: datetime = today
-    elif quick=='yd': # yesterday 
-        first: datetime = today - timedelta(days = 1)
-        last: datetime = today - timedelta(days = 1)
-    elif quick=='tm': # this month
-        first: datetime = today.replace(day=1)
-        mon_cal = calendar.monthrange(today.year, today.month)
-        last: datetime = datetime.strptime(  str(today.year) +"-"+ str(today.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
-    elif quick=='lm': # last month
-        first: datetime = (today - timedelta(days=today.day)).replace(day=1)
-        mon_cal = calendar.monthrange(first.year, first.month)
-        last: datetime = datetime.strptime(  str(first.year) +"-"+ str(first.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
-    elif quick=='ty': # this year
-        first: date = today.date().replace(month=1, day=1)
-        last: date = today.date().replace(month=12, day=31)
-        return first, last # don't have to convert to date
-    elif quick=='ly': # last year
-        first: date = today.date().replace(month=1, day=1) - relativedelta(years=1)
-        last: date = today.date().replace(month=12, day=31) - relativedelta(years=1)
-        return first, last # don't have to conver to date
+    logging.debug(f'search: {quick}')
+    match quick:
+        case 'tw' | '': # default / this week
+            first: datetime = (today - relativedelta(weekday=MO(-1)))
+            last: datetime = (first + timedelta(weeks = 1)) - timedelta(days = 1)
+            logging.debug(f'first day: {first} last day: {last}')
+        case 'lw': # last week
+            first: datetime = (today - relativedelta(weekday=MO(-2)))
+            last: datetime =  (first + timedelta(weeks = 1)) - timedelta(days = 1)
+            logging.debug(f'first day: {first} last day: {last}')
+        case 'td': # today
+            first: datetime = today
+            last: datetime = today
+            logging.debug(f'first day: {first} last day: {last}')
+        case 'yd': # yesterday 
+            first: datetime = today - timedelta(days = 1)
+            last: datetime = today - timedelta(days = 1)
+            logging.debug(f'first day: {first} last day: {last}')
+        case 'tm': # this month
+            first: datetime = today.replace(day=1)
+            mon_cal = calendar.monthrange(today.year, today.month)
+            last: datetime = datetime.strptime(  str(today.year) +"-"+ str(today.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
+            logging.debug(f'first day: {first} last day: {last}')
+        case 'lm': # last month
+            first: datetime = (today - timedelta(days=today.day)).replace(day=1)
+            mon_cal = calendar.monthrange(first.year, first.month)
+            last: datetime = datetime.strptime(  str(first.year) +"-"+ str(first.month) +"-"+ str(mon_cal[1]) , "%Y-%m-%d")
+            logging.debug(f'first day: {first} last day: {last}')
+        case 'ty': # this year
+            first: date = today.date().replace(month=1, day=1)
+            last: date = today.date().replace(month=12, day=31)
+            logging.debug(f'first day: {first} last day: {last}')
+            return first, last # don't have to convert to date
+        case 'ly': # last year
+            first: date = today.date().replace(month=1, day=1) - relativedelta(years=1)
+            last: date = today.date().replace(month=12, day=31) - relativedelta(years=1)
+            logging.debug(f'first day: {first} last day: {last}')
+            return first, last # don't have to conver to date
 
     # convert the datetime to just date
     first_date: date = first.date()
