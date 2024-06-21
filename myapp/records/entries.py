@@ -31,10 +31,10 @@ def showportal():
 def portalsearch():
     quick = request.args.get('quick', default='', type=str)
     get_flag = request.args.get('flag', default=None, type=str)
-    get_employee = request.args.get('employee', default=None, type=str)
+    get_employee = request.args.get('employee', default=None, type=int)
     form = SearchPunches()
     
-    employee = form.employee.data if form.employee.data else get_employee
+    employee:int = int(form.employee.data) if form.employee.data else get_employee
     flag = form.flagged.data if form.flagged.data else get_flag
     first, last = quick_search(quick)
     if not quick:

@@ -3,19 +3,27 @@ from dateutil.relativedelta import relativedelta
 from dateutil.rrule import MO
 from sqlalchemy import desc
 import calendar
+import logging
 
 from ..models import Punch
 
 def search_punch_data(start_date:date = date.today(), end_date:date = date.today(), user_id:int = None, flag:str = None):
+    logging.debug(f'search user_id: {user_id}')
     if not user_id and not flag:
+        logging.debug('search option 1')
         punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out)
     elif not user_id and flag:
+        logging.debug('search option 2')
         punches = Punch.query.where(Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out)
     elif user_id and not flag:
+        logging.debug('search option 3')
         punches = Punch.query.where(Punch.user_id==user_id, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out)
     elif user_id and flag:
+        logging.debug('search option 4')
         punches = Punch.query.where(Punch.user_id==user_id, Punch.flag==flag, Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out)
-    punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out) 
+    else:
+        logging.debug('search else')
+        punches = Punch.query.where(Punch.clock_date >= start_date, Punch.clock_date <= end_date).order_by(desc(Punch.clock_date),Punch.clock_in, Punch.clock_out) 
     return punches
 
 def search_flagged(start_date:date = date.today(), end_date:date = date.today(), user_id:int = None) -> int:

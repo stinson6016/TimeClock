@@ -37,36 +37,11 @@
 		hx-swap="innerHTML"
 		hx-trigger="load"
 	>
-		
-	<form>
-    <b>Login to clock in / out</b>
-    <span class="text-muted">(and see your last punches)</span>
-
-    
-    <br/>
-    <br/>
-    
-    <div class="d-grid gap-2 col-3">
-        {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control") }}
-
-        {{ form.password.label(class="form-label") }}
-        {{ form.password(class="form-control") }}
-        
-    </div>
-    <br/>
-
-    <div class="row">
-        <div class="d-grid col-1 gap-2"><button class="btn btn-success">Login</button></div>
-        <div class="d-grid col-1 gap-2">
-            <button class="btn btn-secondary">Clear</button>
-        </div>
-    </div>
-    
-    <br/>
-    <br/>
-    
-	</form>
+	{% if current_user.is_authenticated %}
+	{% include 'punch/punches.html' %}
+	{% else %}
+	{% include 'login/login-load.html' %}
+	{% endif %}
 
 	</div>
 	

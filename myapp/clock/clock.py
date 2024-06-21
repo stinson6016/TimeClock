@@ -18,10 +18,9 @@ clock.register_blueprint(punch)
 
 @clock.route('/')
 def home():
-    if current_user.is_authenticated:
-        if current_user.admin == 'y':
-            flash('Please logout of Time Records to access the Time Clock')
-            return redirect(url_for('records.main'), code=307)
+    if current_user.is_authenticated and current_user.admin == 'y':
+        flash('Please logout of Time Records to access the Time Clock')
+        return redirect(url_for('records.main'), code=307)
     user_count = Users.query.count()
     if user_count == 0:
         return redirect(url_for('setup.show'), code=307)

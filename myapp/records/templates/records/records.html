@@ -15,46 +15,14 @@
 		Time Records
 	</h3>
 	<br/>
-	<div
+    <div
 		id="recordsarea"
-		hx-post="{{url_for('records.showmain')}}"
-		hx-target="#recordsarea"
-		hx-swap="innerHTML"
-		hx-trigger="load"
 	>
-	<form>
-    <b>Time Clock Records Management Login</b>
-    
-    <br/>
-    <br/>
-    
-    <div class="d-grid gap-2 col-3">
-        {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control") }}
-
-        {{ form.password.label(class="form-label") }}
-        {{ form.password(class="form-control",) }}
-        
-    </div>
-    <br/>
-
-    <div class="row">
-        <div class="d-grid col-1 gap-2"><button class="btn btn-success">Login</button></div>
-        <div class="d-grid col-1 gap-2">
-            <button class="btn btn-secondary">Clear</button>
-        </div>
-    </div>
-
-    {% if email_active == 'y' %}
-    <br/>
-    <a href="#">Lost Password</a>
+    {% if current_user.is_authenticated %}
+        {% include 'records/portal.html' %}
+    {% else %}
+        {% include 'records/records-main.html' %}
     {% endif %}
-    
-    <br/>
-    <br/>
-
-
-	</form>
-	</div>
+    </div>
 </div>
 {% endblock %}
