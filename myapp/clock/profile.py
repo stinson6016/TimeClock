@@ -1,3 +1,5 @@
+# edit user profile 
+# main py file is clock
 from datetime import datetime, datetime
 from flask import Blueprint, render_template, flash
 from flask_login import login_required, current_user

@@ -1,3 +1,5 @@
+# login / logout 
+# main py file is clock
 from datetime import datetime, datetime
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, logout_user

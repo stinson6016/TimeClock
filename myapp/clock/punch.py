@@ -1,3 +1,5 @@
+# add and view punches, edit flagged
+# main py file is clock
 from datetime import datetime, datetime, date, time
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user

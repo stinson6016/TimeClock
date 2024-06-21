@@ -1,3 +1,5 @@
+# editing the time entries in the admin portal
+# main py file is records
 from datetime import date
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required

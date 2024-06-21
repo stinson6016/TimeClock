@@ -1,3 +1,5 @@
+# get the hours for printing out
+# main py file is records
 from datetime import date, datetime
 from flask import Blueprint, render_template, request
 from flask_login import login_required

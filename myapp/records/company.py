@@ -1,3 +1,5 @@
+# editing the company details in the admin portal 
+# main py file is records
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required
 from dotenv import set_key
