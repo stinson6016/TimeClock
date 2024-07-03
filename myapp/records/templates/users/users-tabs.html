@@ -1,0 +1,43 @@
+<ul class="nav nav-tabs">
+    <li 
+        class="nav-item"
+        hx-post="{{url_for('records.hours.show')}}"
+        hx-target="#recordsarea"
+        hx-swap="innerHTML"
+    >
+        <a class="nav-link "  href="#">Hours</a>
+    </li>
+    <li 
+        class="nav-item"
+        hx-post="{{url_for('records.entries.showportal')}}"
+        hx-target="#recordsarea"
+        hx-swap="innerHTML"
+    >
+        <a class="nav-link "  href="#">Time Entries</a>
+    </li>
+    <li 
+        class="nav-item"
+        hx-post="{{url_for('records.users.show')}}"
+        hx-target="#recordsarea"
+        hx-swap="innerHTML"
+    >
+        <a class="nav-link active" aria-current="page" href="#">Users</a>
+    </li>
+    <li 
+        class="nav-item"
+        hx-post="{{url_for('records.company.show')}}"
+        hx-target="#recordsarea"
+        hx-swap="innerHTML"
+    >
+        <a class="nav-link " href="#">Company</a>
+    </li>
+    <li 
+        class="nav-item"
+        hx-post="{{url_for('records.logout')}}"
+        hx-target="#recordsarea"
+        hx-swap="innerHTML"
+    >
+        <a class="nav-link " href="#">Logout</a>
+    </li>
+</ul>
+<br/>

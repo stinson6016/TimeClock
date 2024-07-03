@@ -55,7 +55,7 @@ def showmain():
 @records.post('/portal')
 @login_required
 def mainportal():
-    return render_template('records/portal.html')
+    return render_template('records/records-tabs.html')
 
 @records.post('/login/show')
 def loginshow():

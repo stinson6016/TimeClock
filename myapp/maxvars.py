@@ -18,3 +18,5 @@ class MaxVars():
 
     MAX_PUNCH_NOTE:int = 50
     MAX_LAST_PUNCHES:int = 20
+
+    MESSAGE: int = 100

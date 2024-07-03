@@ -30,3 +30,11 @@ class Users(db.Model, UserMixin):
     last_clock  = db.Column(db.Integer, db.ForeignKey('punch.id'))
     time_format = db.Column(db.Integer, default=1)
     last_punch  = db.Column(db.Integer, default=20)
+
+class Messages(db.Model):
+    id          = db.Column(db.Integer, primary_key=True)
+    message     = db.Column(db.String(max_vars.MESSAGE))
+    date_start  = db.Column(db.Date)
+    date_stop   = db.Column(db.Date)
+    userid      = db.Column(db.Integer, db.ForeignKey('users.id'))
+    

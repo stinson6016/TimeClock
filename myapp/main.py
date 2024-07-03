@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, flash
+from flask import Blueprint, redirect, url_for
 from flask_login import current_user
 
 main = Blueprint("main", __name__)
@@ -11,5 +11,4 @@ def home ():
 
 @main.route('/admin/')
 def admin():
-    flash('please chech your link')
     return redirect(url_for('clock.home'))

@@ -19,7 +19,7 @@
 		id="recordsarea"
 	>
     {% if current_user.is_authenticated %}
-        {% include 'records/portal.html' %}
+        {% include 'records/records-tabs.html' %}
     {% else %}
         {% include 'records/records-main.html' %}
     {% endif %}
