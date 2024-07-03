@@ -1,0 +1,15 @@
+services:
+    
+  web:
+    image: devimage:b01
+    container_name: dev-web
+    environment:
+      FLASK_APP: app
+      FLASK_DEBUG: 1
+      WATCHFILES_FORCE_POLLING: TRUE
+    volumes:
+      - .:/app
+    # command:  gunicorn --bind 0.0.0.0:5000 app:app
+    command: flask run -h 0.0.0.0 --reload
+    ports:
+      - 5000:5000
